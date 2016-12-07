@@ -158,20 +158,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 		mGridView = (GridView) view.findViewById(R.id.grid);
 		mGridView.setAdapter(mImageAdapter);
 		mImageAdapter.setOnImageSelectorListener(this);
-//		mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//			@Override
-//			public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//				if (mImageAdapter.isShowCamera()) {
-//					if (position == 0) {
-//						showCameraAction();
-//					} else {
-//						itemClick(adapterView, view, position);
-//					}
-//				} else {
-//					itemClick(adapterView, view, position);
-//				}
-//			}
-//		});
 
 		mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
 			@Override
@@ -489,11 +475,12 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	@Override
 	public void onItemClick(int position, Image image) {
 			Toast.makeText(getContext(),"点击大图  "+position,Toast.LENGTH_SHORT).show();
-		if (mImageAdapter.isShowCamera()) {
-			if (position == 0) {
-				showCameraAction();
-			}
-		}
+
+	}
+
+	@Override
+	public void onCamera() {
+		showCameraAction();
 	}
 
 	/**

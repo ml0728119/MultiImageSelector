@@ -163,6 +163,13 @@ public class ImageGridAdapter extends BaseAdapter {
 		if (isShowCamera()) {
 			if (i == 0) {
 				view = mInflater.inflate(R.layout.mis_list_item_camera, viewGroup, false);
+				view.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (onImageSelectorListener != null)
+							onImageSelectorListener.onCamera();
+					}
+				});
 				return view;
 			}
 		}
@@ -234,9 +241,9 @@ public class ImageGridAdapter extends BaseAdapter {
 					if (onImageSelectorListener != null) {
 						onImageSelectorListener.onCheck(postion, data, indicator.isChecked());
 					}
-					if(indicator.isChecked()){
+					if (indicator.isChecked()) {
 						mask.setVisibility(View.VISIBLE);
-					}else {
+					} else {
 						mask.setVisibility(View.GONE);
 					}
 				}
@@ -258,6 +265,8 @@ public class ImageGridAdapter extends BaseAdapter {
 		void onCheck(int position, Image image, boolean isCheck);
 
 		void onItemClick(int position, Image image);
+
+		void onCamera();
 	}
 
 	public void setOnImageSelectorListener(OnImageSelectorListener onImageSelectorListener) {
