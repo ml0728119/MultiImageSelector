@@ -23,7 +23,6 @@ public class MultiImageSelector {
 	private boolean mShowCamera = true;
 	private int mMaxCount = 9;
 	private int mMode = MultiImageSelectorActivity.MODE_MULTI;
-	private ArrayList<String> mOriginData;
 	private static MultiImageSelector sSelector;
 	LinkedHashSet<String> mChooseValue;
 	private Context context;
@@ -44,7 +43,7 @@ public class MultiImageSelector {
 		return sSelector;
 	}
 
-	public LinkedHashSet<String> getChooseValue() {
+	protected LinkedHashSet<String> getChooseValue() {
 		return mChooseValue;
 	}
 
@@ -65,7 +64,6 @@ public class MultiImageSelector {
 
 	public MultiImageSelector origin(ArrayList<String> images) {
 		if (images != null) {
-			mOriginData = images;
 			mChooseValue.addAll(images);
 		}
 		return sSelector;
@@ -101,7 +99,7 @@ public class MultiImageSelector {
 
 
 	//--------------------------------------
-	void addResultImage(Context context, String value) {
+	protected	void addResultImage(Context context, String value) {
 		mChooseValue.add(value);
 		switch (mMode) {
 			case MultiImageSelectorActivity.MODE_SINGLE:
@@ -113,11 +111,11 @@ public class MultiImageSelector {
 
 	}
 
-	void removeResultImage(String value) {
+	protected void removeResultImage(String value) {
 		mChooseValue.remove(value);
 	}
 
-	void commit(Context context) {
+	protected void commit(Context context) {
 		if (multiImageCallBack != null) {
 			multiImageCallBack.multiSelectorImages(mChooseValue);
 		}

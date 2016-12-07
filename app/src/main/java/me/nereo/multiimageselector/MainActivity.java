@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 				selector.count(0);
 			}
 			selector.origin(mSelectPath);
+
 			selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 				@Override
 				public void multiSelectorImages(Collection<String> result) {
