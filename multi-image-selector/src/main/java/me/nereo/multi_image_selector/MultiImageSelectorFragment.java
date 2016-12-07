@@ -473,8 +473,14 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	}
 
 	@Override
-	public void onItemClick(int position, Image image) {
+	public void onItemClick(int position, Image image,ArrayList<Image> datas) {
 			Toast.makeText(getContext(),"点击大图  "+position,Toast.LENGTH_SHORT).show();
+
+
+		Intent intent=new Intent(getContext(),LargeImageActivity.class);
+		intent.putParcelableArrayListExtra("Data",datas);
+		intent.putExtra("position",position);
+		startActivity(intent);
 
 	}
 

@@ -38,7 +38,7 @@ public class ImageGridAdapter extends BaseAdapter {
 	private boolean showCamera = true;
 	private boolean showSelectIndicator = true;
 
-	private List<Image> mImages = new ArrayList<>();
+	private ArrayList<Image> mImages = new ArrayList<>();
 	private List<Image> mSelectedImages = new ArrayList<>();
 
 	final int mGridWidth;
@@ -115,7 +115,7 @@ public class ImageGridAdapter extends BaseAdapter {
 		mSelectedImages.clear();
 
 		if (images != null && images.size() > 0) {
-			mImages = images;
+			mImages = (ArrayList<Image>) images;
 		} else {
 			mImages.clear();
 		}
@@ -195,16 +195,16 @@ public class ImageGridAdapter extends BaseAdapter {
 		View mask;
 		View rootView;
 
-		ViewHolder(View rootVview) {
-			image = (ImageView) rootVview.findViewById(R.id.image);
-			indicator = (CheckBox) rootVview.findViewById(R.id.checkmark);
-			mask = rootVview.findViewById(R.id.mask);
-			rootVview.setTag(this);
-			rootView = rootVview;
+		ViewHolder(View rootView) {
+			image = (ImageView) rootView.findViewById(R.id.image);
+			indicator = (CheckBox) rootView.findViewById(R.id.checkmark);
+			mask = rootView.findViewById(R.id.mask);
+			rootView.setTag(this);
+			this.rootView = rootView;
 
 		}
 
-		void bindData(final Image data, final int postion) {
+		void bindData(final Image data, final int position) {
 			if (data == null) return;
 			// 处理单选和多选状态
 			if (showSelectIndicator) {
@@ -239,7 +239,7 @@ public class ImageGridAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					if (onImageSelectorListener != null) {
-						onImageSelectorListener.onCheck(postion, data, indicator.isChecked());
+						onImageSelectorListener.onCheck(position, data, indicator.isChecked());
 					}
 					if (indicator.isChecked()) {
 						mask.setVisibility(View.VISIBLE);
@@ -252,7 +252,7 @@ public class ImageGridAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					if (onImageSelectorListener != null) {
-						onImageSelectorListener.onItemClick(postion, data);
+						onImageSelectorListener.onItemClick(position, data,mImages);
 					}
 				}
 			});
@@ -264,7 +264,7 @@ public class ImageGridAdapter extends BaseAdapter {
 	public interface OnImageSelectorListener {
 		void onCheck(int position, Image image, boolean isCheck);
 
-		void onItemClick(int position, Image image);
+		void onItemClick(int position, Image image,ArrayList<Image> data);
 
 		void onCamera();
 	}

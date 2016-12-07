@@ -16,13 +16,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageSelectorFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		ImageView im = (ImageView) findViewById(R.id.image);
+		File file=new File("/storage/emulated/0/DCIM/IMG_1453828333.jpg");
+		Picasso.with(this)
+				.load(file)
+				.placeholder(me.nereo.multi_image_selector.R.drawable.mis_default_error)
+				.tag(MultiImageSelectorFragment.TAG)
+				.fit()
+				.centerCrop()
+				.into(im);
 
 		mResultText = (TextView) findViewById(R.id.result);
 		mChoiceMode = (RadioGroup) findViewById(R.id.choice_mode);
