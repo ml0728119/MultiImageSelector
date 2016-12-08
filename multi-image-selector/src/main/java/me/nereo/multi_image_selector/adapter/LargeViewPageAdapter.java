@@ -1,7 +1,6 @@
 package me.nereo.multi_image_selector.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -10,12 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import me.nereo.multi_image_selector.R;
 import me.nereo.multi_image_selector.bean.Image;
 import uk.co.senab.photoview.PhotoView;
 
@@ -55,24 +52,11 @@ public class LargeViewPageAdapter extends PagerAdapter {
 		photoView.setBackgroundColor(Color.BLACK);
 		container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		Log.i("Tag", "ss   " + datas.get(position).path);
-		Picasso.with(mContext)
-				.load("file://" + datas.get(position).path)
-//				.resize(mScreenWidth, mScreenHeight)
-//				.fit()
-				.config(Bitmap.Config.RGB_565)
-				.placeholder(R.drawable.mis_default_error)
 
-				.into(photoView, new Callback() {
-					@Override
-					public void onSuccess() {
-						Log.i("Tag","11111111");
-					}
 
-					@Override
-					public void onError() {
-						Log.i("Tag","onError   ");
-					}
-				});
+		Glide.with(mContext).load("file://" + datas.get(position).path).into(photoView);
+
+
 		return photoView;
 	}
 
