@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +24,10 @@ import uk.co.senab.photoview.PhotoView;
 public class LargeViewPageAdapter extends PagerAdapter {
 	Context mContext;
 	ArrayList<Image> datas;
-	int mScreenWidth, mScreenHeight;
 
 	public LargeViewPageAdapter(Context context, ArrayList<Image> datas) {
 		this.mContext = context;
 		this.datas = datas;
-		DisplayMetrics dm = context.getResources().getDisplayMetrics();
-		mScreenWidth = dm.widthPixels;
-		mScreenHeight = dm.heightPixels;
 	}
 
 	@Override
@@ -53,9 +48,7 @@ public class LargeViewPageAdapter extends PagerAdapter {
 		container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		Log.i("Tag", "ss   " + datas.get(position).path);
 
-
 		Glide.with(mContext).load("file://" + datas.get(position).path).into(photoView);
-
 
 		return photoView;
 	}

@@ -84,7 +84,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	private static final int LOADER_CATEGORY = 1;
 
 	// image result data set
-	private LinkedHashSet<String> resultList ;
+	private LinkedHashSet<String> resultList;
 	// folder result data set
 	private ArrayList<Folder> mResultFolder = new ArrayList<>();
 
@@ -203,9 +203,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 							if (null != folder) {
 								mImageAdapter.setData(folder.images);
 								mCategoryText.setText(folder.name);
-								if (resultList != null && resultList.size() > 0) {
-									mImageAdapter.setDefaultSelected(resultList);
-								}
 							}
 							mImageAdapter.setShowCamera(false);
 						}
@@ -259,6 +256,12 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 				}
 			}
 		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mImageAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -406,9 +409,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 					} while (data.moveToNext());
 
 					mImageAdapter.setData(images);
-					if (resultList != null && resultList.size() > 0) {
-						mImageAdapter.setDefaultSelected(resultList);
-					}
 					if (!hasFolderGened) {
 						mFolderAdapter.setData(mResultFolder);
 						hasFolderGened = true;
@@ -444,24 +444,26 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 
 	@Override
-	public void onCheck(int position, Image image,boolean isCheck) {
+	public void onCheck(int position, Image image, boolean isCheck) {
 
-		if(isCheck){
+		if (isCheck) {
 			mCallback.onImageSelected(image.path);
-		}else {
+		} else {
 			mCallback.onImageUnselected(image.path);
 		}
 
 	}
 
 	@Override
-	public void onItemClick(int position, Image image,ArrayList<Image> datas) {
-			Toast.makeText(getContext(),"点击大图  "+position,Toast.LENGTH_SHORT).show();
+	public void onItemClick(int position, Image image, ArrayList<Image> datas) {
+		Toast.makeText(getContext(), "点击大图  " + position, Toast.LENGTH_SHORT).show();
 
-
-		Intent intent=new Intent(getContext(),LargeImageActivity.class);
-		intent.putParcelableArrayListExtra("Data",datas);
-		intent.putExtra("position",position);
+		if (showCamera()) {
+			position -= 1;
+		}
+		Intent intent = new Intent(getContext(), LargeImageActivity.class);
+		intent.putParcelableArrayListExtra("Data", datas);
+		intent.putExtra("position", position);
 		startActivity(intent);
 
 	}

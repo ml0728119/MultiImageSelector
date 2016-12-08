@@ -17,12 +17,16 @@ import java.util.LinkedHashSet;
  * Created by nereo on 16/3/17.
  */
 public class MultiImageSelector {
+	// Single choice
+	public static final int MODE_SINGLE = 0;
+	// Multi choice
+	public static final int MODE_MULTI = 1;
 
 	public static final String EXTRA_RESULT = MultiImageSelectorActivity.EXTRA_RESULT;
 
 	private boolean mShowCamera = true;
 	private int mMaxCount = 9;
-	private int mMode = MultiImageSelectorActivity.MODE_MULTI;
+	private int mMode = MODE_MULTI;
 	private static MultiImageSelector sSelector;
 	LinkedHashSet<String> mChooseValue;
 	private Context context;
@@ -43,7 +47,7 @@ public class MultiImageSelector {
 		return sSelector;
 	}
 
-	protected LinkedHashSet<String> getChooseValue() {
+	public LinkedHashSet<String> getChooseValue() {
 		return mChooseValue;
 	}
 
@@ -55,9 +59,9 @@ public class MultiImageSelector {
 	public MultiImageSelector count(int count) {
 		mMaxCount = count;
 		if (mMaxCount == 1) {
-			mMode = MultiImageSelectorActivity.MODE_SINGLE;
+			mMode = MODE_SINGLE;
 		} else {
-			mMode = MultiImageSelectorActivity.MODE_MULTI;
+			mMode = MODE_MULTI;
 		}
 		return sSelector;
 	}
@@ -99,13 +103,17 @@ public class MultiImageSelector {
 
 
 	//--------------------------------------
-	protected	void addResultImage(Context context, String value) {
+	protected void addResultImage(Context context, String value) {
+
+		if (mMode == MODE_SINGLE) {
+			mChooseValue.clear();
+		}
 		mChooseValue.add(value);
 		switch (mMode) {
-			case MultiImageSelectorActivity.MODE_SINGLE:
+			case MODE_SINGLE:
 				commit(context);
 				break;
-			case MultiImageSelectorActivity.MODE_MULTI:
+			case MODE_MULTI:
 				break;
 		}
 
@@ -131,5 +139,11 @@ public class MultiImageSelector {
 		void multiSelectorImages(Collection<String> result);
 	}
 
+	public int getMode() {
+		return mMode;
+	}
 
+	public int getMaxCount() {
+		return mMaxCount;
+	}
 }

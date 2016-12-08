@@ -9,13 +9,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import java.io.File;
 import java.util.LinkedHashSet;
+
+import me.nereo.multi_image_selector.view.SubmitButton;
+
+import static me.nereo.multi_image_selector.MultiImageSelector.MODE_MULTI;
 
 /**
  * Multi image selector
@@ -26,17 +28,13 @@ import java.util.LinkedHashSet;
 public class MultiImageSelectorActivity extends AppCompatActivity
 		implements MultiImageSelectorFragment.Callback {
 
-	// Single choice
-	public static final int MODE_SINGLE = 0;
-	// Multi choice
-	public static final int MODE_MULTI = 1;
 
 	/**
 	 * Max image size，int，{@link #DEFAULT_IMAGE_SIZE} by default
 	 */
 	public static final String EXTRA_SELECT_COUNT = "max_select_count";
 	/**
-	 * Select mode，{@link #MODE_MULTI} by default
+	 * Select mode，by default
 	 */
 	public static final String EXTRA_SELECT_MODE = "select_count_mode";
 	/**
@@ -52,7 +50,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 	private static final int DEFAULT_IMAGE_SIZE = 9;
 
 	private LinkedHashSet<String> resultList;
-	private Button mSubmitButton;
+	private SubmitButton mSubmitButton;
 	private int mDefaultCount = DEFAULT_IMAGE_SIZE;
 
 	@Override
@@ -81,25 +79,21 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 		final boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
 		resultList = MultiImageSelector.getSingleton().getChooseValue();
 
-		mSubmitButton = (Button) findViewById(R.id.commit);
-		if (mode == MODE_MULTI) {
-			updateDoneText(resultList);
-			mSubmitButton.setVisibility(View.VISIBLE);
-			mSubmitButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (resultList != null && resultList.size() > 0) {
+		mSubmitButton = (SubmitButton) findViewById(R.id.commit);
+		mSubmitButton.updateDoneText();
+		mSubmitButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (resultList != null && resultList.size() > 0) {
 
-						MultiImageSelector.getSingleton().commit(MultiImageSelectorActivity.this);
-					} else {
-						setResult(RESULT_CANCELED);
-					}
-					finish();
+					MultiImageSelector.getSingleton().commit(MultiImageSelectorActivity.this);
+				} else {
+					setResult(RESULT_CANCELED);
 				}
-			});
-		} else {
-			mSubmitButton.setVisibility(View.GONE);
-		}
+				finish();
+			}
+		});
+
 
 		if (savedInstanceState == null) {
 			Bundle bundle = new Bundle();
@@ -128,50 +122,27 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
-		updateDoneText(MultiImageSelector.getSingleton().getChooseValue());
+//		updateDoneText(MultiImageSelector.getSingleton().getChooseValue());
+		mSubmitButton.updateDoneText();
+
 	}
 
-	/**
-	 * Update done button by select image data
-	 *
-	 * @param resultList selected image data
-	 */
-	private void updateDoneText(LinkedHashSet<String> resultList) {
-		int size = 0;
-		if (resultList == null || resultList.size() <= 0) {
-			mSubmitButton.setText(R.string.mis_action_done);
-			mSubmitButton.setEnabled(false);
-		} else {
-			size = resultList.size();
-			mSubmitButton.setEnabled(true);
-		}
-		mSubmitButton.setText(getString(R.string.mis_action_button_string,
-				getString(R.string.mis_action_done), size, mDefaultCount));
-	}
-//
-//	@Override
-//	public void onSingleImageSelected(String path) {
-//		Log.i("Tag", "onSingleImageSelected ");
-//		MultiImageSelector.getSingleton().addResultImage(this, path);
-//	}
+
 
 	@Override
 	public void onImageSelected(String path) {
-		Log.i("Tag", "onImageSelected ");
 		MultiImageSelector.getSingleton().addResultImage(this, path);
-		updateDoneText(resultList);
+		mSubmitButton.updateDoneText();
 	}
 
 	@Override
 	public void onImageUnselected(String path) {
-		Log.i("Tag", "onImageUnselected 11111111");
 		MultiImageSelector.getSingleton().removeResultImage(path);
-		updateDoneText(resultList);
+		mSubmitButton.updateDoneText();
 	}
 
 	@Override
 	public void onCameraShot(File imageFile) {
-		Log.i("Tag", "onCameraShot  ");
 		if (imageFile != null) {
 			// notify system the image has change
 			sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));

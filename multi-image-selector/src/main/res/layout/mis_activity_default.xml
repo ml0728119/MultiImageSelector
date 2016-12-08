@@ -14,7 +14,7 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:minHeight="?android:attr/actionBarSize">
 
-        <Button
+        <me.nereo.multi_image_selector.view.SubmitButton
             android:id="@+id/commit"
             android:background="@drawable/mis_action_btn"
             android:minHeight="1dp"

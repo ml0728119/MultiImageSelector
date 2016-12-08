@@ -15,9 +15,9 @@ import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
+import me.nereo.multi_image_selector.MultiImageSelector;
 import me.nereo.multi_image_selector.R;
 import me.nereo.multi_image_selector.bean.Image;
 
@@ -38,7 +38,7 @@ public class ImageGridAdapter extends BaseAdapter {
 	private boolean showSelectIndicator = true;
 
 	private ArrayList<Image> mImages = new ArrayList<>();
-	private List<Image> mSelectedImages = new ArrayList<>();
+//	private List<Image> mSelectedImages = new ArrayList<>();
 
 	final int mGridWidth;
 
@@ -77,33 +77,33 @@ public class ImageGridAdapter extends BaseAdapter {
 		return showCamera;
 	}
 
-	/**
-	 * 通过图片路径设置默认选择
-	 *
-	 * @param resultList
-	 */
-	public void setDefaultSelected(LinkedHashSet<String> resultList) {
-		for (String path : resultList) {
-			Image image = getImageByPath(path);
-			if (image != null) {
-				mSelectedImages.add(image);
-			}
-		}
-		if (mSelectedImages.size() > 0) {
-			notifyDataSetChanged();
-		}
-	}
+//	/**
+//	 * 通过图片路径设置默认选择
+//	 *
+//	 * @param resultList
+//	 */
+//	public void setDefaultSelected(LinkedHashSet<String> resultList) {
+//		for (String path : resultList) {
+//			Image image = getImageByPath(path);
+//			if (image != null) {
+//				mSelectedImages.add(image);
+//			}
+//		}
+//		if (mSelectedImages.size() > 0) {
+//			notifyDataSetChanged();
+//		}
+//	}
 
-	private Image getImageByPath(String path) {
-		if (mImages != null && mImages.size() > 0) {
-			for (Image image : mImages) {
-				if (image.path.equalsIgnoreCase(path)) {
-					return image;
-				}
-			}
-		}
-		return null;
-	}
+//	private Image getImageByPath(String path) {
+//		if (mImages != null && mImages.size() > 0) {
+//			for (Image image : mImages) {
+//				if (image.path.equalsIgnoreCase(path)) {
+//					return image;
+//				}
+//			}
+//		}
+//		return null;
+//	}
 
 	/**
 	 * 设置数据集
@@ -111,8 +111,6 @@ public class ImageGridAdapter extends BaseAdapter {
 	 * @param images
 	 */
 	public void setData(List<Image> images) {
-		mSelectedImages.clear();
-
 		if (images != null && images.size() > 0) {
 			mImages = (ArrayList<Image>) images;
 		} else {
@@ -208,7 +206,7 @@ public class ImageGridAdapter extends BaseAdapter {
 			// 处理单选和多选状态
 			if (showSelectIndicator) {
 				indicator.setVisibility(View.VISIBLE);
-				if (mSelectedImages.contains(data)) {
+				if (MultiImageSelector.getSingleton().getChooseValue().contains(data.path)) {
 					// 设置选中状态
 					indicator.setChecked(true);
 					mask.setVisibility(View.VISIBLE);
@@ -222,8 +220,7 @@ public class ImageGridAdapter extends BaseAdapter {
 			}
 			File imageFile = new File(data.path);
 			if (imageFile.exists()) {
-				Glide
-						.with(mContext)
+				Glide.with(mContext)
 						.load(data.path)
 						.centerCrop()
 						.placeholder(R.drawable.mis_default_error)
@@ -251,7 +248,7 @@ public class ImageGridAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					if (onImageSelectorListener != null) {
-						onImageSelectorListener.onItemClick(position, data,mImages);
+						onImageSelectorListener.onItemClick(position, data, mImages);
 					}
 				}
 			});
@@ -263,7 +260,7 @@ public class ImageGridAdapter extends BaseAdapter {
 	public interface OnImageSelectorListener {
 		void onCheck(int position, Image image, boolean isCheck);
 
-		void onItemClick(int position, Image image,ArrayList<Image> data);
+		void onItemClick(int position, Image image, ArrayList<Image> data);
 
 		void onCamera();
 	}
