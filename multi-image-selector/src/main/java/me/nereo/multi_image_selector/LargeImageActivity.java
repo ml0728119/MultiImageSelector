@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -48,7 +49,12 @@ public class LargeImageActivity extends AppCompatActivity {
 
 		mSubmitButton = (SubmitButton) findViewById(R.id.commit);
 		mSubmitButton.updateDoneText();
-
+		mSubmitButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MultiImageControl.getSingleton().commit(LargeImageActivity.this);
+			}
+		});
 		mCheckBox = (CheckBox) findViewById(R.id.checkmark);
 		checkState(position);
 
@@ -105,6 +111,14 @@ public class LargeImageActivity extends AppCompatActivity {
 			mCheckBox.setChecked(false);
 		}
 	}
-
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 }
