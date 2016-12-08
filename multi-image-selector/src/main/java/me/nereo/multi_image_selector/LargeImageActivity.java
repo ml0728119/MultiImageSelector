@@ -80,10 +80,10 @@ public class LargeImageActivity extends AppCompatActivity {
 				int position = mViewPage.getCurrentItem();
 				if (mCheckBox.isChecked()) {
 
-					MultiImageSelector.getSingleton().addResultImage(LargeImageActivity.this, datas.get(position).path);
+					MultiImageControl.getSingleton().addResultImage(LargeImageActivity.this, datas.get(position).path);
 
 				} else {
-					MultiImageSelector.getSingleton().removeResultImage(datas.get(position).path);
+					MultiImageControl.getSingleton().removeResultImage(datas.get(position).path);
 				}
 				mSubmitButton.updateDoneText();
 			}
@@ -97,7 +97,7 @@ public class LargeImageActivity extends AppCompatActivity {
 	 */
 	private void checkState(int position) {
 		String path = datas.get(position).path;
-		if (MultiImageSelector.getSingleton().getChooseValue().contains(path)) {
+		if (MultiImageControl.getSingleton().getChooseValue().contains(path)) {
 			mCheckBox.setChecked(true);
 		} else {
 			mCheckBox.setChecked(false);

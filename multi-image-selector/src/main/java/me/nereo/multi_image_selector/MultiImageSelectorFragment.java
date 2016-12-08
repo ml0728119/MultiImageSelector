@@ -124,7 +124,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 		final int mode = selectMode();
 		if (mode == MODE_MULTI) {
-			resultList = MultiImageSelector.getSingleton().getChooseValue();
+			resultList = MultiImageControl.getSingleton().getChooseValue();
 		}
 		mImageAdapter = new ImageGridAdapter(getActivity(), showCamera(), 3);
 		mImageAdapter.showSelectIndicator(mode == MODE_MULTI);

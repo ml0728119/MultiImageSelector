@@ -22,7 +22,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageControl;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 					e.printStackTrace();
 				}
 			}
-			MultiImageSelector selector = MultiImageSelector.getSingleton();
+			MultiImageControl selector = MultiImageControl.getSingleton();
 			selector.showCamera(showCamera);
 			selector.count(maxNum);
 			if (mChoiceMode.getCheckedRadioButtonId() == R.id.single) {
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 			}
 			selector.origin(mSelectPath);
 
-			selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
+			selector.start(MainActivity.this, new MultiImageControl.MultiImageCallBack() {
 				@Override
 				public void multiSelectorImages(Collection<String> result) {
 					for (String s : result) {
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_IMAGE) {
 			if (resultCode == RESULT_OK) {
-				mSelectPath = data.getStringArrayListExtra(MultiImageSelector.EXTRA_RESULT);
+				mSelectPath = data.getStringArrayListExtra(MultiImageControl.EXTRA_RESULT);
 				StringBuilder sb = new StringBuilder();
 				for (String p : mSelectPath) {
 					sb.append(p);

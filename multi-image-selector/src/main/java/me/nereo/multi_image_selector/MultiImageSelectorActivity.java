@@ -17,7 +17,7 @@ import java.util.LinkedHashSet;
 
 import me.nereo.multi_image_selector.view.SubmitButton;
 
-import static me.nereo.multi_image_selector.MultiImageSelector.MODE_MULTI;
+import static me.nereo.multi_image_selector.MultiImageControl.MODE_MULTI;
 
 /**
  * Multi image selector
@@ -77,7 +77,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 		mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, DEFAULT_IMAGE_SIZE);
 		final int mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI);
 		final boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
-		resultList = MultiImageSelector.getSingleton().getChooseValue();
+		resultList = MultiImageControl.getSingleton().getChooseValue();
 
 		mSubmitButton = (SubmitButton) findViewById(R.id.commit);
 		mSubmitButton.updateDoneText();
@@ -86,7 +86,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 			public void onClick(View view) {
 				if (resultList != null && resultList.size() > 0) {
 
-					MultiImageSelector.getSingleton().commit(MultiImageSelectorActivity.this);
+					MultiImageControl.getSingleton().commit(MultiImageSelectorActivity.this);
 				} else {
 					setResult(RESULT_CANCELED);
 				}
@@ -122,7 +122,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		updateDoneText(MultiImageSelector.getSingleton().getChooseValue());
+//		updateDoneText(MultiImageControl.getSingleton().getChooseValue());
 		mSubmitButton.updateDoneText();
 
 	}
@@ -131,13 +131,13 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 
 	@Override
 	public void onImageSelected(String path) {
-		MultiImageSelector.getSingleton().addResultImage(this, path);
+		MultiImageControl.getSingleton().addResultImage(this, path);
 		mSubmitButton.updateDoneText();
 	}
 
 	@Override
 	public void onImageUnselected(String path) {
-		MultiImageSelector.getSingleton().removeResultImage(path);
+		MultiImageControl.getSingleton().removeResultImage(path);
 		mSubmitButton.updateDoneText();
 	}
 
@@ -147,8 +147,8 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 			// notify system the image has change
 			sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));
 
-			MultiImageSelector.getSingleton().addResultImage(this, imageFile.getAbsolutePath());
-			MultiImageSelector.getSingleton().commit(MultiImageSelectorActivity.this);
+			MultiImageControl.getSingleton().addResultImage(this, imageFile.getAbsolutePath());
+			MultiImageControl.getSingleton().commit(MultiImageSelectorActivity.this);
 		}
 	}
 

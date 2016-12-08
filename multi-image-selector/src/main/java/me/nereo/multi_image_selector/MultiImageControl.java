@@ -16,7 +16,7 @@ import java.util.LinkedHashSet;
  * 图片选择器
  * Created by nereo on 16/3/17.
  */
-public class MultiImageSelector {
+public class MultiImageControl {
 	// Single choice
 	public static final int MODE_SINGLE = 0;
 	// Multi choice
@@ -27,8 +27,8 @@ public class MultiImageSelector {
 	private boolean mShowCamera = true;
 	private int mMaxCount = 9;
 	private int mMode = MODE_MULTI;
-	private static MultiImageSelector sSelector;
-	LinkedHashSet<String> mChooseValue;
+	private static MultiImageControl sSelector;
+	private LinkedHashSet<String> mChooseValue;
 	private Context context;
 
 	{
@@ -36,13 +36,13 @@ public class MultiImageSelector {
 	}
 
 
-	private MultiImageSelector() {
+	private MultiImageControl() {
 	}
 
 
-	public static MultiImageSelector getSingleton() {
+	public static MultiImageControl getSingleton() {
 		if (sSelector == null) {
-			sSelector = new MultiImageSelector();
+			sSelector = new MultiImageControl();
 		}
 		return sSelector;
 	}
@@ -51,12 +51,12 @@ public class MultiImageSelector {
 		return mChooseValue;
 	}
 
-	public MultiImageSelector showCamera(boolean show) {
+	public MultiImageControl showCamera(boolean show) {
 		mShowCamera = show;
 		return sSelector;
 	}
 
-	public MultiImageSelector count(int count) {
+	public MultiImageControl count(int count) {
 		mMaxCount = count;
 		if (mMaxCount == 1) {
 			mMode = MODE_SINGLE;
@@ -66,7 +66,7 @@ public class MultiImageSelector {
 		return sSelector;
 	}
 
-	public MultiImageSelector origin(ArrayList<String> images) {
+	public MultiImageControl origin(ArrayList<String> images) {
 		if (images != null) {
 			mChooseValue.addAll(images);
 		}

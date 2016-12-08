@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageControl;
 import me.nereo.multi_image_selector.R;
 import me.nereo.multi_image_selector.bean.Image;
 
@@ -206,7 +206,7 @@ public class ImageGridAdapter extends BaseAdapter {
 			// 处理单选和多选状态
 			if (showSelectIndicator) {
 				indicator.setVisibility(View.VISIBLE);
-				if (MultiImageSelector.getSingleton().getChooseValue().contains(data.path)) {
+				if (MultiImageControl.getSingleton().getChooseValue().contains(data.path)) {
 					// 设置选中状态
 					indicator.setChecked(true);
 					mask.setVisibility(View.VISIBLE);

@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import java.util.LinkedHashSet;
 
-import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageControl;
 import me.nereo.multi_image_selector.R;
 
 /**
@@ -27,12 +27,12 @@ public class SubmitButton extends Button {
 	}
 
 	public void updateDoneText() {
-		LinkedHashSet<String> resultList = MultiImageSelector.getSingleton().getChooseValue();
+		LinkedHashSet<String> resultList = MultiImageControl.getSingleton().getChooseValue();
 
-		MultiImageSelector multiImageSelector = MultiImageSelector.getSingleton();
+		MultiImageControl multiImageControl = MultiImageControl.getSingleton();
 		int size = 0;
-		switch (multiImageSelector.getMode()) {
-			case MultiImageSelector.MODE_MULTI:
+		switch (multiImageControl.getMode()) {
+			case MultiImageControl.MODE_MULTI:
 				if (resultList == null || resultList.size() <= 0) {
 					setText(R.string.mis_action_done);
 					setEnabled(false);
@@ -42,9 +42,9 @@ public class SubmitButton extends Button {
 				}
 
 				setText(getContext().getString(R.string.mis_action_button_string,
-						getContext().getString(R.string.mis_action_done), size, multiImageSelector.getMaxCount()));
+						getContext().getString(R.string.mis_action_done), size, multiImageControl.getMaxCount()));
 				break;
-			case MultiImageSelector.MODE_SINGLE:
+			case MultiImageControl.MODE_SINGLE:
 				setText(R.string.mis_action_done);
 				if (resultList == null || resultList.size() <= 0) {
 					setEnabled(false);
