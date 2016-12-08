@@ -80,8 +80,10 @@ public class LargeImageActivity extends AppCompatActivity {
 				int position = mViewPage.getCurrentItem();
 				if (mCheckBox.isChecked()) {
 
-					MultiImageControl.getSingleton().addResultImage(LargeImageActivity.this, datas.get(position).path);
-
+					boolean add = MultiImageControl.getSingleton().addResultImage(LargeImageActivity.this, datas.get(position).path);
+					if (!add) {
+						mCheckBox.setChecked(false);
+					}
 				} else {
 					MultiImageControl.getSingleton().removeResultImage(datas.get(position).path);
 				}

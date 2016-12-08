@@ -128,17 +128,18 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 	}
 
 
-
 	@Override
-	public void onImageSelected(String path) {
-		MultiImageControl.getSingleton().addResultImage(this, path);
+	public boolean onImageSelected(String path) {
+		boolean add = MultiImageControl.getSingleton().addResultImage(this, path);
 		mSubmitButton.updateDoneText();
+		return add;
 	}
 
 	@Override
-	public void onImageUnselected(String path) {
+	public boolean onImageUnselected(String path) {
 		MultiImageControl.getSingleton().removeResultImage(path);
 		mSubmitButton.updateDoneText();
+		return true;
 	}
 
 	@Override
@@ -146,7 +147,6 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 		if (imageFile != null) {
 			// notify system the image has change
 			sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));
-
 			MultiImageControl.getSingleton().addResultImage(this, imageFile.getAbsolutePath());
 			MultiImageControl.getSingleton().commit(MultiImageSelectorActivity.this);
 		}

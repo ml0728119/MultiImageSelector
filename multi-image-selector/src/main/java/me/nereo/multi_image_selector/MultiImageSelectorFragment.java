@@ -127,7 +127,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 			resultList = MultiImageControl.getSingleton().getChooseValue();
 		}
 		mImageAdapter = new ImageGridAdapter(getActivity(), showCamera(), 3);
-		mImageAdapter.showSelectIndicator(mode == MODE_MULTI);
+
 
 		mPopupAnchorView = view.findViewById(R.id.footer);
 
@@ -444,12 +444,12 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 
 	@Override
-	public void onCheck(int position, Image image, boolean isCheck) {
+	public boolean onCheck(int position, Image image, boolean isCheck) {
 
 		if (isCheck) {
-			mCallback.onImageSelected(image.path);
+		return 	mCallback.onImageSelected(image.path);
 		} else {
-			mCallback.onImageUnselected(image.path);
+		return 	mCallback.onImageUnselected(image.path);
 		}
 
 	}
@@ -477,9 +477,9 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	 * Callback for host activity
 	 */
 	public interface Callback {
-		void onImageSelected(String path);
+		boolean onImageSelected(String path);
 
-		void onImageUnselected(String path);
+		boolean onImageUnselected(String path);
 
 		void onCameraShot(File imageFile);
 	}

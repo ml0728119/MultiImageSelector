@@ -77,33 +77,6 @@ public class ImageGridAdapter extends BaseAdapter {
 		return showCamera;
 	}
 
-//	/**
-//	 * 通过图片路径设置默认选择
-//	 *
-//	 * @param resultList
-//	 */
-//	public void setDefaultSelected(LinkedHashSet<String> resultList) {
-//		for (String path : resultList) {
-//			Image image = getImageByPath(path);
-//			if (image != null) {
-//				mSelectedImages.add(image);
-//			}
-//		}
-//		if (mSelectedImages.size() > 0) {
-//			notifyDataSetChanged();
-//		}
-//	}
-
-//	private Image getImageByPath(String path) {
-//		if (mImages != null && mImages.size() > 0) {
-//			for (Image image : mImages) {
-//				if (image.path.equalsIgnoreCase(path)) {
-//					return image;
-//				}
-//			}
-//		}
-//		return null;
-//	}
 
 	/**
 	 * 设置数据集
@@ -204,20 +177,18 @@ public class ImageGridAdapter extends BaseAdapter {
 		void bindData(final Image data, final int position) {
 			if (data == null) return;
 			// 处理单选和多选状态
-			if (showSelectIndicator) {
-				indicator.setVisibility(View.VISIBLE);
-				if (MultiImageControl.getSingleton().getChooseValue().contains(data.path)) {
-					// 设置选中状态
-					indicator.setChecked(true);
-					mask.setVisibility(View.VISIBLE);
-				} else {
-					// 未选择
-					indicator.setChecked(false);
-					mask.setVisibility(View.GONE);
-				}
+			indicator.setVisibility(View.VISIBLE);
+			if (MultiImageControl.getSingleton().getChooseValue().contains(data.path)) {
+				// 设置选中状态
+				indicator.setChecked(true);
+				mask.setVisibility(View.VISIBLE);
 			} else {
-				indicator.setVisibility(View.GONE);
+				// 未选择
+				indicator.setChecked(false);
+				mask.setVisibility(View.GONE);
 			}
+
+
 			File imageFile = new File(data.path);
 			if (imageFile.exists()) {
 				Glide.with(mContext)
@@ -234,14 +205,20 @@ public class ImageGridAdapter extends BaseAdapter {
 			indicator.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					boolean add = true;
 					if (onImageSelectorListener != null) {
-						onImageSelectorListener.onCheck(position, data, indicator.isChecked());
+						add = onImageSelectorListener.onCheck(position, data, indicator.isChecked());
 					}
-					if (indicator.isChecked()) {
-						mask.setVisibility(View.VISIBLE);
+					if (add) {
+						if (indicator.isChecked()) {
+							mask.setVisibility(View.VISIBLE);
+						} else {
+							mask.setVisibility(View.GONE);
+						}
 					} else {
-						mask.setVisibility(View.GONE);
+						indicator.setChecked(false);
 					}
+
 				}
 			});
 			rootView.setOnClickListener(new View.OnClickListener() {
@@ -258,7 +235,7 @@ public class ImageGridAdapter extends BaseAdapter {
 	OnImageSelectorListener onImageSelectorListener;
 
 	public interface OnImageSelectorListener {
-		void onCheck(int position, Image image, boolean isCheck);
+		boolean onCheck(int position, Image image, boolean isCheck);
 
 		void onItemClick(int position, Image image, ArrayList<Image> data);
 

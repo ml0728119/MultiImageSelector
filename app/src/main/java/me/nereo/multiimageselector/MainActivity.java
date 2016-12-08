@@ -2,7 +2,6 @@ package me.nereo.multiimageselector;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,7 +21,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import me.nereo.multi_image_selector.MultiImageControl;
+import me.nereo.multi_image_selector.MultiImageSelector;
+
+import static me.nereo.multiimageselector.R.id.result;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,14 +36,14 @@ public class MainActivity extends AppCompatActivity {
 	private RadioGroup mChoiceMode, mShowCamera;
 	private EditText mRequestNum;
 
-	private ArrayList<String> mSelectPath;
+	private ArrayList<String> mSelectPath = new ArrayList<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		mResultText = (TextView) findViewById(R.id.result);
+		Log.i("Tag", "onCreate");
+		mResultText = (TextView) findViewById(result);
 		mChoiceMode = (RadioGroup) findViewById(R.id.choice_mode);
 		mShowCamera = (RadioGroup) findViewById(R.id.show_camera);
 		mRequestNum = (EditText) findViewById(R.id.request_num);
@@ -71,7 +72,10 @@ public class MainActivity extends AppCompatActivity {
 
 	}
 
+	MultiImageSelector selector;
+
 	private void pickImage() {
+		Log.i("Tag", "111111111111");
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN // Permission was added in API Level 16
 				&& ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
 				!= PackageManager.PERMISSION_GRANTED) {
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 					getString(R.string.mis_permission_rationale),
 					REQUEST_STORAGE_READ_ACCESS_PERMISSION);
 		} else {
+			Log.i("Tag", "222222222");
 			boolean showCamera = mShowCamera.getCheckedRadioButtonId() == R.id.show;
 			int maxNum = 9;
 
@@ -89,19 +94,30 @@ public class MainActivity extends AppCompatActivity {
 					e.printStackTrace();
 				}
 			}
-			MultiImageControl selector = MultiImageControl.getSingleton();
+			selector = new MultiImageSelector(this);
 			selector.showCamera(showCamera);
 			selector.count(maxNum);
 			if (mChoiceMode.getCheckedRadioButtonId() == R.id.single) {
-				selector.count(0);
+				selector.count(1);
 			}
+			Log.i("Tag", "3333333333  " + "   " + mSelectPath.hashCode());
 			selector.origin(mSelectPath);
-
-			selector.start(MainActivity.this, new MultiImageControl.MultiImageCallBack() {
+			for (String s : mSelectPath) {
+				Log.i("Tag", "0000  " + s);
+			}
+			Log.i("Tag", "4444444444");
+			selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 				@Override
 				public void multiSelectorImages(Collection<String> result) {
+
+
 					for (String s : result) {
-						Log.i("Tag", s);
+						Log.i("Tag", "123  " + s);
+						mSelectPath.add(s);
+					}
+
+					for (String s : mSelectPath) {
+						Log.i("Tag", "345  " + s + "   " + mSelectPath.hashCode());
 					}
 				}
 			});
@@ -137,21 +153,21 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == REQUEST_IMAGE) {
-			if (resultCode == RESULT_OK) {
-				mSelectPath = data.getStringArrayListExtra(MultiImageControl.EXTRA_RESULT);
-				StringBuilder sb = new StringBuilder();
-				for (String p : mSelectPath) {
-					sb.append(p);
-					sb.append("\n");
-				}
-				mResultText.setText(sb.toString());
-			}
-		}
-	}
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		super.onActivityResult(requestCode, resultCode, data);
+//		if (requestCode == REQUEST_IMAGE) {
+//			if (resultCode == RESULT_OK) {
+//				mSelectPath = data.getStringArrayListExtra(MultiImageControl.EXTRA_RESULT);
+//				StringBuilder sb = new StringBuilder();
+//				for (String p : mSelectPath) {
+//					sb.append(p);
+//					sb.append("\n");
+//				}
+//				mResultText.setText(sb.toString());
+//			}
+//		}
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -173,5 +189,29 @@ public class MainActivity extends AppCompatActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	private ArrayList<String> mSelectPath1 = new ArrayList<>();
+
+	public void onclick(View view) {
+
+		MultiImageSelector selector = new MultiImageSelector(this);
+		selector.showCamera(false);
+		selector.count(4);
+
+		for (String s : mSelectPath1) {
+			Log.i("Tag", " kkkkkkkk  " + s);
+		}
+		selector.origin(mSelectPath1);
+
+		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
+			@Override
+			public void multiSelectorImages(Collection<String> result) {
+				for (String s : result) {
+					Log.i("Tag", " .0 ..  " + s);
+					mSelectPath1.add(s);
+				}
+			}
+		});
 	}
 }

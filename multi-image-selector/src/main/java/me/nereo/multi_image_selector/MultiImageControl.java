@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -58,8 +59,9 @@ public class MultiImageControl {
 
 	public MultiImageControl count(int count) {
 		mMaxCount = count;
-		if (mMaxCount == 1) {
+		if (mMaxCount <= 1) {
 			mMode = MODE_SINGLE;
+			mMaxCount = 1;
 		} else {
 			mMode = MODE_MULTI;
 		}
@@ -73,9 +75,9 @@ public class MultiImageControl {
 		return sSelector;
 	}
 
-	public void start(Context context, MultiImageCallBack multiImageCallBack) {
+	public void start(Context context, MultiImageResult multiImageCallBack) {
 		if (hasPermission(context)) {
-			this.multiImageCallBack = multiImageCallBack;
+			this.multiImageResult = multiImageCallBack;
 			context.startActivity(createIntent(context));
 		} else {
 			Toast.makeText(context, R.string.mis_error_no_permission, Toast.LENGTH_SHORT).show();
@@ -103,40 +105,45 @@ public class MultiImageControl {
 
 
 	//--------------------------------------
-	protected void addResultImage(Context context, String value) {
+
+	/**
+	 * @return  增加返回true  未增加返回false
+	 */
+	protected boolean addResultImage(Context context, String value) {
 
 		if (mMode == MODE_SINGLE) {
 			mChooseValue.clear();
 		}
-		mChooseValue.add(value);
-		switch (mMode) {
-			case MODE_SINGLE:
-				commit(context);
-				break;
-			case MODE_MULTI:
-				break;
+		Log.i("Tag", "内部 " + mChooseValue.size());
+		if (mMaxCount <= mChooseValue.size()) {
+			Toast.makeText(context, context.getString(R.string.mis_max_count,mMaxCount), Toast.LENGTH_SHORT).show();
+			return false;
+		} else {
+			mChooseValue.add(value);
+			return true;
 		}
-
 	}
 
+	/**
+	 *
+	 * @param value
+	 */
 	protected void removeResultImage(String value) {
 		mChooseValue.remove(value);
 	}
 
 	protected void commit(Context context) {
-		if (multiImageCallBack != null) {
-			multiImageCallBack.multiSelectorImages(mChooseValue);
+		if (multiImageResult != null) {
+			multiImageResult.multiImageReslut(mChooseValue);
 		}
-		Intent intent = new Intent();
-		intent.setClassName(context, this.context.getClass().getName());
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		context.startActivity(intent);
 	}
 
-	MultiImageCallBack multiImageCallBack;
 
-	public interface MultiImageCallBack {
-		void multiSelectorImages(Collection<String> result);
+	MultiImageResult multiImageResult;
+
+	//内部调用
+	protected interface MultiImageResult {
+		void multiImageReslut(Collection<String> result);
 	}
 
 	public int getMode() {
@@ -145,5 +152,10 @@ public class MultiImageControl {
 
 	public int getMaxCount() {
 		return mMaxCount;
+	}
+
+	public void dis() {
+		mChooseValue.clear();
+		sSelector = null;
 	}
 }
