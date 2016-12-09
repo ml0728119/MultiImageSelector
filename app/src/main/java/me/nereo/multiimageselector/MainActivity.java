@@ -1,10 +1,16 @@
 package me.nereo.multiimageselector;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +24,9 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.yalantis.ucrop.UCrop;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -193,25 +202,91 @@ public class MainActivity extends AppCompatActivity {
 
 	private ArrayList<String> mSelectPath1 = new ArrayList<>();
 
-	public void onclick(View view) {
+	Handler handler = new Handler(new Handler.Callback() {
+		@Override
+		public boolean handleMessage(Message msg) {
 
+			startPhotoZoom(msg.getData().getString("data"));
+			return false;
+		}
+	});
+
+	public void onclick(View view) {
+//		startPhotoZoom("a", 1, 1);
 		MultiImageSelector selector = new MultiImageSelector(this);
 		selector.showCamera(false);
-		selector.count(4);
-
-		for (String s : mSelectPath1) {
-			Log.i("Tag", " kkkkkkkk  " + s);
-		}
+		selector.count(1);
 		selector.origin(mSelectPath1);
-
 		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 			@Override
 			public void multiSelectorImages(Collection<String> result) {
+
 				for (String s : result) {
-					Log.i("Tag", " .0 ..  " + s);
-					mSelectPath1.add(s);
+					Message message=new Message();
+					Bundle bundle=new Bundle();
+					bundle.putString("data",s);
+					message.setData(bundle);
+					handler.sendMessage(message);
 				}
 			}
 		});
 	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+			final Uri resultUri = UCrop.getOutput(data);
+			Log.i("Tag", "ss  re  " + resultUri);
+		} else if (resultCode == UCrop.RESULT_ERROR) {
+			final Throwable cropError = UCrop.getError(data);
+			Log.e("Tag", "ss  re  " + cropError.toString());
+		}
+	}
+
+	/**
+	 * 裁剪图片方法实现
+	 */
+	public void startPhotoZoom(String aaa) {
+		Uri from = Uri.parse("file://"+aaa);
+		String path=getCropCacheFilePath();
+		File file=new File(path);
+		Uri to = Uri.fromFile(file);
+
+
+//		Uri from = Uri.parse("file:///storage/emulated/0/DCIM/IMG_-1213758122.jpg");
+//		Uri to = Uri.parse("file:///storage/emulated/0/Android/data/me.nereo.multiimageselector/cache/crop_1481254523167.jpg");
+
+		Log.i("Tag", "from  " + from);
+		Log.i("Tag", "to   " + to.toString());
+		UCrop uCrop = UCrop.of(from, to);
+
+
+//		uCrop.withAspectRatio(16, 9)
+//				.withMaxResultSize(maxWidth, maxHeight)
+//				.start(this);
+
+
+		uCrop = uCrop.withAspectRatio(1, 1);
+		UCrop.Options options = new UCrop.Options();
+		options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+		options.setCompressionQuality(90);
+
+		options.setHideBottomControls(true);
+		options.setFreeStyleCropEnabled(true);
+		uCrop.withOptions(options);
+		uCrop.start(this);
+	}
+
+	protected final static int CODE_CROP_PHOTO = 102;    // 裁切图片
+
+	public String getCropCacheFilePath() {
+		Context context = this;
+		String cropCachePath = String.valueOf(context.getExternalCacheDir()) + File.separator + "crop_" + System.currentTimeMillis() + ".png";
+		return cropCachePath;
+	}
+
+	String TAG = "Tag";
+
+
 }

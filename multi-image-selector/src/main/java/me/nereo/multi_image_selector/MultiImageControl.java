@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,8 +25,8 @@ public class MultiImageControl {
 	public static final String EXTRA_RESULT = MultiImageSelectorActivity.EXTRA_RESULT;
 
 	private boolean mShowCamera = true;
-	private int mMaxCount = 9;
-	private int mMode = MODE_MULTI;
+	private int mMaxCount = 1;
+	private int mMode = MODE_SINGLE;
 	private static MultiImageControl sSelector;
 	private LinkedHashSet<String> mChooseValue;
 	private Context context;
@@ -114,7 +113,6 @@ public class MultiImageControl {
 		if (mMode == MODE_SINGLE) {
 			mChooseValue.clear();
 		}
-		Log.i("Tag", "内部 " + mChooseValue.size());
 		if (mMaxCount <= mChooseValue.size()) {
 			Toast.makeText(context, context.getString(R.string.mis_max_count,mMaxCount), Toast.LENGTH_SHORT).show();
 			return false;

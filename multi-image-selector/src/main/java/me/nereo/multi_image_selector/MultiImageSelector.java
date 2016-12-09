@@ -2,7 +2,6 @@ package me.nereo.multi_image_selector;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,12 +25,6 @@ public class MultiImageSelector {
 	private MultiImageControl.MultiImageResult multiImageResult = new MultiImageControl.MultiImageResult() {
 		@Override
 		public void multiImageReslut(Collection<String> result) {
-
-//			mChooseValue = (LinkedHashSet<String>) ((LinkedHashSet) result).clone();
-//			for (String s : result) {
-//				Log.i("Tag", "000000  " + s);
-//			}
-
 			mChooseValue.addAll(result);
 			commit(context);
 			multiImageControl.dis();
@@ -43,23 +36,41 @@ public class MultiImageSelector {
 		this.context = context;
 	}
 
-
+	/**
+	 * 是否包含相机 默认包含
+	 *
+	 * @param show
+	 */
 	public MultiImageSelector showCamera(boolean show) {
 		multiImageControl.showCamera(show);
 		return this;
 	}
 
+	/**
+	 * 选择图片个数  默认1
+	 */
 	public MultiImageSelector count(int count) {
 		multiImageControl.count(count);
 		return this;
 	}
 
+	/**
+	 * 已选图片路径地址
+	 */
 	public MultiImageSelector origin(ArrayList<String> images) {
-
-		for (String s : images) {
-			Log.i("Tag", "origin  " + s);
-		}
 		multiImageControl.origin(images);
+		return this;
+	}
+
+	boolean crop = false;
+
+	/**
+	 * 是否对图片进行裁切  仅对单选图片有效
+	 */
+	public MultiImageSelector cropPhoto(boolean crop) {
+		if (multiImageControl.getMaxCount() == 1) {
+			this.crop = crop;
+		}
 		return this;
 	}
 
@@ -80,7 +91,7 @@ public class MultiImageSelector {
 	}
 
 
-	MultiImageCallBack multiImageCallBack;
+	private MultiImageCallBack multiImageCallBack;
 
 	/**
 	 * 外部请求返回
