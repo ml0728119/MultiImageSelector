@@ -445,11 +445,14 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 	@Override
 	public boolean onCheck(int position, Image image, boolean isCheck) {
-
 		if (isCheck) {
-		return 	mCallback.onImageSelected(image.path);
+			boolean	show = mCallback.onImageSelected(image.path);
+			if (MultiImageControl.getSingleton().getMode() == MultiImageControl.MODE_SINGLE) {
+				mImageAdapter.notifyDataSetChanged();
+			}
+			return show;
 		} else {
-		return 	mCallback.onImageUnselected(image.path);
+			return mCallback.onImageUnselected(image.path);
 		}
 
 	}

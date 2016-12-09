@@ -150,11 +150,12 @@ public class MultiImageControl {
 
 	protected void commit(Activity context) {
 		if (crop && mMode == MODE_SINGLE) {
-			toCrop(context);
+			String[] list = new String[1];
+			mChooseValue.toArray(list);
+			toCrop(list[0],context);
 		} else {
 			toFinish();
 		}
-
 	}
 
 	/**
@@ -180,12 +181,13 @@ public class MultiImageControl {
 		mControl = null;
 	}
 
-
-	void toCrop(Activity context) {
+	/**
+	 *
+	 * @param fromCropPath  文件的绝对路径
+	 */
+	void toCrop(String fromCropPath,Activity context) {
 		Intent intent = new Intent(context, CropResultActivity.class);
-		String[] list = new String[1];
-		mChooseValue.toArray(list);
-		intent.putExtra("fromPath", list[0]);
+		intent.putExtra("fromPath", fromCropPath);
 		context.startActivity(intent);
 	}
 }
