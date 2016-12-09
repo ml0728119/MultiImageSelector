@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCropActivity;
 
 public class CropResultActivity extends AppCompatActivity {
 
@@ -30,12 +31,13 @@ public class CropResultActivity extends AppCompatActivity {
 		Log.i("Tag", "from  " + from);
 		Log.i("Tag", "to   " + to.toString());
 		UCrop uCrop = UCrop.of(from, to);
-		uCrop = uCrop.withAspectRatio(1, 1);
+		uCrop = uCrop.withAspectRatio(16, 9);
 		UCrop.Options options = new UCrop.Options();
 		options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
 		options.setCompressionQuality(90);
-		options.setHideBottomControls(true);
-		options.setFreeStyleCropEnabled(true);
+		options.setHideBottomControls(false);
+		options.setFreeStyleCropEnabled(false);
+		options.setAllowedGestures( UCropActivity.SCALE,UCropActivity.ROTATE, UCropActivity.ALL);
 		uCrop.withOptions(options);
 		uCrop.start(context);
 	}

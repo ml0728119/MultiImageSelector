@@ -62,8 +62,6 @@ public class MultiImageSelector {
 		return this;
 	}
 
-	boolean crop = false;
-
 	/**
 	 * 是否对图片进行裁切  仅对单选图片有效
 	 */
@@ -71,6 +69,11 @@ public class MultiImageSelector {
 		multiImageControl.cropPhoto(crop);
 		return this;
 	}
+
+	public MultiImageSelector cropWithAspectRatio(float x, float y ){
+		return this;
+	}
+
 
 	public void start(Context context, MultiImageCallBack multiImageCallBack) {
 		multiImageControl.start(context, multiImageResult);
