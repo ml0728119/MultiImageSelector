@@ -241,7 +241,7 @@
 //                mCamera.takePicture(myShutterCallback, null, myJpegCallback);
 //            }
 //        } else if (i == R.id.cancel) {
-//            finish();
+//            toFinish();
 //        } else if (i == R.id.flash) {
 //            if (isFlash) {
 //                try {
@@ -282,7 +282,7 @@
 //            Intent intent = new Intent();
 //            intent.putExtra(PHOTO_PATH, mPhotoPath);
 //            setResult(RESULT_OK, intent);
-//            finish();
+//            toFinish();
 //        } catch (IOException e) {
 //            // TODO Auto-generated catch block
 //            Log.i("camera", "saveJpeg:存储失败！");

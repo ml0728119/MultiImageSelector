@@ -21,9 +21,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -47,10 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
 	private ArrayList<String> mSelectPath = new ArrayList<>();
 
+	ImageView mImageView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		mImageView= (ImageView) findViewById(R.id.image);
 		Log.i("Tag", "onCreate");
 		mResultText = (TextView) findViewById(result);
 		mChoiceMode = (RadioGroup) findViewById(R.id.choice_mode);
@@ -206,7 +210,15 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		public boolean handleMessage(Message msg) {
 
-			startPhotoZoom(msg.getData().getString("data"));
+//			startPhotoZoom(msg.getData().getString("data"));
+
+			Glide.with(MainActivity.this)
+					.load(msg.getData().getString("data"))
+					.centerCrop()
+					.placeholder(me.nereo.multi_image_selector.R.drawable.mis_default_error)
+					.crossFade()
+					.into(mImageView
+					);
 			return false;
 		}
 	});
@@ -215,16 +227,17 @@ public class MainActivity extends AppCompatActivity {
 //		startPhotoZoom("a", 1, 1);
 		MultiImageSelector selector = new MultiImageSelector(this);
 		selector.showCamera(false);
-		selector.count(1);
+		selector.count(1).cropPhoto(true);
 		selector.origin(mSelectPath1);
 		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 			@Override
 			public void multiSelectorImages(Collection<String> result) {
 
 				for (String s : result) {
-					Message message=new Message();
-					Bundle bundle=new Bundle();
-					bundle.putString("data",s);
+
+					Message message = new Message();
+					Bundle bundle = new Bundle();
+					bundle.putString("data", s);
 					message.setData(bundle);
 					handler.sendMessage(message);
 				}
@@ -248,9 +261,9 @@ public class MainActivity extends AppCompatActivity {
 	 * 裁剪图片方法实现
 	 */
 	public void startPhotoZoom(String aaa) {
-		Uri from = Uri.parse("file://"+aaa);
-		String path=getCropCacheFilePath();
-		File file=new File(path);
+		Uri from = Uri.parse("file://" + aaa);
+		String path = getCropCacheFilePath();
+		File file = new File(path);
 		Uri to = Uri.fromFile(file);
 
 

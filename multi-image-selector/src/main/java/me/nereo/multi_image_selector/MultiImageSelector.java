@@ -24,7 +24,7 @@ public class MultiImageSelector {
 
 	private MultiImageControl.MultiImageResult multiImageResult = new MultiImageControl.MultiImageResult() {
 		@Override
-		public void multiImageReslut(Collection<String> result) {
+		public void multiImageResult(Collection<String> result) {
 			mChooseValue.addAll(result);
 			commit(context);
 			multiImageControl.dis();
@@ -68,9 +68,7 @@ public class MultiImageSelector {
 	 * 是否对图片进行裁切  仅对单选图片有效
 	 */
 	public MultiImageSelector cropPhoto(boolean crop) {
-		if (multiImageControl.getMaxCount() == 1) {
-			this.crop = crop;
-		}
+		multiImageControl.cropPhoto(crop);
 		return this;
 	}
 
@@ -90,7 +88,6 @@ public class MultiImageSelector {
 		context.startActivity(intent);
 	}
 
-
 	private MultiImageCallBack multiImageCallBack;
 
 	/**
@@ -99,6 +96,7 @@ public class MultiImageSelector {
 	public interface MultiImageCallBack {
 		void multiSelectorImages(Collection<String> result);
 	}
+
 
 
 }
