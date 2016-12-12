@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -19,7 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
@@ -45,6 +43,8 @@ import me.nereo.multi_image_selector.bean.Folder;
 import me.nereo.multi_image_selector.bean.Image;
 import me.nereo.multi_image_selector.utils.FileUtils;
 import me.nereo.multi_image_selector.utils.ScreenUtils;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Multi image selector Fragment
@@ -236,6 +236,23 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 		getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
 	}
 
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mImageAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		if (mFolderPopupWindow != null) {
+			if (mFolderPopupWindow.isShowing()) {
+				mFolderPopupWindow.dismiss();
+			}
+		}
+		super.onConfigurationChanged(newConfig);
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -255,80 +272,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 					}
 				}
 			}
-		}
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		mImageAdapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		if (mFolderPopupWindow != null) {
-			if (mFolderPopupWindow.isShowing()) {
-				mFolderPopupWindow.dismiss();
-			}
-		}
-		super.onConfigurationChanged(newConfig);
-	}
-
-	/**
-	 * Open camera
-	 */
-	private void showCameraAction() {
-		if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-				!= PackageManager.PERMISSION_GRANTED) {
-			requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-					getString(R.string.mis_permission_rationale_write_storage),
-					REQUEST_STORAGE_WRITE_ACCESS_PERMISSION);
-		} else {
-			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-			if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-				try {
-					mTmpFile = FileUtils.createTmpFile(getActivity());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				if (mTmpFile != null && mTmpFile.exists()) {
-					intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
-					startActivityForResult(intent, REQUEST_CAMERA);
-				} else {
-					Toast.makeText(getActivity(), R.string.mis_error_image_not_exist, Toast.LENGTH_SHORT).show();
-				}
-			} else {
-				Toast.makeText(getActivity(), R.string.mis_msg_no_camera, Toast.LENGTH_SHORT).show();
-			}
-		}
-	}
-
-	private void requestPermission(final String permission, String rationale, final int requestCode) {
-		if (shouldShowRequestPermissionRationale(permission)) {
-			new AlertDialog.Builder(getContext())
-					.setTitle(R.string.mis_permission_dialog_title)
-					.setMessage(rationale)
-					.setPositiveButton(R.string.mis_permission_dialog_ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							requestPermissions(new String[]{permission}, requestCode);
-						}
-					})
-					.setNegativeButton(R.string.mis_permission_dialog_cancel, null)
-					.create().show();
-		} else {
-			requestPermissions(new String[]{permission}, requestCode);
-		}
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		if (requestCode == REQUEST_STORAGE_WRITE_ACCESS_PERMISSION) {
-			if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				showCameraAction();
-			}
-		} else {
-			super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		}
 	}
 
@@ -473,7 +416,70 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 	@Override
 	public void onCamera() {
-		showCameraAction();
+		DebugLog.i("Tag", "11");
+		methodRequiresTwoPermission();
+	}
+
+	private static final int RC_CAMERA_AND_WIFI = 111;
+
+	@AfterPermissionGranted(RC_CAMERA_AND_WIFI)
+	private void methodRequiresTwoPermission() {
+		String[] perms = {Manifest.permission.CAMERA};
+		if (EasyPermissions.hasPermissions(getContext(), perms)) {
+			// Already have permission, do the thing
+			showCameraAction();
+		} else {
+			// Do not have permissions, request them now  getString(R.string.camera_and_wifi_rationale)
+			EasyPermissions.requestPermissions(this, "1234",
+					RC_CAMERA_AND_WIFI, perms);
+
+		}
+	}
+
+	/**
+	 * Open camera
+	 */
+	private void showCameraAction() {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+			try {
+				mTmpFile = FileUtils.createTmpFile(getActivity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (mTmpFile != null && mTmpFile.exists()) {
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
+				startActivityForResult(intent, REQUEST_CAMERA);
+			} else {
+				Toast.makeText(getActivity(), R.string.mis_error_image_not_exist, Toast.LENGTH_SHORT).show();
+			}
+		} else {
+			Toast.makeText(getActivity(), R.string.mis_msg_no_camera, Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private void requestPermission(final String permission, String rationale, final int requestCode) {
+		if (shouldShowRequestPermissionRationale(permission)) {
+			new AlertDialog.Builder(getContext())
+					.setTitle(R.string.mis_permission_dialog_title)
+					.setMessage(rationale)
+					.setPositiveButton(R.string.mis_permission_dialog_ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							requestPermissions(new String[]{permission}, requestCode);
+						}
+					})
+					.setNegativeButton(R.string.mis_permission_dialog_cancel, null)
+					.create().show();
+		} else {
+			requestPermissions(new String[]{permission}, requestCode);
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		// Forward results to EasyPermissions
+		EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
 	}
 
 	/**
