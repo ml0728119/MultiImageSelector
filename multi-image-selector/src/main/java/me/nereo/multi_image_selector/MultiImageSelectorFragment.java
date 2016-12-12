@@ -3,7 +3,6 @@ package me.nereo.multi_image_selector;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -20,7 +19,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ListPopupWindow;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -264,6 +262,10 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 						mCallback.onCameraShot(mTmpFile);
 					}
 				}
+				//自定义相机
+//				String aa = data.getStringExtra("photo_path");
+//				DebugLog.i("Tag", "sss  " + aa);
+
 			} else {
 				// delete tmp file
 				while (mTmpFile != null && mTmpFile.exists()) {
@@ -419,6 +421,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	public void onCamera() {
 		methodRequiresCameraPermission();
 	}
+
 	private static final int RC_WRITE_EXTERNAL_PERMISSION = 222;
 
 	@AfterPermissionGranted(RC_WRITE_EXTERNAL_PERMISSION)
@@ -433,7 +436,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 					RC_WRITE_EXTERNAL_PERMISSION, perms);
 		}
 	}
-
 
 
 	private static final int RC_CAMERA_PERMISSION = 111;
@@ -471,25 +473,12 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 		} else {
 			Toast.makeText(getActivity(), R.string.mis_msg_no_camera, Toast.LENGTH_SHORT).show();
 		}
+
+//		自定义相机
+//		Intent intent = new Intent(getActivity(), CameraActivity.class);
+//		startActivityForResult(intent, REQUEST_CAMERA);
 	}
 
-	private void requestPermission(final String permission, String rationale, final int requestCode) {
-		if (shouldShowRequestPermissionRationale(permission)) {
-			new AlertDialog.Builder(getContext())
-					.setTitle(R.string.mis_permission_dialog_title)
-					.setMessage(rationale)
-					.setPositiveButton(R.string.mis_permission_dialog_ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							requestPermissions(new String[]{permission}, requestCode);
-						}
-					})
-					.setNegativeButton(R.string.mis_permission_dialog_cancel, null)
-					.create().show();
-		} else {
-			requestPermissions(new String[]{permission}, requestCode);
-		}
-	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
