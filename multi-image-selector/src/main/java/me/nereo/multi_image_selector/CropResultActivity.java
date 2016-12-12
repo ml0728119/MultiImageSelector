@@ -11,8 +11,10 @@ import android.util.Log;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
 
-public class CropResultActivity extends AppCompatActivity {
+import java.io.File;
 
+public class CropResultActivity extends AppCompatActivity {
+	String toFilePath;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,12 +23,9 @@ public class CropResultActivity extends AppCompatActivity {
 		toCrop(CropResultActivity.this, fromPath);
 	}
 
-	String toFilePath = "/storage/emulated/0/Android/data/me.nereo.multiimageselector/cache/crop_1481254523167.jpg";
-
 	void toCrop(Activity context, String fromPath) {
-//		Uri from = Uri.parse("file:///storage/emulated/0/DCIM/IMG_-1213758122.jpg");
 		Uri from = Uri.parse("file://" + fromPath);
-		Uri to = Uri.parse("file://" + toFilePath);
+		Uri to = toFilePath(context);
 
 		Log.i("Tag", "from  " + from);
 		Log.i("Tag", "to   " + to.toString());
@@ -40,6 +39,12 @@ public class CropResultActivity extends AppCompatActivity {
 		options.setAllowedGestures( UCropActivity.SCALE,UCropActivity.ROTATE, UCropActivity.ALL);
 		uCrop.withOptions(options);
 		uCrop.start(context);
+	}
+
+	private Uri toFilePath(Activity context) {
+		File toFile=new File(context.getExternalCacheDir(),  "crop_" + System.currentTimeMillis() + ".jpg");
+		toFilePath=toFile.getPath();
+		return Uri.fromFile(toFile);
 	}
 
 	@Override

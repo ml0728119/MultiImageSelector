@@ -118,12 +118,17 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 		return super.onOptionsItemSelected(item);
 	}
 
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		updateDoneText(MultiImageControl.getSingleton().getChooseValue());
 		mSubmitButton.updateDoneText();
-
 	}
 
 

@@ -50,11 +50,12 @@ public class MainActivity extends AppCompatActivity {
 	private ArrayList<String> mSelectPath = new ArrayList<>();
 
 	ImageView mImageView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		mImageView= (ImageView) findViewById(R.id.image);
+		mImageView = (ImageView) findViewById(R.id.image);
 		Log.i("Tag", "onCreate");
 		mResultText = (TextView) findViewById(result);
 		mChoiceMode = (RadioGroup) findViewById(R.id.choice_mode);
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 		public boolean handleMessage(Message msg) {
 
 //			startPhotoZoom(msg.getData().getString("data"));
-
+			Log.i("Tag", "call back2  " + msg.getData().getString("data"));
 			Glide.with(MainActivity.this)
 					.load(msg.getData().getString("data"))
 					.centerCrop()
@@ -228,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 		MultiImageSelector selector = new MultiImageSelector(this);
 		selector.showCamera(false);
 		selector.count(1).cropPhoto(true);
-		selector.origin(mSelectPath1);
+//		selector.origin(mSelectPath1);
 		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 			@Override
 			public void multiSelectorImages(Collection<String> result) {
@@ -237,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
 					Message message = new Message();
 					Bundle bundle = new Bundle();
+					Log.i("Tag", "call back1  " + s);
 					bundle.putString("data", s);
 					message.setData(bundle);
 					handler.sendMessage(message);
@@ -295,7 +297,8 @@ public class MainActivity extends AppCompatActivity {
 
 	public String getCropCacheFilePath() {
 		Context context = this;
-		String cropCachePath = String.valueOf(context.getExternalCacheDir()) + File.separator + "crop_" + System.currentTimeMillis() + ".png";
+		String cropCachePath = String.valueOf(context.getExternalCacheDir()) +
+				File.separator + "crop_" + System.currentTimeMillis() + ".png";
 		return cropCachePath;
 	}
 
