@@ -1,9 +1,7 @@
 package me.nereo.multiimageselector;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -84,13 +82,13 @@ public class MainActivity extends AppCompatActivity {
 
 	private void pickImage() {
 		Log.i("Tag", "111111111111");
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN // Permission was added in API Level 16
-				&& ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-				!= PackageManager.PERMISSION_GRANTED) {
-			requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
-					getString(R.string.mis_permission_rationale),
-					REQUEST_STORAGE_READ_ACCESS_PERMISSION);
-		} else {
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN // Permission was added in API Level 16
+//				&& ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//				!= PackageManager.PERMISSION_GRANTED) {
+//			requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
+//					getString(R.string.mis_permission_rationale),
+//					REQUEST_STORAGE_READ_ACCESS_PERMISSION);
+//		} else {
 			Log.i("Tag", "222222222");
 			boolean showCamera = mShowCamera.getCheckedRadioButtonId() == R.id.show;
 			int maxNum = 9;
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 					}
 				}
 			});
-		}
+//		}
 	}
 
 	private void requestPermission(final String permission, String rationale, final int requestCode) {

@@ -128,7 +128,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 		}
 		mImageAdapter = new ImageGridAdapter(getActivity(), showCamera(), 3);
 
-
 		mPopupAnchorView = view.findViewById(R.id.footer);
 
 		mCategoryText = (TextView) view.findViewById(R.id.category_btn);
@@ -233,7 +232,9 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		// load image data
-		getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+//		getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+
+		methodRequiresWRITEPermission();
 	}
 
 
@@ -416,23 +417,37 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 	@Override
 	public void onCamera() {
-		DebugLog.i("Tag", "11");
-		methodRequiresTwoPermission();
+		methodRequiresCameraPermission();
+	}
+	private static final int RC_WRITE_EXTERNAL_PERMISSION = 222;
+
+	@AfterPermissionGranted(RC_WRITE_EXTERNAL_PERMISSION)
+	private void methodRequiresWRITEPermission() {
+		String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+		if (EasyPermissions.hasPermissions(getContext(), perms)) {
+			// Already have permission, do the thing
+			getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+		} else {
+			// Do not have permissions, request them now  getString(R.string.camera_and_wifi_rationale)
+			EasyPermissions.requestPermissions(this, "获取读写权限",
+					RC_WRITE_EXTERNAL_PERMISSION, perms);
+		}
 	}
 
-	private static final int RC_CAMERA_AND_WIFI = 111;
 
-	@AfterPermissionGranted(RC_CAMERA_AND_WIFI)
-	private void methodRequiresTwoPermission() {
+
+	private static final int RC_CAMERA_PERMISSION = 111;
+
+	@AfterPermissionGranted(RC_CAMERA_PERMISSION)
+	private void methodRequiresCameraPermission() {
 		String[] perms = {Manifest.permission.CAMERA};
 		if (EasyPermissions.hasPermissions(getContext(), perms)) {
 			// Already have permission, do the thing
 			showCameraAction();
 		} else {
 			// Do not have permissions, request them now  getString(R.string.camera_and_wifi_rationale)
-			EasyPermissions.requestPermissions(this, "1234",
-					RC_CAMERA_AND_WIFI, perms);
-
+			EasyPermissions.requestPermissions(this, "获取相机权限",
+					RC_CAMERA_PERMISSION, perms);
 		}
 	}
 

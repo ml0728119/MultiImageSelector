@@ -97,12 +97,12 @@ public class MultiImageControl {
 	}
 
 	void start(Context context, MultiImageResult multiImageCallBack) {
-		if (hasPermission(context)) {
+//		if (hasPermission(context)) {
 			this.multiImageResult = multiImageCallBack;
 			context.startActivity(createIntent(context));
-		} else {
-			Toast.makeText(context, R.string.mis_error_no_permission, Toast.LENGTH_SHORT).show();
-		}
+//		} else {
+//			Toast.makeText(context, R.string.mis_error_no_permission, Toast.LENGTH_SHORT).show();
+//		}
 	}
 
 
