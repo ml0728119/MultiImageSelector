@@ -3,53 +3,63 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <com.google.android.cameraview.CameraView
-        android:id="@+id/camera"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"/>
-
     <RelativeLayout
-        android:id="@+id/top"
+        android:id="@+id/camera_layout"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="#000">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/flash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:padding="6dp"
-            android:background="@drawable/ic_flash_auto"/>
+        <com.google.android.cameraview.CameraView
+            android:id="@+id/camera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"/>
+
+        <RelativeLayout
+            android:id="@+id/top"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="#000">
+
+            <ImageView
+                android:id="@+id/flash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_flash_auto"
+                android:padding="6dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_alignParentBottom="true"
+            android:background="#000"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="48dp"
+                android:text="取消"
+                android:textColor="#dcdcdc"
+                android:textSize="14sp"/>
+
+
+            <ImageView
+                android:id="@+id/take_photo"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/camera_circle"/>
+        </RelativeLayout>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:layout_alignParentBottom="true"
-        android:background="#000"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:text="取消"
-            android:textColor="#dcdcdc"
-            android:textSize="14sp"/>
-
-
-        <ImageView
-            android:id="@+id/take_photo"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/camera_circle"/>
-    </RelativeLayout>
+    <include android:visibility="gone"
+        android:id="@+id/preview_layout"
+        layout="@layout/mis_preview_layout"/>
 </RelativeLayout>
