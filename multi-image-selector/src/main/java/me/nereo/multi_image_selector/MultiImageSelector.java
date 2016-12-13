@@ -70,7 +70,8 @@ public class MultiImageSelector {
 		return this;
 	}
 
-	public MultiImageSelector cropWithAspectRatio(float x, float y ){
+	public MultiImageSelector cropWithAspectRatio(float x, float y) {
+		multiImageControl.cropWithAspectRatio(x, y);
 		return this;
 	}
 
@@ -99,7 +100,6 @@ public class MultiImageSelector {
 	public interface MultiImageCallBack {
 		void multiSelectorImages(Collection<String> result);
 	}
-
 
 
 }

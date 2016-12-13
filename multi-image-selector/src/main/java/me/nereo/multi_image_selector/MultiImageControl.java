@@ -1,12 +1,8 @@
 package me.nereo.multi_image_selector;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -96,24 +92,27 @@ public class MultiImageControl {
 		return mControl;
 	}
 
+	protected float ratioX = 16, ratioY = 9;
+
+	public MultiImageControl cropWithAspectRatio(float x, float y) {
+		ratioX = x;
+		ratioY = y;
+		return this;
+	}
+
+	public float getRatioX() {
+		return ratioX;
+	}
+
+	public float getRatioY() {
+		return ratioY;
+	}
+
 	void start(Context context, MultiImageResult multiImageCallBack) {
-//		if (hasPermission(context)) {
-			this.multiImageResult = multiImageCallBack;
-			context.startActivity(createIntent(context));
-//		} else {
-//			Toast.makeText(context, R.string.mis_error_no_permission, Toast.LENGTH_SHORT).show();
-//		}
+		this.multiImageResult = multiImageCallBack;
+		context.startActivity(createIntent(context));
 	}
 
-
-	private boolean hasPermission(Context context) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			// Permission was added in API Level 16
-			return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
-					== PackageManager.PERMISSION_GRANTED;
-		}
-		return true;
-	}
 
 	private Intent createIntent(Context context) {
 		this.context = context;
@@ -149,10 +148,11 @@ public class MultiImageControl {
 	}
 
 	protected void commit(Activity context) {
-		if (crop && mMode == MODE_SINGLE) {
+		if (crop && (mShowCamera || mMode == MODE_SINGLE)) {
 			String[] list = new String[1];
 			mChooseValue.toArray(list);
-			toCrop(list[0],context);
+			toCrop(list[0], context);
+
 		} else {
 			toFinish();
 		}
@@ -182,10 +182,9 @@ public class MultiImageControl {
 	}
 
 	/**
-	 *
-	 * @param fromCropPath  文件的绝对路径
+	 * @param fromCropPath 文件的绝对路径
 	 */
-	void toCrop(String fromCropPath,Activity context) {
+	void toCrop(String fromCropPath, Activity context) {
 		Intent intent = new Intent(context, CropResultActivity.class);
 		intent.putExtra("fromPath", fromCropPath);
 		context.startActivity(intent);

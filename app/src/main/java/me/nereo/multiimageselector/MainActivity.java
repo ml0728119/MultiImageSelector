@@ -101,13 +101,13 @@ public class MainActivity extends AppCompatActivity {
 				}
 			}
 			MultiImageSelector selector = new MultiImageSelector(this);
-			selector.showCamera(showCamera);
+			selector.showCamera(showCamera).cropPhoto(true);
 			selector.count(maxNum);
 			if (mChoiceMode.getCheckedRadioButtonId() == R.id.single) {
 				selector.count(1);
 			}
 			Log.i("Tag", "3333333333  " + "   " + mSelectPath.hashCode());
-			selector.origin(mSelectPath);
+			selector.origin(mSelectPath).cropWithAspectRatio(1,1);
 			for (String s : mSelectPath) {
 				Log.i("Tag", "0000  " + s);
 			}
