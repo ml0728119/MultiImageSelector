@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -30,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -39,7 +37,6 @@ import me.nereo.multi_image_selector.adapter.FolderAdapter;
 import me.nereo.multi_image_selector.adapter.ImageGridAdapter;
 import me.nereo.multi_image_selector.bean.Folder;
 import me.nereo.multi_image_selector.bean.Image;
-import me.nereo.multi_image_selector.utils.FileUtils;
 import me.nereo.multi_image_selector.utils.ScreenUtils;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -457,26 +454,27 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	 * Open camera
 	 */
 	private void showCameraAction() {
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-			try {
-				mTmpFile = FileUtils.createTmpFile(getActivity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (mTmpFile != null && mTmpFile.exists()) {
-				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
-				startActivityForResult(intent, REQUEST_CAMERA);
-			} else {
-				Toast.makeText(getActivity(), R.string.mis_error_image_not_exist, Toast.LENGTH_SHORT).show();
-			}
-		} else {
-			Toast.makeText(getActivity(), R.string.mis_msg_no_camera, Toast.LENGTH_SHORT).show();
-		}
+//		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+//			try {
+//				mTmpFile = FileUtils.createTmpFile(getActivity());
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				DebugLog.e("Tag",e.toString());
+//			}
+//			if (mTmpFile != null && mTmpFile.exists()) {
+//				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
+//				startActivityForResult(intent, REQUEST_CAMERA);
+//			} else {
+//				Toast.makeText(getActivity(), R.string.mis_error_image_not_exist, Toast.LENGTH_SHORT).show();
+//			}
+//		} else {
+//			Toast.makeText(getActivity(), R.string.mis_msg_no_camera, Toast.LENGTH_SHORT).show();
+//		}
 
 //		自定义相机
-//		Intent intent = new Intent(getActivity(), CameraActivity.class);
-//		startActivityForResult(intent, REQUEST_CAMERA);
+		Intent intent = new Intent(getActivity(), CameraActivity.class);
+		startActivityForResult(intent, REQUEST_CAMERA);
 	}
 
 

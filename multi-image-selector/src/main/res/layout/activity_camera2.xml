@@ -1,13 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.google.android.cameraview.CameraView
-        android:id="@+id/camera"
+    <SurfaceView
+        android:id="@+id/surface"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:adjustViewBounds="true"/>
+        android:layout_above="@+id/bottom" />
 
     <RelativeLayout
         android:id="@+id/top"
@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:padding="6dp"
-            android:background="@drawable/ic_flash_auto"/>
+            android:src="@drawable/flash" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -37,11 +37,11 @@
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#dcdcdc"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:text="取消"
-            android:textColor="#dcdcdc"
-            android:textSize="14sp"/>
+            android:text="取消" />
 
 
         <ImageView
@@ -50,6 +50,6 @@
             android:layout_height="56dp"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/camera_circle"/>
+            android:src="@drawable/camera_circle" />
     </RelativeLayout>
 </RelativeLayout>
