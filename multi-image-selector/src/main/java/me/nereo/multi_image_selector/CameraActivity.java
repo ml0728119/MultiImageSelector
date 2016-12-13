@@ -137,13 +137,16 @@ public class CameraActivity extends Activity implements OnClickListener {
 			showPreview(data);
 		}
 	};
+	String saveFilePath;
 
 	private void saveFile(final byte[] data) {
 		getBackgroundHandler().post(new Runnable() {
 			@Override
 			public void run() {
+
 				File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-						"picture.jpg");
+						System.currentTimeMillis() + ".jpg");
+				saveFilePath = file.getPath();
 				Log.d(TAG, "onPictureTaken " + file.getPath());
 				OutputStream os = null;
 				try {
@@ -156,6 +159,8 @@ public class CameraActivity extends Activity implements OnClickListener {
 					if (os != null) {
 						try {
 							os.close();
+							MultiImageControl.getSingleton().addResultImage(CameraActivity.this, saveFilePath);
+							MultiImageControl.getSingleton().commit(CameraActivity.this);
 						} catch (IOException e) {
 							// Ignore
 						}
@@ -163,6 +168,7 @@ public class CameraActivity extends Activity implements OnClickListener {
 				}
 			}
 		});
+
 	}
 
 	private void showPreview(final byte[] data) {
