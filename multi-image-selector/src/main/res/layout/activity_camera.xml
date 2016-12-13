@@ -59,7 +59,8 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <include android:visibility="gone"
+    <include
         android:id="@+id/preview_layout"
-        layout="@layout/mis_preview_layout"/>
+        layout="@layout/mis_preview_layout"
+        android:visibility="gone"/>
 </RelativeLayout>

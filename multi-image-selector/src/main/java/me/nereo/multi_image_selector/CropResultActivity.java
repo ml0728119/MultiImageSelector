@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -38,6 +39,7 @@ public class CropResultActivity extends AppCompatActivity {
 		options.setCompressionQuality(90);
 		options.setHideBottomControls(false);
 		options.setFreeStyleCropEnabled(false);
+		options.setToolbarColor(ContextCompat.getColor(this, R.color.mis_actionbar_color));
 		options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
 		uCrop.withOptions(options);
 		uCrop.start(context);
