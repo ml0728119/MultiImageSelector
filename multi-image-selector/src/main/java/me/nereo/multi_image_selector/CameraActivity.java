@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -38,8 +39,8 @@ public class CameraActivity extends Activity implements OnClickListener {
 	TextView mCommitView;       //提交
 	TextView mRepetitionView;  //重拍
 
-	View mPreviewLayout;
-	View mCameraLayout;
+	RelativeLayout mPreviewLayout;
+	RelativeLayout mCameraLayout;
 	private CameraView mCameraView;
 	public static final String PHOTO_PATH = "photo_path";
 	private static final int[] FLASH_OPTIONS = {
@@ -70,8 +71,8 @@ public class CameraActivity extends Activity implements OnClickListener {
 
 	protected void initView() {
 		Log.i("Tag","initView");
-		mPreviewLayout = findViewById(R.id.mis_preview_layout);
-		mCameraLayout = findViewById(R.id.mis_camera_layout);
+		mPreviewLayout = (RelativeLayout)findViewById(R.id.mis_preview_layout);
+		mCameraLayout = (RelativeLayout) findViewById(R.id.mis_camera_layout);
 		mCameraView = (CameraView) findViewById(R.id.camera);
 		if (mCameraView != null) {
 			mCameraView.addCallback(mCallback);
