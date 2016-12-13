@@ -2,7 +2,22 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
+    signingConfigs {
+        debug {
+            keyAlias 'wuhanhxqc'
+            keyPassword 'wuhanhxqc1126'
+            storeFile file("mall.keystore")
+            storePassword 'hxqc1126'
+            v2SigningEnabled false
+        }
+        release {
+            keyAlias 'wuhanhxqc'
+            keyPassword 'wuhanhxqc1126'
+            storeFile file("mall.keystore")
+            storePassword 'hxqc1126'
+            v2SigningEnabled false
+        }
+    }
     defaultConfig {
         applicationId "me.nereo.multiimageselector"
         minSdkVersion 14
@@ -13,8 +28,12 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            pseudoLocalesEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 //    dexOptions {
@@ -28,6 +47,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.0.1'
-    compile project(':multi-image-selector')
-
+//    compile project(':multi-image-selector')
+    compile 'com.github.ml0728119:MultiImageSelector:3c4bbfbdef'
 }

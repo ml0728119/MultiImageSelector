@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -63,12 +64,13 @@ public class CameraActivity extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
 		setContentView(R.layout.activity_camera);
+		Log.i("Tag","onCreate");
 		initView();
 	}
 
 	protected void initView() {
+		Log.i("Tag","initView");
 		mPreviewLayout = findViewById(R.id.mis_preview_layout);
-
 		mCameraLayout = findViewById(R.id.mis_camera_layout);
 		mCameraView = (CameraView) findViewById(R.id.camera);
 		if (mCameraView != null) {
@@ -108,6 +110,7 @@ public class CameraActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Log.i("Tag","onResume");
 		mCameraView.start();
 	}
 
