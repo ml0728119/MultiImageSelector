@@ -30,8 +30,8 @@ import java.io.OutputStream;
  * @since: 2016-10-31
  * Copyright:恒信汽车电子商务有限公司
  */
-public class CameraActivity extends Activity implements OnClickListener {
-	private static final String TAG = "CameraActivity";
+public class MisCameraActivity extends Activity implements OnClickListener {
+	private static final String TAG = "MisCameraActivity";
 	TextView mCancelView;
 	ImageView mFlashView;
 	ImageView mTakePhotoView;
@@ -64,7 +64,7 @@ public class CameraActivity extends Activity implements OnClickListener {
 		//设置全屏无标题
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
-		setContentView(R.layout.activity_camera);
+		setContentView(R.layout.activity_mis_camera);
 		Log.i("Tag","onCreate");
 		initView();
 	}
@@ -73,33 +73,33 @@ public class CameraActivity extends Activity implements OnClickListener {
 		Log.i("Tag","initView");
 		mPreviewLayout = (RelativeLayout)findViewById(R.id.mis_preview_layout);
 		mCameraLayout = (RelativeLayout) findViewById(R.id.mis_camera_layout);
-		mCameraView = (CameraView) findViewById(R.id.camera);
+		mCameraView = (CameraView) findViewById(R.id.mis_camera);
 		if (mCameraView != null) {
 			mCameraView.addCallback(mCallback);
 		}
-		mFlashView = (ImageView) findViewById(R.id.flash);
-		mCancelView = (TextView) findViewById(R.id.cancel);
+		mFlashView = (ImageView) findViewById(R.id.mis_flash);
+		mCancelView = (TextView) findViewById(R.id.mis_cancel);
 
-		mTakePhotoView = (ImageView) findViewById(R.id.take_photo);
+		mTakePhotoView = (ImageView) findViewById(R.id.mis_take_photo);
 		mTakePhotoView.setOnClickListener(this);
 		mCancelView.setOnClickListener(this);
 		mFlashView.setOnClickListener(this);
 
-		mPreviewView = (ImageView) findViewById(R.id.preview);
-		mCommitView = (TextView) findViewById(R.id.commit);
-		mRepetitionView = (TextView) findViewById(R.id.repetition);
+		mPreviewView = (ImageView) findViewById(R.id.mis_preview);
+		mCommitView = (TextView) findViewById(R.id.mis_commit);
+		mRepetitionView = (TextView) findViewById(R.id.mis_repetition);
 	}
 
 	@Override
 	public void onClick(View view) {
 		int i = view.getId();
-		if (i == R.id.take_photo) {
+		if (i == R.id.mis_take_photo) {
 			if (mCameraView != null) {
 				mCameraView.takePicture();
 			}
-		} else if (i == R.id.cancel) {
+		} else if (i == R.id.mis_cancel) {
 			finish();
-		} else if (i == R.id.flash) {
+		} else if (i == R.id.mis_flash) {
 			if (mCameraView != null) {
 				mCurrentFlash = (mCurrentFlash + 1) % FLASH_OPTIONS.length;
 				mFlashView.setBackgroundResource(FLASH_ICONS[mCurrentFlash]);
@@ -162,8 +162,8 @@ public class CameraActivity extends Activity implements OnClickListener {
 					if (os != null) {
 						try {
 							os.close();
-							MultiImageControl.getSingleton().addResultImage(CameraActivity.this, saveFilePath);
-							MultiImageControl.getSingleton().commit(CameraActivity.this);
+							MultiImageControl.getSingleton().addResultImage(MisCameraActivity.this, saveFilePath);
+							MultiImageControl.getSingleton().commit(MisCameraActivity.this);
 						} catch (IOException e) {
 							// Ignore
 						}

@@ -23,7 +23,7 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/commit"
+        android:id="@+id/mis_commit"
         android:background="@drawable/mis_action_btn"
         android:minHeight="1dp"
         android:minWidth="1dp"

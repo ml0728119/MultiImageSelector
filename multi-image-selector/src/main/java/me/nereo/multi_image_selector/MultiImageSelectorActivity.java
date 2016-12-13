@@ -79,7 +79,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 		final boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
 		resultList = MultiImageControl.getSingleton().getChooseValue();
 
-		mSubmitButton = (SubmitButton) findViewById(R.id.commit);
+		mSubmitButton = (SubmitButton) findViewById(R.id.mis_commit);
 		mSubmitButton.updateDoneText();
 		mSubmitButton.setOnClickListener(new View.OnClickListener() {
 			@Override

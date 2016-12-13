@@ -15,7 +15,7 @@
         android:minHeight="?android:attr/actionBarSize">
 
         <me.nereo.multi_image_selector.view.SubmitButton
-            android:id="@+id/commit"
+            android:id="@+id/mis_commit"
             android:background="@drawable/mis_action_btn"
             android:minHeight="1dp"
             android:minWidth="1dp"

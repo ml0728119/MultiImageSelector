@@ -46,7 +46,7 @@
         android:background="#87000000">
 
         <me.nereo.multi_image_selector.view.SubmitButton
-            android:id="@+id/commit"
+            android:id="@+id/mis_commit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

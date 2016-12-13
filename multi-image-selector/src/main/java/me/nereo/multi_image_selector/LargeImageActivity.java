@@ -47,7 +47,7 @@ public class LargeImageActivity extends AppCompatActivity {
 		datas = getIntent().getParcelableArrayListExtra("Data");
 		int position = getIntent().getIntExtra("position", 0);
 
-		mSubmitButton = (SubmitButton) findViewById(R.id.commit);
+		mSubmitButton = (SubmitButton) findViewById(R.id.mis_commit);
 		mSubmitButton.updateDoneText();
 		mSubmitButton.setOnClickListener(new View.OnClickListener() {
 			@Override

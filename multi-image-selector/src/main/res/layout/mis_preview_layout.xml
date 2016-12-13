@@ -6,7 +6,7 @@
                 android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/preview"
+        android:id="@+id/mis_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/repetition"
+            android:id="@+id/mis_repetition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -31,7 +31,7 @@
 
 
         <TextView
-            android:id="@+id/commit"
+            android:id="@+id/mis_commit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

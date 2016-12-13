@@ -6,22 +6,30 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-permission android:name="android.permission.CAMERA"/>
+
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <application android:allowBackup="true">
         <activity
             android:name=".MultiImageSelectorActivity"
-            android:configChanges="orientation|screenSize"/>
-        <activity android:name=".LargeImageActivity">
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".LargeImageActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".CropResultActivity">
+        <activity
+            android:name=".CropResultActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".CameraActivity"/>
+        <activity
+            android:name=".MisCameraActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

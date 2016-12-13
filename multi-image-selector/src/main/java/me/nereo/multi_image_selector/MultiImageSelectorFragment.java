@@ -473,7 +473,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 //		}
 
 //		自定义相机
-		Intent intent = new Intent(getActivity(), CameraActivity.class);
+		Intent intent = new Intent(getActivity(), MisCameraActivity.class);
 		startActivityForResult(intent, REQUEST_CAMERA);
 	}
 
