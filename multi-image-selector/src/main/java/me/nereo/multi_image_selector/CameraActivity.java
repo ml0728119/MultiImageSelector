@@ -67,9 +67,9 @@ public class CameraActivity extends Activity implements OnClickListener {
 	}
 
 	protected void initView() {
-		mPreviewLayout = findViewById(R.id.preview_layout);
-		mCameraLayout = findViewById(R.id.camera_layout);
+		mPreviewLayout = findViewById(R.id.mis_preview_layout);
 
+		mCameraLayout = findViewById(R.id.mis_camera_layout);
 		mCameraView = (CameraView) findViewById(R.id.camera);
 		if (mCameraView != null) {
 			mCameraView.addCallback(mCallback);
