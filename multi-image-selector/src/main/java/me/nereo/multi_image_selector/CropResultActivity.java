@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
@@ -30,8 +29,6 @@ public class CropResultActivity extends AppCompatActivity {
 		Uri from = Uri.parse("file://" + fromPath);
 		Uri to = toFilePath(context);
 
-		Log.i("Tag", "from  " + from);
-		Log.i("Tag", "to   " + to.toString());
 		UCrop uCrop = UCrop.of(from, to);
 		uCrop = uCrop.withAspectRatio(MultiImageControl.getSingleton().getRatioX(), MultiImageControl.getSingleton().getRatioY());
 		UCrop.Options options = new UCrop.Options();

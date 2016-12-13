@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -123,17 +122,17 @@ public class CameraActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void onCameraOpened(CameraView cameraView) {
-			Log.d(TAG, "onCameraOpened");
+//			Log.d(TAG, "onCameraOpened");
 		}
 
 		@Override
 		public void onCameraClosed(CameraView cameraView) {
-			Log.d(TAG, "onCameraClosed");
+//			Log.d(TAG, "onCameraClosed");
 		}
 
 		@Override
 		public void onPictureTaken(CameraView cameraView, final byte[] data) {
-			Log.d(TAG, "onPictureTaken " + data.length);
+//			Log.d(TAG, "onPictureTaken " + data.length);
 			showPreview(data);
 		}
 	};
@@ -147,14 +146,14 @@ public class CameraActivity extends Activity implements OnClickListener {
 				File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
 						System.currentTimeMillis() + ".jpg");
 				saveFilePath = file.getPath();
-				Log.d(TAG, "onPictureTaken " + file.getPath());
+//				Log.d(TAG, "onPictureTaken " + file.getPath());
 				OutputStream os = null;
 				try {
 					os = new FileOutputStream(file);
 					os.write(data);
 					os.close();
 				} catch (IOException e) {
-					Log.w(TAG, "Cannot write to " + file, e);
+//					Log.w(TAG, "Cannot write to " + file, e);
 				} finally {
 					if (os != null) {
 						try {
