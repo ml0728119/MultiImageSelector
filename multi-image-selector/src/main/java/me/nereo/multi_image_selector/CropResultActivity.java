@@ -16,7 +16,6 @@ import java.io.File;
 
 public class CropResultActivity extends AppCompatActivity {
 	String toFilePath;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
