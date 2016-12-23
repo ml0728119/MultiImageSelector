@@ -148,7 +148,7 @@ public class MultiImageControl {
 	}
 
 	protected void commit(Activity context) {
-		if (crop && (mShowCamera || mMode == MODE_SINGLE)) {
+		if (crop && ( mMode == MODE_SINGLE)) {
 			String[] list = new String[1];
 			mChooseValue.toArray(list);
 			toCrop(list[0], context);

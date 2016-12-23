@@ -26,8 +26,6 @@ import java.util.Collection;
 
 import me.nereo.multi_image_selector.MultiImageSelector;
 
-import static me.nereo.multiimageselector.R.id.result;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+
 		mImageView = (ImageView) findViewById(R.id.image);
 		Log.i("Tag", "onCreate");
-		mResultText = (TextView) findViewById(result);
+		mResultText = (TextView) findViewById(R.id.result);
 		mChoiceMode = (RadioGroup) findViewById(R.id.choice_mode);
 		mShowCamera = (RadioGroup) findViewById(R.id.show_camera);
 		mRequestNum = (EditText) findViewById(R.id.request_num);
@@ -107,10 +107,10 @@ public class MainActivity extends AppCompatActivity {
 				selector.count(1);
 			}
 			Log.i("Tag", "3333333333  " + "   " + mSelectPath.hashCode());
-			selector.origin(mSelectPath).cropWithAspectRatio(1,1);
-			for (String s : mSelectPath) {
-				Log.i("Tag", "0000  " + s);
-			}
+//			selector.origin(mSelectPath).cropWithAspectRatio(1,1);
+//			for (String s : mSelectPath) {
+//				Log.i("Tag", "0000  " + s);
+//			}
 			Log.i("Tag", "4444444444");
 			selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 				@Override
@@ -230,7 +230,6 @@ public class MainActivity extends AppCompatActivity {
 		MultiImageSelector selector = new MultiImageSelector(this);
 		selector.showCamera(false);
 		selector.count(1).cropPhoto(true);
-//		selector.origin(mSelectPath1);
 		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 			@Override
 			public void multiSelectorImages(Collection<String> result) {
