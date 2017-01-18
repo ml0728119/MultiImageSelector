@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -198,7 +197,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 								mImageAdapter.setData(folder.images);
 								mCategoryText.setText(folder.name);
 							}
-							mImageAdapter.setShowCamera(false);
+
 						}
 
 						mGridView.smoothScrollToPosition(0);
@@ -402,7 +401,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 	@Override
 	public void onItemClick(int position, Image image, ArrayList<Image> datas) {
-		Toast.makeText(getContext(), "点击大图  " + position, Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getContext(), "点击大图  " + position, Toast.LENGTH_SHORT).show();
 
 		if (showCamera()) {
 			position -= 1;
