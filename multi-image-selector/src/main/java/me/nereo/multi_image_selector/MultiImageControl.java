@@ -30,7 +30,6 @@ public class MultiImageControl {
 
 	public static final String EXTRA_RESULT = MultiImageSelectorActivity.EXTRA_RESULT;
 	private boolean mShowCamera = true;
-
 	private static MultiImageControl mControl;
 
 	private Context context;
@@ -92,7 +91,7 @@ public class MultiImageControl {
 		return mControl;
 	}
 
-	protected float ratioX = 16, ratioY = 9;
+	private float ratioX = 16, ratioY = 9;
 
 	public MultiImageControl cropWithAspectRatio(float x, float y) {
 		ratioX = x;
@@ -189,4 +188,10 @@ public class MultiImageControl {
 		intent.putExtra("fromPath", fromCropPath);
 		context.startActivity(intent);
 	}
+
+
+
+
+
+
 }

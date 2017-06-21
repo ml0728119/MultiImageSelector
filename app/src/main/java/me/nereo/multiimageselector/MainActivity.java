@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 		mImageView = (ImageView) findViewById(R.id.image);
-		Log.i("Tag", "onCreate");
+//		Log.i("Tag", "onCreate");
 		mResultText = (TextView) findViewById(R.id.result);
 		mChoiceMode = (RadioGroup) findViewById(R.id.choice_mode);
 		mShowCamera = (RadioGroup) findViewById(R.id.show_camera);
@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
 					Message message = new Message();
 					Bundle bundle = new Bundle();
-					Log.i("Tag", "call back1  " + s);
+//					Log.i("Tag", "call back1  " + s);
 					bundle.putString("data", s);
 					message.setData(bundle);
 					handler.sendMessage(message);

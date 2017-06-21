@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,6 +23,16 @@ import uk.co.senab.photoview.PhotoView;
 public class LargeViewPageAdapter extends PagerAdapter {
 	Context mContext;
 	ArrayList<Image> datas;
+
+
+	public LargeViewPageAdapter(Context mContext) {
+		this.mContext = mContext;
+	}
+
+	public void setDatas(ArrayList<Image> datas) {
+		this.datas = datas;
+		notifyDataSetChanged();
+	}
 
 	public LargeViewPageAdapter(Context context, ArrayList<Image> datas) {
 		this.mContext = context;
@@ -46,7 +55,7 @@ public class LargeViewPageAdapter extends PagerAdapter {
 		PhotoView photoView = new PhotoView(container.getContext());
 		photoView.setBackgroundColor(Color.BLACK);
 		container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		Log.i("Tag", "ss   " + datas.get(position).path);
+//		Log.i("Tag", "ss   " + datas.get(position).path);
 
 		Glide.with(mContext).load("file://" + datas.get(position).path).into(photoView);
 

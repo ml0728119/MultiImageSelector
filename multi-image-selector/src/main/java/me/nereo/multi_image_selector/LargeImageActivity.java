@@ -11,19 +11,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import me.nereo.multi_image_selector.adapter.LargeViewPageAdapter;
+import me.nereo.multi_image_selector.bean.Folder;
 import me.nereo.multi_image_selector.bean.Image;
 import me.nereo.multi_image_selector.view.SubmitButton;
 
-public class LargeImageActivity extends AppCompatActivity {
+import static me.nereo.multi_image_selector.LoadControl.LOADER_ALL;
+import static me.nereo.multi_image_selector.LoadControl.LOADER_CATEGORY;
+
+public class LargeImageActivity extends AppCompatActivity implements LoadControl.OnLoadFinishListener {
 
 	ViewPager mViewPage;
 	LargeViewPageAdapter mViewPageAdapter;
 	private SubmitButton mSubmitButton;
 	ArrayList<Image> datas;
 	CheckBox mCheckBox;
+	LoadControl mLoaderControl;
+	Image image;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +52,17 @@ public class LargeImageActivity extends AppCompatActivity {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 
-		datas = getIntent().getParcelableArrayListExtra("Data");
-		int position = getIntent().getIntExtra("position", 0);
+//		datas = getIntent().getParcelableArrayListExtra("Data");
+
+		image = getIntent().getParcelableExtra("image");
+		int folderIndex = getIntent().getIntExtra("folderIndex", 0);
+//		Log.i("Tag", "folderIndex --------- " + folderIndex);
+		mLoaderControl = new LoadControl(this);
+		mLoaderControl.setOnLoadFinishListener(this);
+		Bundle bundle = new Bundle();
+		bundle.putString("path", new File(image.path).getParentFile().getPath());
+		getSupportLoaderManager().initLoader(folderIndex == 0 ? LOADER_ALL : LOADER_CATEGORY, bundle, mLoaderControl.getLoaderCallback());
+
 
 		mSubmitButton = (SubmitButton) findViewById(R.id.mis_commit);
 		mSubmitButton.updateDoneText();
@@ -56,12 +73,12 @@ public class LargeImageActivity extends AppCompatActivity {
 			}
 		});
 		mCheckBox = (CheckBox) findViewById(R.id.checkmark);
-		checkState(position);
+//
 
 		mViewPage = (ViewPager) findViewById(R.id.large_viewpage);
-		mViewPageAdapter = new LargeViewPageAdapter(this, datas);
+		mViewPageAdapter = new LargeViewPageAdapter(this);
 		mViewPage.setAdapter(mViewPageAdapter);
-		mViewPage.setCurrentItem(position);
+
 		mViewPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -104,6 +121,7 @@ public class LargeImageActivity extends AppCompatActivity {
 	 * @param position
 	 */
 	private void checkState(int position) {
+		if (position == -1) return;
 		String path = datas.get(position).path;
 		if (MultiImageControl.getSingleton().getChooseValue().contains(path)) {
 			mCheckBox.setChecked(true);
@@ -111,6 +129,7 @@ public class LargeImageActivity extends AppCompatActivity {
 			mCheckBox.setChecked(false);
 		}
 	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -121,4 +140,19 @@ public class LargeImageActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		getSupportLoaderManager().destroyLoader(mLoaderControl.getLoaderID());
+	}
+
+	@Override
+	public void loadFinish(List<Image> images, ArrayList<Folder> mResultFolder) {
+		this.datas = (ArrayList<Image>) images;
+		int position = getIntent().getIntExtra("position", -1);
+		mViewPageAdapter.setDatas((ArrayList<Image>) images);
+		mViewPage.setCurrentItem(position);
+		checkState(position);
+
+	}
 }

@@ -5,21 +5,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.ListPopupWindow;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +23,6 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import me.nereo.multi_image_selector.adapter.FolderAdapter;
@@ -40,12 +33,14 @@ import me.nereo.multi_image_selector.utils.ScreenUtils;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static me.nereo.multi_image_selector.LoadControl.LOADER_ALL;
+
 /**
  * Multi image selector Fragment
  * Created by Nereo on 2015/4/7.
  * Updated by nereo on 2016/5/18.
  */
-public class MultiImageSelectorFragment extends Fragment implements ImageGridAdapter.OnImageSelectorListener {
+public class MultiImageSelectorFragment extends Fragment implements ImageGridAdapter.OnImageSelectorListener, LoadControl.OnLoadFinishListener {
 
 	public static final String TAG = "MultiImageSelectorFragment";
 
@@ -72,16 +67,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	 */
 	public static final String EXTRA_SHOW_CAMERA = "show_camera";
 
-
-	// loaders
-	private static final int LOADER_ALL = 0;
-	private static final int LOADER_CATEGORY = 1;
-
-	// image result data set
-	private LinkedHashSet<String> resultList;
-	// folder result data set
-	private ArrayList<Folder> mResultFolder = new ArrayList<>();
-
 	private GridView mGridView;
 	private Callback mCallback;
 
@@ -89,13 +74,11 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	private FolderAdapter mFolderAdapter;
 
 	private ListPopupWindow mFolderPopupWindow;
-
 	private TextView mCategoryText;
 	private View mPopupAnchorView;
-
-	private boolean hasFolderGened = false;
-
 	private File mTmpFile;
+
+	LoadControl mLoaderControl;
 
 	@Override
 	public void onAttach(Context context) {
@@ -116,14 +99,17 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		final int mode = selectMode();
-		if (mode == MODE_MULTI) {
-			resultList = MultiImageControl.getSingleton().getChooseValue();
-		}
+//		final int mode = selectMode();
+//		if (mode == MODE_MULTI) {
+//			resultList = MultiImageControl.getSingleton().getChooseValue();
+//		}
+		mLoaderControl = new LoadControl(getContext());
+		mLoaderControl.setOnLoadFinishListener(this);
+
 		mImageAdapter = new ImageGridAdapter(getActivity(), showCamera(), 3);
+		mFolderAdapter = new FolderAdapter(getActivity());
 
 		mPopupAnchorView = view.findViewById(R.id.footer);
-
 		mCategoryText = (TextView) view.findViewById(R.id.category_btn);
 		mCategoryText.setText(R.string.mis_folder_all);
 		mCategoryText.setOnClickListener(new View.OnClickListener() {
@@ -149,8 +135,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 		mGridView.setAdapter(mImageAdapter);
 		mImageAdapter.setOnImageSelectorListener(this);
 
-
-		mFolderAdapter = new FolderAdapter(getActivity());
 	}
 
 
@@ -184,7 +168,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 						mFolderPopupWindow.dismiss();
 
 						if (index == 0) {
-							getActivity().getSupportLoaderManager().restartLoader(LOADER_ALL, null, mLoaderCallback);
+							getActivity().getSupportLoaderManager().restartLoader(LOADER_ALL, null, mLoaderControl.getLoaderCallback());
 							mCategoryText.setText(R.string.mis_folder_all);
 							if (showCamera()) {
 								mImageAdapter.setShowCamera(true);
@@ -258,10 +242,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 						mCallback.onCameraShot(mTmpFile);
 					}
 				}
-				//自定义相机
-//				String aa = data.getStringExtra("photo_path");
-//				DebugLog.i("Tag", "sss  " + aa);
-
 			} else {
 				// delete tmp file
 				while (mTmpFile != null && mTmpFile.exists()) {
@@ -274,107 +254,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 		}
 	}
 
-
-	private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
-
-		private final String[] IMAGE_PROJECTION = {
-				MediaStore.Images.Media.DATA,
-				MediaStore.Images.Media.DISPLAY_NAME,
-				MediaStore.Images.Media.DATE_ADDED,
-				MediaStore.Images.Media.MIME_TYPE,
-				MediaStore.Images.Media.SIZE,
-				MediaStore.Images.Media._ID};
-
-		@Override
-		public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-			CursorLoader cursorLoader = null;
-			if (id == LOADER_ALL) {
-				cursorLoader = new CursorLoader(getActivity(),
-						MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
-						IMAGE_PROJECTION[4] + ">0 AND " + IMAGE_PROJECTION[3] + "=? OR " + IMAGE_PROJECTION[3] + "=? ",
-						new String[]{"image/jpeg", "image/png"}, IMAGE_PROJECTION[2] + " DESC");
-			} else if (id == LOADER_CATEGORY) {
-				cursorLoader = new CursorLoader(getActivity(),
-						MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
-						IMAGE_PROJECTION[4] + ">0 AND " + IMAGE_PROJECTION[0] + " like '%" + args.getString("path") + "%'",
-						null, IMAGE_PROJECTION[2] + " DESC");
-			}
-			return cursorLoader;
-		}
-
-		private boolean fileExist(String path) {
-			if (!TextUtils.isEmpty(path)) {
-				return new File(path).exists();
-			}
-			return false;
-		}
-
-		@Override
-		public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-			if (data != null) {
-				if (data.getCount() > 0) {
-					List<Image> images = new ArrayList<>();
-					data.moveToFirst();
-					do {
-						String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
-						String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
-						long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
-						if (!fileExist(path)) {
-							continue;
-						}
-						Image image = null;
-						if (!TextUtils.isEmpty(name)) {
-							image = new Image(path, name, dateTime);
-							images.add(image);
-						}
-						if (!hasFolderGened) {
-							// get all folder data
-							File folderFile = new File(path).getParentFile();
-							if (folderFile != null && folderFile.exists()) {
-								String fp = folderFile.getAbsolutePath();
-								Folder f = getFolderByPath(fp);
-								if (f == null) {
-									Folder folder = new Folder();
-									folder.name = folderFile.getName();
-									folder.path = fp;
-									folder.cover = image;
-									List<Image> imageList = new ArrayList<>();
-									imageList.add(image);
-									folder.images = imageList;
-									mResultFolder.add(folder);
-								} else {
-									f.images.add(image);
-								}
-							}
-						}
-
-					} while (data.moveToNext());
-
-					mImageAdapter.setData(images);
-					if (!hasFolderGened) {
-						mFolderAdapter.setData(mResultFolder);
-						hasFolderGened = true;
-					}
-				}
-			}
-		}
-
-		@Override
-		public void onLoaderReset(Loader<Cursor> loader) {
-
-		}
-	};
-
-	private Folder getFolderByPath(String path) {
-		if (mResultFolder != null) {
-			for (Folder folder : mResultFolder) {
-				if (TextUtils.equals(folder.path, path)) {
-					return folder;
-				}
-			}
-		}
-		return null;
-	}
 
 	private boolean showCamera() {
 		return getArguments() == null || getArguments().getBoolean(EXTRA_SHOW_CAMERA, true);
@@ -408,7 +287,10 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 		}
 		Intent intent = new Intent(getContext(), LargeImageActivity.class);
 		intent.putParcelableArrayListExtra("Data", datas);
+		intent.putExtra("image", image);
 		intent.putExtra("position", position);
+		int folderIndex = mFolderAdapter.getSelectIndex();
+		intent.putExtra("folderIndex", folderIndex);//文件夹的位置
 		startActivity(intent);
 
 	}
@@ -425,7 +307,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 		String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 		if (EasyPermissions.hasPermissions(getContext(), perms)) {
 			// Already have permission, do the thing
-			getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+			getActivity().getSupportLoaderManager().initLoader(LoadControl.LOADER_ALL, null, mLoaderControl.getLoaderCallback());
 		} else {
 			// Do not have permissions, request them now  getString(R.string.camera_and_wifi_rationale)
 			EasyPermissions.requestPermissions(this, "获取读写权限",
@@ -453,23 +335,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	 * Open camera
 	 */
 	private void showCameraAction() {
-//		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-//			try {
-//				mTmpFile = FileUtils.createTmpFile(getActivity());
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//				DebugLog.e("Tag",e.toString());
-//			}
-//			if (mTmpFile != null && mTmpFile.exists()) {
-//				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
-//				startActivityForResult(intent, REQUEST_CAMERA);
-//			} else {
-//				Toast.makeText(getActivity(), R.string.mis_error_image_not_exist, Toast.LENGTH_SHORT).show();
-//			}
-//		} else {
-//			Toast.makeText(getActivity(), R.string.mis_msg_no_camera, Toast.LENGTH_SHORT).show();
-//		}
 
 //		自定义相机
 		Intent intent = new Intent(getActivity(), MisCameraActivity.class);
@@ -481,6 +346,18 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		// Forward results to EasyPermissions
 		EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		getActivity().getSupportLoaderManager().destroyLoader(mLoaderControl.getLoaderID());
+	}
+
+	@Override
+	public void loadFinish(List<Image> images, ArrayList<Folder> mResultFolder) {
+		mImageAdapter.setData(images);
+		mFolderAdapter.setData(mResultFolder);
 	}
 
 	/**
