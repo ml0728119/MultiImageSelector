@@ -37,6 +37,15 @@ public class MultiImageSelector {
 	}
 
 	/**
+	 * 只有相机
+	 * @return
+	 */
+	public MultiImageSelector onlyCamera() {
+		multiImageControl.onlyCamera();
+		return this;
+	}
+
+	/**
 	 * 是否包含相机 默认包含
 	 *
 	 * @param show

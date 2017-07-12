@@ -129,11 +129,7 @@ public class LoadControl {
 					if (mOnLoadFinishListener != null) {
 						mOnLoadFinishListener.loadFinish(images, mResultFolder);
 					}
-//					mImageAdapter.setData(images);
-//					if (!hasFolderGened) {
-//						mFolderAdapter.setData(mResultFolder);
-//						hasFolderGened = true;
-//					}
+
 				}
 			}
 		}

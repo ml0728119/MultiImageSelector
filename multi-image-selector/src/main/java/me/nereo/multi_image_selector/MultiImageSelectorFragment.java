@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -12,7 +13,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.ListPopupWindow;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +33,6 @@ import me.nereo.multi_image_selector.adapter.ImageGridAdapter;
 import me.nereo.multi_image_selector.bean.Folder;
 import me.nereo.multi_image_selector.bean.Image;
 import me.nereo.multi_image_selector.utils.ScreenUtils;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 
 import static me.nereo.multi_image_selector.LoadControl.LOADER_ALL;
 
@@ -281,7 +282,6 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	@Override
 	public void onItemClick(int position, Image image, ArrayList<Image> datas) {
 //		Toast.makeText(getContext(), "点击大图  " + position, Toast.LENGTH_SHORT).show();
-
 		if (showCamera()) {
 			position -= 1;
 		}
@@ -297,55 +297,50 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 	@Override
 	public void onCamera() {
-		methodRequiresCameraPermission();
+		Intent intent = new Intent(getContext(), OnlyCameraPermissionActivity.class);
+		startActivity(intent);
 	}
 
-	private static final int RC_WRITE_EXTERNAL_PERMISSION = 222;
 
-	@AfterPermissionGranted(RC_WRITE_EXTERNAL_PERMISSION)
 	private void methodRequiresWRITEPermission() {
 		String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-		if (EasyPermissions.hasPermissions(getContext(), perms)) {
-			// Already have permission, do the thing
-			getActivity().getSupportLoaderManager().initLoader(LoadControl.LOADER_ALL, null, mLoaderControl.getLoaderCallback());
+		if (android.os.Build.VERSION.SDK_INT >= 23) {
+			if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+					!= PackageManager.PERMISSION_GRANTED) {
+				//申请WRITE_EXTERNAL_STORAGE权限
+				ActivityCompat.requestPermissions(getActivity(), perms, 123);//自定义的code
+			} else {
+				loadAll();
+			}
 		} else {
-			// Do not have permissions, request them now  getString(R.string.camera_and_wifi_rationale)
-			EasyPermissions.requestPermissions(this, "获取读写权限",
-					RC_WRITE_EXTERNAL_PERMISSION, perms);
+			loadAll();
 		}
 	}
 
-
-	private static final int RC_CAMERA_PERMISSION = 111;
-
-	@AfterPermissionGranted(RC_CAMERA_PERMISSION)
-	private void methodRequiresCameraPermission() {
-		String[] perms = {Manifest.permission.CAMERA};
-		if (EasyPermissions.hasPermissions(getContext(), perms)) {
-			// Already have permission, do the thing
-			showCameraAction();
-		} else {
-			// Do not have permissions, request them now  getString(R.string.camera_and_wifi_rationale)
-			EasyPermissions.requestPermissions(this, "获取相机权限",
-					RC_CAMERA_PERMISSION, perms);
-		}
-	}
 
 	/**
-	 * Open camera
+	 * 获取相册图片
 	 */
-	private void showCameraAction() {
-
-//		自定义相机
-		Intent intent = new Intent(getActivity(), MisCameraActivity.class);
-		startActivityForResult(intent, REQUEST_CAMERA);
+	private void loadAll() {
+		getActivity().getSupportLoaderManager().initLoader(LoadControl.LOADER_ALL, null, mLoaderControl.getLoaderCallback());
 	}
-
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		// Forward results to EasyPermissions
-		EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+		if (permissions.length <= 0 || grantResults.length <= 0) return;
+		if (requestCode == 123) {
+			for (int i = 0; i < permissions.length; i++) {
+				switch (permissions[i]) {
+					case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+						if (grantResults[i] == 0) {
+							loadAll();
+						}
+						break;
+				}
+			}
+		}
+
 	}
 
 	@Override

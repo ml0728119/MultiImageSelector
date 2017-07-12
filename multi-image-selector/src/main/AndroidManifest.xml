@@ -30,6 +30,10 @@
         <activity
             android:name=".MisCameraActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".OnlyCameraPermissionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
     </application>
 
 </manifest>

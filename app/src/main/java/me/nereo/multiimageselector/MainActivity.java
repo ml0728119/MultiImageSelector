@@ -106,12 +106,7 @@ public class MainActivity extends AppCompatActivity {
 			if (mChoiceMode.getCheckedRadioButtonId() == R.id.single) {
 				selector.count(1);
 			}
-			Log.i("Tag", "3333333333  " + "   " + mSelectPath.hashCode());
-//			selector.origin(mSelectPath).cropWithAspectRatio(1,1);
-//			for (String s : mSelectPath) {
-//				Log.i("Tag", "0000  " + s);
-//			}
-			Log.i("Tag", "4444444444");
+//		selector.onlyCamera();
 			selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 				@Override
 				public void multiSelectorImages(Collection<String> result) {

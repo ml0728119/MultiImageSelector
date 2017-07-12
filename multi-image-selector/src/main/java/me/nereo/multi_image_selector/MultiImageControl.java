@@ -35,6 +35,7 @@ public class MultiImageControl {
 	private Context context;
 	private boolean crop = false;
 	private MultiImageResult multiImageResult;
+	private boolean onlyCamera = false;//只有相机
 
 	//内部调用
 	interface MultiImageResult {
@@ -55,6 +56,12 @@ public class MultiImageControl {
 
 	public LinkedHashSet<String> getChooseValue() {
 		return mChooseValue;
+	}
+
+
+	MultiImageControl onlyCamera() {
+		onlyCamera = true;
+		return mControl;
 	}
 
 	MultiImageControl showCamera(boolean show) {
@@ -109,7 +116,13 @@ public class MultiImageControl {
 
 	void start(Context context, MultiImageResult multiImageCallBack) {
 		this.multiImageResult = multiImageCallBack;
-		context.startActivity(createIntent(context));
+		if (onlyCamera) {
+			Intent intent = new Intent(context, OnlyCameraPermissionActivity.class);
+			context.startActivity(intent);
+		} else {
+			context.startActivity(createIntent(context));
+		}
+
 	}
 
 
@@ -147,7 +160,7 @@ public class MultiImageControl {
 	}
 
 	protected void commit(Activity context) {
-		if (crop && ( mMode == MODE_SINGLE)) {
+		if (crop && (mMode == MODE_SINGLE)) {
 			String[] list = new String[1];
 			mChooseValue.toArray(list);
 			toCrop(list[0], context);
@@ -188,10 +201,6 @@ public class MultiImageControl {
 		intent.putExtra("fromPath", fromCropPath);
 		context.startActivity(intent);
 	}
-
-
-
-
 
 
 }
