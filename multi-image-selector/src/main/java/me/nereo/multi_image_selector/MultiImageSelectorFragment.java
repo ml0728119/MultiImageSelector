@@ -132,7 +132,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 			}
 		});
 
-		mGridView = (GridView) view.findViewById(R.id.grid);
+		mGridView = (GridView) view.findViewById(R.id.image_grid);
 		mGridView.setAdapter(mImageAdapter);
 		mImageAdapter.setOnImageSelectorListener(this);
 
@@ -269,7 +269,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	public boolean onCheck(int position, Image image, boolean isCheck) {
 		if (isCheck) {
 			boolean show = mCallback.onImageSelected(image.path);//单选时，选择其他图片时需要刷新页面
-			if (MultiImageControl.getSingleton().getMode() == MultiImageControl.MODE_SINGLE) {
+			if (MultiImageControl.mMode == MultiImageControl.MODE_SINGLE) {
 				mImageAdapter.notifyDataSetChanged();
 			}
 			return show;
@@ -297,8 +297,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 	@Override
 	public void onCamera() {
-		Intent intent = new Intent(getContext(), OnlyCameraPermissionActivity.class);
-		startActivity(intent);
+		MultiImageControl.toCameraActivity(getContext());
 	}
 
 

@@ -13,7 +13,7 @@ import java.util.LinkedHashSet;
  */
 public class MultiImageSelector {
 
-	private LinkedHashSet<String> mChooseValue;
+	private Collection<String> mChooseValue;
 	private Context context;
 
 	{
@@ -38,7 +38,6 @@ public class MultiImageSelector {
 
 	/**
 	 * 只有相机
-	 * @return
 	 */
 	public MultiImageSelector onlyCamera() {
 		multiImageControl.onlyCamera();
@@ -47,8 +46,6 @@ public class MultiImageSelector {
 
 	/**
 	 * 是否包含相机 默认包含
-	 *
-	 * @param show
 	 */
 	public MultiImageSelector showCamera(boolean show) {
 		multiImageControl.showCamera(show);
@@ -79,6 +76,9 @@ public class MultiImageSelector {
 		return this;
 	}
 
+	/**
+	 * 比例裁切
+	 */
 	public MultiImageSelector cropWithAspectRatio(float x, float y) {
 		multiImageControl.cropWithAspectRatio(x, y);
 		return this;
@@ -91,7 +91,7 @@ public class MultiImageSelector {
 	}
 
 
-	protected void commit(Context context) {
+	private void commit(Context context) {
 		if (multiImageCallBack != null) {
 			multiImageCallBack.multiSelectorImages(mChooseValue);
 		}

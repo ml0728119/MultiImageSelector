@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <GridView
-        android:id="@+id/grid"
+        android:id="@+id/image_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:horizontalSpacing="@dimen/mis_space_size"

@@ -102,7 +102,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 			bundle.putBoolean(MultiImageSelectorFragment.EXTRA_SHOW_CAMERA, isShow);
 
 			getSupportFragmentManager().beginTransaction()
-					.add(R.id.image_grid, Fragment.instantiate(this, MultiImageSelectorFragment.class.getName(), bundle))
+					.add(R.id.image_layout, Fragment.instantiate(this, MultiImageSelectorFragment.class.getName(), bundle))
 					.commit();
 		}
 

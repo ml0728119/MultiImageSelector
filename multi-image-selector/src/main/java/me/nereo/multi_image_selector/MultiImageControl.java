@@ -22,20 +22,20 @@ public class MultiImageControl {
 	}
 
 	// Single choice
-	public static final int MODE_SINGLE = 0;
+	protected static final int MODE_SINGLE = 0;
 	// Multi choice
-	public static final int MODE_MULTI = 1;
-	private int mMode = MODE_SINGLE;
-	private int mMaxCount = 1;
+	protected static final int MODE_MULTI = 1;
+	protected static int mMode = MODE_SINGLE;
+	protected int mMaxCount = 1;
 
-	public static final String EXTRA_RESULT = MultiImageSelectorActivity.EXTRA_RESULT;
+	private static final String EXTRA_RESULT = MultiImageSelectorActivity.EXTRA_RESULT;
 	private boolean mShowCamera = true;
 	private static MultiImageControl mControl;
 
-	private Context context;
 	private boolean crop = false;
 	private MultiImageResult multiImageResult;
 	private boolean onlyCamera = false;//只有相机
+	private float ratioX = 16, ratioY = 9;
 
 	//内部调用
 	interface MultiImageResult {
@@ -47,14 +47,14 @@ public class MultiImageControl {
 	}
 
 
-	public static MultiImageControl getSingleton() {
+	static MultiImageControl getSingleton() {
 		if (mControl == null) {
 			mControl = new MultiImageControl();
 		}
 		return mControl;
 	}
 
-	public LinkedHashSet<String> getChooseValue() {
+	LinkedHashSet<String> getChooseValue() {
 		return mChooseValue;
 	}
 
@@ -98,45 +98,50 @@ public class MultiImageControl {
 		return mControl;
 	}
 
-	private float ratioX = 16, ratioY = 9;
 
-	public MultiImageControl cropWithAspectRatio(float x, float y) {
+	MultiImageControl cropWithAspectRatio(float x, float y) {
 		ratioX = x;
 		ratioY = y;
 		return this;
 	}
 
-	public float getRatioX() {
+	float getRatioX() {
 		return ratioX;
 	}
 
-	public float getRatioY() {
+	float getRatioY() {
 		return ratioY;
 	}
 
 	void start(Context context, MultiImageResult multiImageCallBack) {
 		this.multiImageResult = multiImageCallBack;
 		if (onlyCamera) {
-			Intent intent = new Intent(context, OnlyCameraPermissionActivity.class);
-			context.startActivity(intent);
+			toCameraActivity(context);
 		} else {
-			context.startActivity(createIntent(context));
+			toMultiImageSelectorActivity(context);
+
 		}
 
 	}
 
-
-	private Intent createIntent(Context context) {
-		this.context = context;
+	/**
+	 * 去选择页
+	 */
+	  void toMultiImageSelectorActivity(Context context) {
 		Intent intent = new Intent(context, MultiImageSelectorActivity.class);
 		intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, mShowCamera);
 		intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, mMaxCount);
 		intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, mMode);
-		return intent;
+		context.startActivity(intent);
 	}
 
-
-	//--------------------------------------
+	/**
+	 * 去相机
+	 */
+	 static void toCameraActivity(Context context) {
+		Intent intent = new Intent(context, OnlyCameraPermissionActivity.class);
+		context.startActivity(intent);
+	}
 
 	/**
 	 * @return 增加返回true  未增加返回false
@@ -159,7 +164,7 @@ public class MultiImageControl {
 		mChooseValue.remove(value);
 	}
 
-	protected void commit(Activity context) {
+	void commit(Activity context) {
 		if (crop && (mMode == MODE_SINGLE)) {
 			String[] list = new String[1];
 			mChooseValue.toArray(list);
@@ -173,18 +178,18 @@ public class MultiImageControl {
 	/**
 	 * 结束
 	 */
-	public void toFinish() {
+	void toFinish() {
 		if (multiImageResult != null) {
 			multiImageResult.multiImageResult(mChooseValue);
 		}
 	}
 
 
-	public int getMode() {
+	int getMode() {
 		return mMode;
 	}
 
-	public int getMaxCount() {
+	int getMaxCount() {
 		return mMaxCount;
 	}
 

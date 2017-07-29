@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 
-
 	private void pickImage() {
 		Log.i("Tag", "111111111111");
 //		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN // Permission was added in API Level 16
@@ -89,27 +88,28 @@ public class MainActivity extends AppCompatActivity {
 //					getString(R.string.mis_permission_rationale),
 //					REQUEST_STORAGE_READ_ACCESS_PERMISSION);
 //		} else {
-			Log.i("Tag", "222222222");
-			boolean showCamera = mShowCamera.getCheckedRadioButtonId() == R.id.show;
-			int maxNum = 9;
+		Log.i("Tag", "222222222");
+		boolean showCamera = mShowCamera.getCheckedRadioButtonId() == R.id.show;
+		int maxNum = 9;
 
-			if (!TextUtils.isEmpty(mRequestNum.getText())) {
-				try {
-					maxNum = Integer.valueOf(mRequestNum.getText().toString());
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				}
+		if (!TextUtils.isEmpty(mRequestNum.getText())) {
+			try {
+				maxNum = Integer.valueOf(mRequestNum.getText().toString());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
-			MultiImageSelector selector = new MultiImageSelector(this);
-			selector.showCamera(showCamera).cropPhoto(true);
-			selector.count(maxNum);
-			if (mChoiceMode.getCheckedRadioButtonId() == R.id.single) {
-				selector.count(1);
-			}
+		}
+		MultiImageSelector selector = new MultiImageSelector(this);
+		selector.showCamera(showCamera).cropPhoto(true);
+		selector.count(maxNum);
+		if (mChoiceMode.getCheckedRadioButtonId() == R.id.single) {
+			selector.count(1);
+		}
+
 //		selector.onlyCamera();
-			selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
-				@Override
-				public void multiSelectorImages(Collection<String> result) {
+		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
+			@Override
+			public void multiSelectorImages(Collection<String> result) {
 
 
 //					for (String s : result) {
@@ -117,20 +117,20 @@ public class MainActivity extends AppCompatActivity {
 //						mSelectPath.add(s);
 //					}
 
-					for (String s : mSelectPath) {
-						Log.i("Tag", "345  " + s + "   " + mSelectPath.hashCode());
-					}
-
-					for (String s : result) {
-						Message message = new Message();
-						Bundle bundle = new Bundle();
-						Log.i("Tag", "call back1  " + s);
-						bundle.putString("data", s);
-						message.setData(bundle);
-						handler.sendMessage(message);
-					}
+				for (String s : mSelectPath) {
+					Log.i("Tag", "345  " + s + "   " + mSelectPath.hashCode());
 				}
-			});
+
+				for (String s : result) {
+					Message message = new Message();
+					Bundle bundle = new Bundle();
+					Log.i("Tag", "call back1  " + s);
+					bundle.putString("data", s);
+					message.setData(bundle);
+					handler.sendMessage(message);
+				}
+			}
+		});
 //		}
 	}
 
@@ -241,7 +241,6 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 	}
-
 
 
 }
