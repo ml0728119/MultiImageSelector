@@ -22,9 +22,9 @@ public class MultiImageControl {
 	}
 
 	// Single choice
-	protected static final int MODE_SINGLE = 0;
+	public static final int MODE_SINGLE = 0;
 	// Multi choice
-	protected static final int MODE_MULTI = 1;
+	public static final int MODE_MULTI = 1;
 	protected int mMode = MODE_SINGLE;
 	protected int mMaxCount = 1;
 
@@ -47,29 +47,29 @@ public class MultiImageControl {
 	}
 
 
-	static MultiImageControl getSingleton() {
+	public static MultiImageControl getSingleton() {
 		if (mControl == null) {
 			mControl = new MultiImageControl();
 		}
 		return mControl;
 	}
 
-	LinkedHashSet<String> getChooseValue() {
+	public	LinkedHashSet<String> getChooseValue() {
 		return mChooseValue;
 	}
 
 
-	MultiImageControl onlyCamera() {
+	public	MultiImageControl onlyCamera() {
 		onlyCamera = true;
 		return mControl;
 	}
 
-	MultiImageControl showCamera(boolean show) {
+	public	MultiImageControl showCamera(boolean show) {
 		mShowCamera = show;
 		return mControl;
 	}
 
-	MultiImageControl count(int count) {
+	public MultiImageControl count(int count) {
 		mMaxCount = count;
 		if (mMaxCount <= 1) {
 			mMode = MODE_SINGLE;
@@ -80,7 +80,7 @@ public class MultiImageControl {
 		return mControl;
 	}
 
-	MultiImageControl origin(ArrayList<String> images) {
+	public	MultiImageControl origin(ArrayList<String> images) {
 		if (images != null) {
 			mChooseValue.addAll(images);
 		}
@@ -91,7 +91,7 @@ public class MultiImageControl {
 	/**
 	 * 是否对图片进行裁切  仅对单选图片有效
 	 */
-	MultiImageControl cropPhoto(boolean crop) {
+	public	MultiImageControl cropPhoto(boolean crop) {
 		if (mMode == MODE_SINGLE) {
 			this.crop = crop;
 		}
@@ -99,21 +99,21 @@ public class MultiImageControl {
 	}
 
 
-	MultiImageControl cropWithAspectRatio(float x, float y) {
+	public	MultiImageControl cropWithAspectRatio(float x, float y) {
 		ratioX = x;
 		ratioY = y;
 		return this;
 	}
 
-	float getRatioX() {
+	public	float getRatioX() {
 		return ratioX;
 	}
 
-	float getRatioY() {
+	public	float getRatioY() {
 		return ratioY;
 	}
 
-	void start(Context context, MultiImageResult multiImageCallBack) {
+	public	void start(Context context, MultiImageResult multiImageCallBack) {
 		this.multiImageResult = multiImageCallBack;
 		if (onlyCamera&&mShowCamera) {
 			toCameraActivity(context);
@@ -127,7 +127,7 @@ public class MultiImageControl {
 	/**
 	 * @return 增加返回true  未增加返回false
 	 */
-	boolean addResultImage(Context context, String value) {
+	public boolean addResultImage(Context context, String value) {
 
 		if (mMode == MODE_SINGLE) {
 			mChooseValue.clear();
@@ -142,11 +142,11 @@ public class MultiImageControl {
 		}
 	}
 
-	void removeResultImage(String value) {
+	public	void removeResultImage(String value) {
 		mChooseValue.remove(value);
 	}
 
-	void commit(Activity context) {
+	public	void commit(Activity context) {
 		if (crop && (mMode == MODE_SINGLE)) {
 			String[] list = new String[1];
 			mChooseValue.toArray(list);
@@ -160,22 +160,22 @@ public class MultiImageControl {
 	/**
 	 * 结束
 	 */
-	void toFinish() {
+	public	void toFinish() {
 		if (multiImageResult != null) {
 			multiImageResult.multiImageResult(mChooseValue);
 		}
 	}
 
 
-	int getMode() {
+	public	int getMode() {
 		return mMode;
 	}
 
-	int getMaxCount() {
+	public	int getMaxCount() {
 		return mMaxCount;
 	}
 
-	void dis() {
+	public	void dis() {
 		mChooseValue.clear();
 		mControl = null;
 	}
@@ -183,7 +183,7 @@ public class MultiImageControl {
 	/**
 	 * 去选择页
 	 */
-	void toMultiImageSelectorActivity(Context context) {
+	public	void toMultiImageSelectorActivity(Context context) {
 		Intent intent = new Intent(context, MultiImageSelectorActivity.class);
 		intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, mShowCamera);
 		intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, mMaxCount);
@@ -194,7 +194,7 @@ public class MultiImageControl {
 	/**
 	 * 去相机
 	 */
-	static void toCameraActivity(Context context) {
+	public	static void toCameraActivity(Context context) {
 		Intent intent = new Intent(context, OnlyCameraPermissionActivity.class);
 		context.startActivity(intent);
 	}
@@ -202,7 +202,7 @@ public class MultiImageControl {
 	/**
 	 * @param fromCropPath 文件的绝对路径
 	 */
-	void toCrop(String fromCropPath, Activity context) {
+	public	void toCrop(String fromCropPath, Activity context) {
 		Intent intent = new Intent(context, CropResultActivity.class);
 		intent.putExtra("fromPath", fromCropPath);
 		context.startActivity(intent);
