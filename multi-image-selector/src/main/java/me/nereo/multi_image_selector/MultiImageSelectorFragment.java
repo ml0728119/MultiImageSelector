@@ -269,7 +269,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	public boolean onCheck(int position, Image image, boolean isCheck) {
 		if (isCheck) {
 			boolean show = mCallback.onImageSelected(image.path);//单选时，选择其他图片时需要刷新页面
-			if (MultiImageControl.mMode == MultiImageControl.MODE_SINGLE) {
+			if (MultiImageControl.getSingleton().getMode() == MultiImageControl.MODE_SINGLE) {
 				mImageAdapter.notifyDataSetChanged();
 			}
 			return show;

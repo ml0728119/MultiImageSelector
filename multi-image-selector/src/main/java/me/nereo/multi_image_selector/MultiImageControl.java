@@ -25,7 +25,7 @@ public class MultiImageControl {
 	protected static final int MODE_SINGLE = 0;
 	// Multi choice
 	protected static final int MODE_MULTI = 1;
-	protected static int mMode = MODE_SINGLE;
+	protected int mMode = MODE_SINGLE;
 	protected int mMaxCount = 1;
 
 	private static final String EXTRA_RESULT = MultiImageSelectorActivity.EXTRA_RESULT;
@@ -115,7 +115,7 @@ public class MultiImageControl {
 
 	void start(Context context, MultiImageResult multiImageCallBack) {
 		this.multiImageResult = multiImageCallBack;
-		if (onlyCamera) {
+		if (onlyCamera&&mShowCamera) {
 			toCameraActivity(context);
 		} else {
 			toMultiImageSelectorActivity(context);
@@ -125,31 +125,13 @@ public class MultiImageControl {
 	}
 
 	/**
-	 * 去选择页
-	 */
-	  void toMultiImageSelectorActivity(Context context) {
-		Intent intent = new Intent(context, MultiImageSelectorActivity.class);
-		intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, mShowCamera);
-		intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, mMaxCount);
-		intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, mMode);
-		context.startActivity(intent);
-	}
-
-	/**
-	 * 去相机
-	 */
-	 static void toCameraActivity(Context context) {
-		Intent intent = new Intent(context, OnlyCameraPermissionActivity.class);
-		context.startActivity(intent);
-	}
-
-	/**
 	 * @return 增加返回true  未增加返回false
 	 */
 	boolean addResultImage(Context context, String value) {
 
 		if (mMode == MODE_SINGLE) {
 			mChooseValue.clear();
+
 		}
 		if (mMaxCount <= mChooseValue.size()) {
 			Toast.makeText(context, context.getString(R.string.mis_max_count, mMaxCount), Toast.LENGTH_SHORT).show();
@@ -196,6 +178,25 @@ public class MultiImageControl {
 	void dis() {
 		mChooseValue.clear();
 		mControl = null;
+	}
+
+	/**
+	 * 去选择页
+	 */
+	void toMultiImageSelectorActivity(Context context) {
+		Intent intent = new Intent(context, MultiImageSelectorActivity.class);
+		intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, mShowCamera);
+		intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, mMaxCount);
+		intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, mMode);
+		context.startActivity(intent);
+	}
+
+	/**
+	 * 去相机
+	 */
+	static void toCameraActivity(Context context) {
+		Intent intent = new Intent(context, OnlyCameraPermissionActivity.class);
+		context.startActivity(intent);
 	}
 
 	/**
