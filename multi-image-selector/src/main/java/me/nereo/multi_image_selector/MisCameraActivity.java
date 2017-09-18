@@ -25,8 +25,8 @@ import java.io.OutputStream;
 /**
  * 说明:相机
  *
- * @author: 吕飞
- * @since: 2016-10-31
+ * @author: 胡俊杰
+ * @since: 2016-12-12
  * Copyright:恒信汽车电子商务有限公司
  */
 public class MisCameraActivity extends Activity implements OnClickListener {
@@ -68,7 +68,7 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 	}
 
 	protected void initView() {
-		mPreviewLayout = (RelativeLayout)findViewById(R.id.mis_preview_layout);
+		mPreviewLayout = (RelativeLayout) findViewById(R.id.mis_preview_layout);
 		mCameraLayout = (RelativeLayout) findViewById(R.id.mis_camera_layout);
 		mCameraView = (CameraView) findViewById(R.id.mis_camera);
 		if (mCameraView != null) {
@@ -213,5 +213,12 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	public void switch_camera(View view) {
+		if (mCameraView != null) {
+			int facing = mCameraView.getFacing();
+			mCameraView.setFacing(facing == CameraView.FACING_FRONT ?
+					CameraView.FACING_BACK : CameraView.FACING_FRONT);
+		}
+	}
 
 }

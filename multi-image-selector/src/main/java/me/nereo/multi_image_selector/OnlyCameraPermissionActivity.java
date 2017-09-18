@@ -15,8 +15,8 @@ import java.io.File;
 /**
  * 说明:相机
  *
- * @author: 吕飞
- * @since: 2016-10-31
+ * @author: 胡俊杰
+ * @since: 2017-7-1
  * Copyright:恒信汽车电子商务有限公司
  */
 public class OnlyCameraPermissionActivity extends Activity {
