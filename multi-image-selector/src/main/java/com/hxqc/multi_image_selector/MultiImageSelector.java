@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector;
+package com.hxqc.multi_image_selector;
 
 import android.content.Context;
 import android.content.Intent;

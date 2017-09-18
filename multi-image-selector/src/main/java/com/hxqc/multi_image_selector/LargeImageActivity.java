@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector;
+package com.hxqc.multi_image_selector;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -15,13 +15,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.nereo.multi_image_selector.adapter.LargeViewPageAdapter;
-import me.nereo.multi_image_selector.bean.Folder;
-import me.nereo.multi_image_selector.bean.Image;
-import me.nereo.multi_image_selector.view.SubmitButton;
+import com.hxqc.multi_image_selector.R;
 
-import static me.nereo.multi_image_selector.LoadControl.LOADER_ALL;
-import static me.nereo.multi_image_selector.LoadControl.LOADER_CATEGORY;
+import com.hxqc.multi_image_selector.adapter.LargeViewPageAdapter;
+import com.hxqc.multi_image_selector.bean.Folder;
+import com.hxqc.multi_image_selector.bean.Image;
+import com.hxqc.multi_image_selector.view.SubmitButton;
 
 public class LargeImageActivity extends AppCompatActivity implements LoadControl.OnLoadFinishListener {
 
@@ -61,7 +60,7 @@ public class LargeImageActivity extends AppCompatActivity implements LoadControl
 		mLoaderControl.setOnLoadFinishListener(this);
 		Bundle bundle = new Bundle();
 		bundle.putString("path", new File(image.path).getParentFile().getPath());
-		getSupportLoaderManager().initLoader(folderIndex == 0 ? LOADER_ALL : LOADER_CATEGORY, bundle, mLoaderControl.getLoaderCallback());
+		getSupportLoaderManager().initLoader(folderIndex == 0 ? LoadControl.LOADER_ALL : LoadControl.LOADER_CATEGORY, bundle, mLoaderControl.getLoaderCallback());
 
 
 		mSubmitButton = (SubmitButton) findViewById(R.id.mis_commit);

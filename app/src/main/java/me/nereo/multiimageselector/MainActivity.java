@@ -24,7 +24,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import me.nereo.multi_image_selector.MultiImageSelector;
+import com.hxqc.multi_image_selector.MultiImageSelector;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 			Glide.with(MainActivity.this)
 					.load(msg.getData().getString("data"))
 					.centerCrop()
-					.placeholder(me.nereo.multi_image_selector.R.drawable.mis_default_error)
+					.placeholder(R.drawable.mis_default_error)
 					.crossFade()
 					.into(mImageView
 					);

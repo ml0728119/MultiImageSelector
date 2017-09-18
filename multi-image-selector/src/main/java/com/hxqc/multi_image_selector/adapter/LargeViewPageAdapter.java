@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector.adapter;
+package com.hxqc.multi_image_selector.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import me.nereo.multi_image_selector.bean.Image;
+import com.hxqc.multi_image_selector.bean.Image;
 import uk.co.senab.photoview.PhotoView;
 
 /**

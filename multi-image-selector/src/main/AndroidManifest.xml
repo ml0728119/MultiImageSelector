@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="me.nereo.multi_image_selector">
+          package="com.hxqc.multi_image_selector">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -12,11 +12,11 @@
 
     <application android:allowBackup="true">
         <activity
-            android:name=".MultiImageSelectorActivity"
+            android:name="com.hxqc.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".LargeImageActivity"
+            android:name="com.hxqc.multi_image_selector.LargeImageActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
@@ -24,14 +24,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:name=".CropResultActivity"
+            android:name="com.hxqc.multi_image_selector.CropResultActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".MisCameraActivity"
+            android:name="com.hxqc.multi_image_selector.MisCameraActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".OnlyCameraPermissionActivity"
+            android:name="com.hxqc.multi_image_selector.OnlyCameraPermissionActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
     </application>

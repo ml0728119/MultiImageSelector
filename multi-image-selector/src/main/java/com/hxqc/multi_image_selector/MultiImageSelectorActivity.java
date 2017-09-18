@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector;
+package com.hxqc.multi_image_selector;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,12 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.hxqc.multi_image_selector.view.SubmitButton;
+
 import java.io.File;
 import java.util.LinkedHashSet;
 
-import me.nereo.multi_image_selector.view.SubmitButton;
+import com.hxqc.multi_image_selector.R;
 
-import static me.nereo.multi_image_selector.MultiImageControl.MODE_MULTI;
+import static com.hxqc.multi_image_selector.MultiImageControl.MODE_MULTI;
 
 /**
  * Multi image selector

@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector;
+package com.hxqc.multi_image_selector;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,17 +24,18 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.hxqc.multi_image_selector.adapter.FolderAdapter;
+import com.hxqc.multi_image_selector.adapter.ImageGridAdapter;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.nereo.multi_image_selector.adapter.FolderAdapter;
-import me.nereo.multi_image_selector.adapter.ImageGridAdapter;
-import me.nereo.multi_image_selector.bean.Folder;
-import me.nereo.multi_image_selector.bean.Image;
-import me.nereo.multi_image_selector.utils.ScreenUtils;
+import com.hxqc.multi_image_selector.R;
 
-import static me.nereo.multi_image_selector.LoadControl.LOADER_ALL;
+import com.hxqc.multi_image_selector.bean.Folder;
+import com.hxqc.multi_image_selector.bean.Image;
+import com.hxqc.multi_image_selector.utils.ScreenUtils;
 
 /**
  * Multi image selector Fragment
@@ -169,7 +170,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 						mFolderPopupWindow.dismiss();
 
 						if (index == 0) {
-							getActivity().getSupportLoaderManager().restartLoader(LOADER_ALL, null, mLoaderControl.getLoaderCallback());
+							getActivity().getSupportLoaderManager().restartLoader(LoadControl.LOADER_ALL, null, mLoaderControl.getLoaderCallback());
 							mCategoryText.setText(R.string.mis_folder_all);
 							if (showCamera()) {
 								mImageAdapter.setShowCamera(true);

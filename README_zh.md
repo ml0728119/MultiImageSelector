@@ -40,7 +40,7 @@ dependencies {
     <!--Image Selector Entry-->
     <activity
         android:configChanges="orientation|screenSize"
-        android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
+        android:name="MultiImageSelectorActivity" />
 </application>
 ```
 

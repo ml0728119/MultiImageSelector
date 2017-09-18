@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector;
+package com.hxqc.multi_image_selector;
 
 import android.app.Activity;
 import android.os.Build;
@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import com.hxqc.multi_image_selector.R;
 
 /**
  * 说明:相机

@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector;
+package com.hxqc.multi_image_selector;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import me.nereo.multi_image_selector.bean.Folder;
-import me.nereo.multi_image_selector.bean.Image;
+import com.hxqc.multi_image_selector.bean.Folder;
+import com.hxqc.multi_image_selector.bean.Image;
 
 /**
  * Created 胡俊杰

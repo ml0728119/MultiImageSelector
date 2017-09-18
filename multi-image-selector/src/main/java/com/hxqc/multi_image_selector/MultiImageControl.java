@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector;
+package com.hxqc.multi_image_selector;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+
+import com.hxqc.multi_image_selector.R;
 
 /**
  * 图片选择器

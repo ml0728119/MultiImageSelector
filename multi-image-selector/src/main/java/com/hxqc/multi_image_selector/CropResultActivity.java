@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector;
+package com.hxqc.multi_image_selector;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
 
 import java.io.File;
+
+import com.hxqc.multi_image_selector.R;
 
 public class CropResultActivity extends AppCompatActivity {
 	String toFilePath;

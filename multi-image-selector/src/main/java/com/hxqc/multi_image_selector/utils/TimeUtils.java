@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector.utils;
+package com.hxqc.multi_image_selector.utils;
 
 import android.media.ExifInterface;
 

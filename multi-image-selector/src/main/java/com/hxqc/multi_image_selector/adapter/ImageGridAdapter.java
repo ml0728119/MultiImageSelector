@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector.adapter;
+package com.hxqc.multi_image_selector.adapter;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -17,9 +17,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.nereo.multi_image_selector.MultiImageControl;
-import me.nereo.multi_image_selector.R;
-import me.nereo.multi_image_selector.bean.Image;
+import com.hxqc.multi_image_selector.MultiImageControl;
+import com.hxqc.multi_image_selector.R;
+import com.hxqc.multi_image_selector.bean.Image;
 
 /**
  * 图片Adapter

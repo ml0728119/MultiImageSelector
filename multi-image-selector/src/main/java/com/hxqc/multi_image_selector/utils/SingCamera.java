@@ -13,7 +13,7 @@
 //
 //import java.io.IOException;
 //
-//import me.nereo.multi_image_selector.R;
+//import com.hxqc.multi_image_selector.R;
 //
 ///**
 // * Created 胡俊杰

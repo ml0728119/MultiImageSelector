@@ -19,7 +19,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId "me.nereo.multiimageselector"
+        applicationId "com.hxqc.multi_image_selector"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1

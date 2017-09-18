@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector.bean;
+package com.hxqc.multi_image_selector.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

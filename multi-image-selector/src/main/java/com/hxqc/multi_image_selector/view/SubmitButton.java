@@ -1,4 +1,4 @@
-package me.nereo.multi_image_selector.view;
+package com.hxqc.multi_image_selector.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,8 +6,8 @@ import android.widget.Button;
 
 import java.util.LinkedHashSet;
 
-import me.nereo.multi_image_selector.MultiImageControl;
-import me.nereo.multi_image_selector.R;
+import com.hxqc.multi_image_selector.MultiImageControl;
+import com.hxqc.multi_image_selector.R;
 
 /**
  * Created 胡俊杰
