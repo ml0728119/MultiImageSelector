@@ -20,11 +20,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hxqc.multi_image_selector.MultiImageSelector;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import com.hxqc.multi_image_selector.MultiImageSelector;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -211,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
 			Log.i("Tag", "call back2  " + msg.getData().getString("data"));
 			Glide.with(MainActivity.this)
 					.load(msg.getData().getString("data"))
-					.centerCrop()
+//					.centerCrop()
 					.placeholder(R.drawable.mis_default_error)
 					.crossFade()
 					.into(mImageView
@@ -222,9 +221,10 @@ public class MainActivity extends AppCompatActivity {
 
 	public void onclick(View view) {
 //		startPhotoZoom("a", 1, 1);
+//		.cropPhoto(true);
 		MultiImageSelector selector = new MultiImageSelector(this);
-		selector.showCamera(false);
-		selector.count(1).cropPhoto(true);
+		selector.showCamera(true).cropPhoto(false);
+		selector.count(1);
 		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 			@Override
 			public void multiSelectorImages(Collection<String> result) {

@@ -17,8 +17,6 @@ import com.hxqc.multi_image_selector.view.SubmitButton;
 import java.io.File;
 import java.util.LinkedHashSet;
 
-import com.hxqc.multi_image_selector.R;
-
 import static com.hxqc.multi_image_selector.MultiImageControl.MODE_MULTI;
 
 /**
@@ -155,6 +153,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 			sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));
 			MultiImageControl.getSingleton().addResultImage(this, imageFile.getAbsolutePath());
 			MultiImageControl.getSingleton().commit(MultiImageSelectorActivity.this);
+			finish();
 		}
 	}
 

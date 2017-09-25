@@ -22,8 +22,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.hxqc.multi_image_selector.R;
-
 /**
  * 说明:相机
  *
@@ -163,8 +161,11 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 							os.close();
 							MultiImageControl.getSingleton().addResultImage(MisCameraActivity.this, saveFilePath);
 							MultiImageControl.getSingleton().commit(MisCameraActivity.this);
+
 						} catch (IOException e) {
 							// Ignore
+						}finally {
+							finish();
 						}
 					}
 				}

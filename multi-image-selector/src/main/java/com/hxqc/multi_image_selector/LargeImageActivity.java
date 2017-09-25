@@ -11,16 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hxqc.multi_image_selector.R;
-
 import com.hxqc.multi_image_selector.adapter.LargeViewPageAdapter;
 import com.hxqc.multi_image_selector.bean.Folder;
 import com.hxqc.multi_image_selector.bean.Image;
 import com.hxqc.multi_image_selector.view.SubmitButton;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LargeImageActivity extends AppCompatActivity implements LoadControl.OnLoadFinishListener {
 
@@ -68,6 +66,7 @@ public class LargeImageActivity extends AppCompatActivity implements LoadControl
 		mSubmitButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				finish();
 				MultiImageControl.getSingleton().commit(LargeImageActivity.this);
 			}
 		});

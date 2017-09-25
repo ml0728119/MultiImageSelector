@@ -94,5 +94,4 @@ public class OnlyCameraPermissionActivity extends Activity {
 		}
 	}
 
-
 }
