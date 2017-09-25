@@ -27,7 +27,7 @@ public class MultiImageSelector {
 		public void multiImageResult(Collection<String> result) {
 			mChooseValue.addAll(result);
 			commit(context);
-			multiImageControl.dis();
+
 		}
 	};
 
@@ -40,10 +40,13 @@ public class MultiImageSelector {
 	 * 只有相机
 	 */
 	public MultiImageSelector onlyCamera() {
-		multiImageControl.onlyCamera();
+		multiImageControl.onlyCamera(true);
 		return this;
 	}
-
+	public MultiImageSelector onlyCamera(boolean onlyCamera) {
+		multiImageControl.onlyCamera(onlyCamera);
+		return this;
+	}
 	/**
 	 * 是否包含相机 默认包含
 	 */

@@ -63,8 +63,8 @@ public class MultiImageControl {
 	}
 
 
-	public MultiImageControl onlyCamera() {
-		onlyCamera = true;
+	public MultiImageControl onlyCamera(boolean onlyCamera) {
+		this.onlyCamera = onlyCamera;
 		return mControl;
 	}
 
@@ -168,7 +168,7 @@ public class MultiImageControl {
 		if (multiImageResult != null) {
 			multiImageResult.multiImageResult(mChooseValue);
 		}
-		destroy();
+		dis();
 	}
 
 

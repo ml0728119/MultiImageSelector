@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
 //		startPhotoZoom("a", 1, 1);
 //		.cropPhoto(true);
 		MultiImageSelector selector = new MultiImageSelector(this);
-		selector.showCamera(true).cropPhoto(false);
+		selector.showCamera(true).cropPhoto(false).onlyCamera();
 		selector.count(1);
 		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 			@Override
