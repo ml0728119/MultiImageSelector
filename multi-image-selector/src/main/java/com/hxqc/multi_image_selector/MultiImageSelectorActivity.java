@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -71,6 +72,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 		final ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
+
 		}
 
 		final Intent intent = getIntent();
@@ -85,10 +87,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 			@Override
 			public void onClick(View view) {
 				if (resultList != null && resultList.size() > 0) {
-
 					MultiImageControl.getSingleton().commit(MultiImageSelectorActivity.this);
-				} else {
-					setResult(RESULT_CANCELED);
 				}
 				finish();
 			}
@@ -109,9 +108,19 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 	}
 
 	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		Log.i("Tag"," onBackPressed ");
+		MultiImageControl.getSingleton().cancel();
+	}
+
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
+				Log.i("Tag"," onOptionsItemSelectedonOptionsItemSelected ");
+				MultiImageControl.getSingleton().cancel();
 				finish();
 				return true;
 		}

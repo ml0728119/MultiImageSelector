@@ -3,6 +3,7 @@ package com.hxqc.multi_image_selector;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class MultiImageControl {
 	//内部调用
 	interface MultiImageResult {
 		void multiImageResult(Collection<String> result);
+
+		void onCancelResult();
 	}
 
 
@@ -117,16 +120,16 @@ public class MultiImageControl {
 		return ratioY;
 	}
 
-	public void start(Context context, MultiImageResult multiImageCallBack) {
+	public MultiImageControl start(Context context, MultiImageResult multiImageCallBack) {
 		this.multiImageResult = multiImageCallBack;
 		if (onlyCamera && mShowCamera) {
 			toCameraActivity(context);
 		} else {
 			toMultiImageSelectorActivity(context);
-
 		}
-
+		return mControl;
 	}
+
 
 	/**
 	 * @return 增加返回true  未增加返回false
@@ -161,6 +164,14 @@ public class MultiImageControl {
 		}
 	}
 
+	public void cancel() {
+		Log.i("Tag", " con -----cancel    ");
+		if (multiImageResult != null) {
+			multiImageResult.onCancelResult();
+		}
+		dis();
+	}
+
 	/**
 	 * 结束
 	 */
@@ -171,6 +182,9 @@ public class MultiImageControl {
 		dis();
 	}
 
+	public void onCancel() {
+
+	}
 
 	public int getMode() {
 		return mMode;
@@ -179,6 +193,7 @@ public class MultiImageControl {
 	public int getMaxCount() {
 		return mMaxCount;
 	}
+
 
 	public void dis() {
 		mChooseValue.clear();

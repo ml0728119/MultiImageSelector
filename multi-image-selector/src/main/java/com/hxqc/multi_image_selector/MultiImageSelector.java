@@ -2,6 +2,7 @@ package com.hxqc.multi_image_selector;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +30,11 @@ public class MultiImageSelector {
 			commit(context);
 
 		}
+
+		@Override
+		public void onCancelResult() {
+			cancel();
+		}
 	};
 
 	public MultiImageSelector(Context context) {
@@ -43,10 +49,12 @@ public class MultiImageSelector {
 		multiImageControl.onlyCamera(true);
 		return this;
 	}
+
 	public MultiImageSelector onlyCamera(boolean onlyCamera) {
 		multiImageControl.onlyCamera(onlyCamera);
 		return this;
 	}
+
 	/**
 	 * 是否包含相机 默认包含
 	 */
@@ -88,11 +96,28 @@ public class MultiImageSelector {
 	}
 
 
-	public void start(Context context, MultiImageCallBack multiImageCallBack) {
+	public MultiImageSelector start(Context context, MultiImageCallBack multiImageCallBack) {
 		multiImageControl.start(context, multiImageResult);
 		this.multiImageCallBack = multiImageCallBack;
+		return this;
 	}
 
+	public interface MultiCancelListener {
+		void onCancel();
+	}
+
+	private MultiCancelListener multiCancelListener;
+
+	public void setOnCancelListener(MultiCancelListener multiCancelListener) {
+		this.multiCancelListener = multiCancelListener;
+	}
+
+	public void cancel() {
+		Log.i("Tag", " cancel    ");
+		if (multiCancelListener != null) {
+			multiCancelListener.onCancel();
+		}
+	}
 
 	private void commit(Context context) {
 		if (multiImageCallBack != null) {
@@ -102,6 +127,7 @@ public class MultiImageSelector {
 		intent.setClassName(context, this.context.getClass().getName());
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		context.startActivity(intent);
+
 	}
 
 	private MultiImageCallBack multiImageCallBack;

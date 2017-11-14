@@ -228,9 +228,7 @@ public class MainActivity extends AppCompatActivity {
 		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 			@Override
 			public void multiSelectorImages(Collection<String> result) {
-
 				for (String s : result) {
-
 					Message message = new Message();
 					Bundle bundle = new Bundle();
 //					Log.i("Tag", "call back1  " + s);
@@ -238,6 +236,11 @@ public class MainActivity extends AppCompatActivity {
 					message.setData(bundle);
 					handler.sendMessage(message);
 				}
+			}
+		}).setOnCancelListener(new MultiImageSelector.MultiCancelListener() {
+			@Override
+			public void onCancel() {
+				Log.i("Tag", " 1111111111111111111   ");
 			}
 		});
 	}
