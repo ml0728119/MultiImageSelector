@@ -95,6 +95,7 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 				mCameraView.takePicture();
 			}
 		} else if (i == R.id.mis_cancel) {
+			MultiImageControl.getSingleton().cancel();
 			finish();
 		} else if (i == R.id.mis_flash) {
 			if (mCameraView != null) {
@@ -103,6 +104,12 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 				mCameraView.setFlash(FLASH_OPTIONS[mCurrentFlash]);
 			}
 		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		MultiImageControl.getSingleton().cancel();
 	}
 
 	@Override
