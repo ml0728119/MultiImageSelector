@@ -3,7 +3,6 @@ package com.hxqc.multi_image_selector;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -164,8 +163,10 @@ public class MultiImageControl {
 		}
 	}
 
+	/**
+	 * 点击返回键  直接取消选图
+	 */
 	public void cancel() {
-		Log.i("Tag", " con -----cancel    ");
 		if (multiImageResult != null) {
 			multiImageResult.onCancelResult();
 		}
@@ -180,10 +181,6 @@ public class MultiImageControl {
 			multiImageResult.multiImageResult(mChooseValue);
 		}
 		dis();
-	}
-
-	public void onCancel() {
-
 	}
 
 	public int getMode() {

@@ -2,7 +2,6 @@ package com.hxqc.multi_image_selector;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -102,18 +101,23 @@ public class MultiImageSelector {
 		return this;
 	}
 
+	/**
+	 * 点击返回键 回调
+	 */
 	public interface MultiCancelListener {
 		void onCancel();
 	}
 
 	private MultiCancelListener multiCancelListener;
 
+	/**
+	 * 点击返回键 回调
+	 */
 	public void setOnCancelListener(MultiCancelListener multiCancelListener) {
 		this.multiCancelListener = multiCancelListener;
 	}
 
 	public void cancel() {
-		Log.i("Tag", " cancel    ");
 		if (multiCancelListener != null) {
 			multiCancelListener.onCancel();
 		}
