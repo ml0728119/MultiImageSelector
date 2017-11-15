@@ -113,8 +113,9 @@ public class MultiImageSelector {
 	/**
 	 * 点击返回键 回调
 	 */
-	public void setOnCancelListener(MultiCancelListener multiCancelListener) {
+	public MultiImageSelector setOnCancelListener(MultiCancelListener multiCancelListener) {
 		this.multiCancelListener = multiCancelListener;
+		return this;
 	}
 
 	public void cancel() {
