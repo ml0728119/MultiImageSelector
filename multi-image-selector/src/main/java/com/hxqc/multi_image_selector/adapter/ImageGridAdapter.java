@@ -12,14 +12,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
+import com.hxqc.multi_image_selector.MultiImageControl;
+import com.hxqc.multi_image_selector.R;
+import com.hxqc.multi_image_selector.bean.Image;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.hxqc.multi_image_selector.MultiImageControl;
-import com.hxqc.multi_image_selector.R;
-import com.hxqc.multi_image_selector.bean.Image;
 
 /**
  * 图片Adapter
@@ -191,12 +192,16 @@ public class ImageGridAdapter extends BaseAdapter {
 
 			File imageFile = new File(data.path);
 			if (imageFile.exists()) {
-				Glide.with(mContext)
-						.load(data.path)
+				RequestOptions options = new RequestOptions()
 						.centerCrop()
 						.placeholder(R.drawable.mis_default_error)
-						.crossFade()
+						.error(R.drawable.mis_default_error)
+						.priority(Priority.HIGH);
+				Glide.with(mContext)
+						.load(data.path)
+						.apply(options)
 						.into(image);
+
 
 			} else {
 				image.setImageResource(R.drawable.mis_default_error);

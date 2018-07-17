@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 25
+    compileSdkVersion 27
     signingConfigs {
         debug {
             keyAlias 'wuhanhxqc'
@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId "com.hxqc.multi_image_selector"
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 //        multiDexEnabled true
@@ -44,9 +44,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile project(':multi-image-selector')
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.android.support:appcompat-v7:27.1.1'
+    api project(':multi-image-selector')
 //    compile 'com.github.ml0728119:MultiImageSelector:1.6.1'
 //   compile 'com.github.ml0728119:MultiImageSelector:4d0bee9088'
 }

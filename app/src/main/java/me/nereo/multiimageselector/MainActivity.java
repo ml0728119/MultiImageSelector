@@ -19,8 +19,8 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hxqc.multi_image_selector.MultiImageSelector;
+import com.hxqc.multi_image_selector.utils.LoadImage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -207,14 +207,8 @@ public class MainActivity extends AppCompatActivity {
 		public boolean handleMessage(Message msg) {
 
 //			startPhotoZoom(msg.getData().getString("data"));
-			Log.i("Tag", "call back2  " + msg.getData().getString("data"));
-			Glide.with(MainActivity.this)
-					.load(msg.getData().getString("data"))
-//					.centerCrop()
-					.placeholder(R.drawable.mis_default_error)
-					.crossFade()
-					.into(mImageView
-					);
+
+			LoadImage.loadImage(MainActivity.this,mImageView,msg.getData().getString("data"));
 			return false;
 		}
 	});
@@ -231,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
 				for (String s : result) {
 					Message message = new Message();
 					Bundle bundle = new Bundle();
-//					Log.i("Tag", "call back1  " + s);
 					bundle.putString("data", s);
 					message.setData(bundle);
 					handler.sendMessage(message);
@@ -240,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
 		}).setOnCancelListener(new MultiImageSelector.MultiCancelListener() {
 			@Override
 			public void onCancel() {
-				Log.i("Tag", " 1111111111111111111   ");
 			}
 		});
 	}

@@ -9,12 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
+import com.hxqc.multi_image_selector.R;
+import com.hxqc.multi_image_selector.bean.Folder;
+import com.hxqc.multi_image_selector.utils.LoadImage;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.hxqc.multi_image_selector.R;
-import com.hxqc.multi_image_selector.bean.Folder;
 
 /**
  * 文件夹Adapter
@@ -85,13 +87,17 @@ public class FolderAdapter extends BaseAdapter {
                 if(mFolders.size()>0){
                     Folder f = mFolders.get(0);
                     if (f != null) {
-                        Glide
-                                .with(mContext)
-                                .load(f.cover.path)
+                        RequestOptions options = new RequestOptions()
                                 .centerCrop()
                                 .placeholder(R.drawable.mis_default_error)
-                                .crossFade()
+                                .error(R.drawable.mis_default_error)
+                                .priority(Priority.HIGH);
+                        Glide.with(mContext)
+                                .load(f.cover.path)
+                                .apply(options)
                                 .into(holder.cover);
+
+
 
                     }else{
                         holder.cover.setImageResource(R.drawable.mis_default_error);
@@ -158,13 +164,8 @@ public class FolderAdapter extends BaseAdapter {
             }
             if (data.cover != null) {
                 // 显示图片
-                Glide
-                        .with(mContext)
-                        .load(data.cover.path)
-                        .centerCrop()
-                        .placeholder(R.drawable.mis_default_error)
-                        .crossFade()
-                        .into(cover);
+
+                LoadImage.loadImage(mContext,cover,data.cover.path);
             }else{
                 cover.setImageResource(R.drawable.mis_default_error);
             }
