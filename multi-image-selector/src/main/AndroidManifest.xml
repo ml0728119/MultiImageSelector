@@ -32,7 +32,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.hxqc.multi_image_selector.OnlyCameraPermissionActivity"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
     </application>
 
