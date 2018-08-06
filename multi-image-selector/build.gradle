@@ -27,5 +27,6 @@ dependencies {
 
 //    api 'com.github.ml0728119:cameraview:0.0.2'
     api 'com.hxqc:cameraview:1.0.1'
+    api deps.permission
 }
 

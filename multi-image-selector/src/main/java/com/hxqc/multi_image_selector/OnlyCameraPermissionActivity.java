@@ -3,14 +3,14 @@ package com.hxqc.multi_image_selector;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 
 import java.io.File;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 说明:相机
@@ -23,27 +23,24 @@ public class OnlyCameraPermissionActivity extends Activity {
 	private static final int REQUEST_CAMERA = 100;
 	private File mTmpFile;
 
+	final static int RC_CAMERA=1000;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		methodRequiresCameraPermission();
+		methodRequiresTwoPermission();
 	}
 
-	private void methodRequiresCameraPermission() {
 
-
-		boolean a=	ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA);
+	@AfterPermissionGranted(RC_CAMERA)
+	private void methodRequiresTwoPermission() {
 		String[] perms = {Manifest.permission.CAMERA};
-		if (android.os.Build.VERSION.SDK_INT >= 23) {
-			if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-				//申请WRITE_EXTERNAL_STORAGE权限
-				ActivityCompat.requestPermissions(this, perms, 123);//自定义的code
-
-			} else {
-				showCameraAction();
-			}
-		} else {
+		if (EasyPermissions.hasPermissions(this, perms)) {
 			showCameraAction();
+			finish();
+		} else {
+			// Do not have permissions, request them now
+			EasyPermissions.requestPermissions(this, "请设置照相机权限",
+					RC_CAMERA, perms);
 		}
 	}
 
@@ -54,22 +51,9 @@ public class OnlyCameraPermissionActivity extends Activity {
 	}
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		// Forward results to EasyPermissions
-		if (permissions.length <= 0 || grantResults.length <= 0) return;
-		if (requestCode == 123) {
-			for (int i = 0; i < permissions.length; i++) {
-				switch (permissions[i]) {
-					case Manifest.permission.CAMERA:
-						if (grantResults[i] == 0) {
-							showCameraAction();
-						}else {
-							finish();
-						}
-						break;
-				}
-			}
-		}
+		EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
 	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

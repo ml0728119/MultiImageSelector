@@ -1,11 +1,13 @@
 package com.hxqc.multi_image_selector;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -116,12 +118,37 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 
-		mCameraView.start();
+		try {
+			mCameraView.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("提示")
+					.setMessage("请前往系统设置，开启相机权限").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();
+						}
+					});
+			builder.create().show();
+		}
 	}
 
 	@Override
 	protected void onPause() {
-		mCameraView.stop();
+		try {
+			mCameraView.stop();
+		} catch (Exception e) {
+			e.printStackTrace();
+			AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("提示")
+					.setMessage("请前往系统设置，开启相机权限").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();
+						}
+					});
+			builder.create().show();
+		}
 		super.onPause();
 	}
 
@@ -171,7 +198,7 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 
 						} catch (IOException e) {
 							// Ignore
-						}finally {
+						} finally {
 							finish();
 						}
 					}

@@ -1,6 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    apply from: 'http://10.0.15.218/HXBusiness_Android/doc/raw/develop/versions.gradle'
     repositories {
         jcenter()
         mavenCentral()
