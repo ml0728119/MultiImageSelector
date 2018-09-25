@@ -15,30 +15,34 @@
     <RelativeLayout android:alpha="0.8"
         android:id="@+id/bottom"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <TextView
+        <Button
             android:id="@+id/mis_repetition"
-            android:layout_width="80dp"
-            android:layout_height="48dp" android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:gravity="center"
             android:layout_centerVertical="true"
             android:layout_marginLeft="48dp"
             android:text="重拍"
-            android:textColor="#dcdcdc"
+            android:textStyle="bold" android:alpha="0.8"
+            android:background="#000000"
+            android:textColor="#fff"
             android:textSize="14sp"/>
 
 
-        <TextView
+        <Button
             android:id="@+id/mis_commit"
-            android:layout_width="80dp"
-            android:layout_height="48dp" android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:gravity="center"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="48dp"
             android:text="使用照片"
-            android:textColor="#dcdcdc"
+            android:textStyle="bold" android:alpha="0.8"
+            android:background="#000000"
+            android:textColor="#fff"
             android:textSize="14sp"
             />
     </RelativeLayout>
