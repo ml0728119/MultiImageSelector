@@ -43,6 +43,7 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 	RelativeLayout mPreviewLayout;
 	RelativeLayout mCameraLayout;
 	private CameraView mCameraView;
+	String saveFilePath;
 	public static final String PHOTO_PATH = "photo_path";
 	private static final int[] FLASH_OPTIONS = {
 			CameraView.FLASH_AUTO,
@@ -117,19 +118,19 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		try {
 			mCameraView.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("提示")
-					.setMessage("请前往系统设置，开启相机权限").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							finish();
-						}
-					});
+					.setMessage("请前往系统设置，开启相机权限").setPositiveButton("确定",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									finish();
+								}
+							});
 			builder.create().show();
 		}
 	}
@@ -152,8 +153,7 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 		super.onPause();
 	}
 
-	private CameraView.Callback mCallback
-			= new CameraView.Callback() {
+	private CameraView.Callback mCallback = new CameraView.Callback() {
 
 		@Override
 		public void onCameraOpened(CameraView cameraView) {
@@ -169,9 +169,10 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 		public void onPictureTaken(CameraView cameraView, final byte[] data) {
 //			Log.d(TAG, "onPictureTaken " + data.length);
 			showPreview(data);
+
 		}
 	};
-	String saveFilePath;
+
 
 	private void saveFile(final byte[] data) {
 		getBackgroundHandler().post(new Runnable() {
@@ -223,6 +224,7 @@ public class MisCameraActivity extends Activity implements OnClickListener {
 			public void onClick(View v) {
 				mPreviewLayout.setVisibility(View.GONE);
 				mCameraLayout.setVisibility(View.VISIBLE);
+
 			}
 		});
 		Glide.with(this).load(data).into(mPreviewView);
