@@ -208,6 +208,8 @@ public class MultiImageControl {
 
 
 	public void dis() {
+		mCoverView=null;
+		mCoverLayoutID=0;
 		mChooseValue.clear();
 		mControl = null;
 	}
