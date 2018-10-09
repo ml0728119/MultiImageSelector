@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply from: './gradle-mvn-push.gradle'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 27
 
@@ -28,5 +30,9 @@ dependencies {
 //    api 'com.github.ml0728119:cameraview:0.0.2'
     api 'com.hxqc:cameraview:1.0.2'
     api deps.permission
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
 

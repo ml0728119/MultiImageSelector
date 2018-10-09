@@ -2,6 +2,7 @@ package com.hxqc.multi_image_selector;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -86,6 +87,14 @@ public class MultiImageSelector {
 		return this;
 	}
 
+	public MultiImageSelector coverView(int layoutID) {
+		multiImageControl.coverView(layoutID);
+		return this;
+	}
+	public MultiImageSelector coverView(View coverView) {
+		multiImageControl.coverView(coverView);
+		return this;
+	}
 	/**
 	 * 比例裁切
 	 */

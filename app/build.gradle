@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 27
     signingConfigs {
@@ -47,6 +49,10 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.android.support:appcompat-v7:27.1.1'
     api project(':multi-image-selector')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 //    compile 'com.github.ml0728119:MultiImageSelector:1.6.1'
 //   compile 'com.github.ml0728119:MultiImageSelector:4d0bee9088'
+}
+repositories {
+    mavenCentral()
 }

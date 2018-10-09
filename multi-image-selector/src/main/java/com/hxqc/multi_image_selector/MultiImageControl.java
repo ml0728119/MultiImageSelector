@@ -3,6 +3,7 @@ package com.hxqc.multi_image_selector;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -36,6 +37,9 @@ public class MultiImageControl {
 	private MultiImageResult multiImageResult;
 	private boolean onlyCamera = false;//只有相机
 	private float ratioX = 16, ratioY = 9;
+
+	protected View mCoverView = null;
+	protected int mCoverLayoutID = 0;
 
 	//内部调用
 	interface MultiImageResult {
@@ -108,6 +112,17 @@ public class MultiImageControl {
 	public MultiImageControl cropWithAspectRatio(float x, float y) {
 		ratioX = x;
 		ratioY = y;
+		return this;
+	}
+
+
+	public MultiImageControl coverView(int layoutID) {
+		this.mCoverLayoutID = layoutID;
+		return this;
+	}
+
+	public MultiImageControl coverView(View coverView) {
+		this.mCoverView = coverView;
 		return this;
 	}
 

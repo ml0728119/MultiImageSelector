@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -101,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
 		MultiImageSelector selector = new MultiImageSelector(this);
 		selector.showCamera(showCamera).cropPhoto(true);
 		selector.count(maxNum);
+//		selector.coverView(R.layout.cover_layout);
+		selector.coverView(LayoutInflater.from(this).inflate(R.layout.cover_layout,null,false));
 		if (mChoiceMode.getCheckedRadioButtonId() == R.id.single) {
 			selector.count(1);
 		}

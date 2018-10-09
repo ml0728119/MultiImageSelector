@@ -26,16 +26,13 @@ import android.widget.TextView;
 
 import com.hxqc.multi_image_selector.adapter.FolderAdapter;
 import com.hxqc.multi_image_selector.adapter.ImageGridAdapter;
+import com.hxqc.multi_image_selector.bean.Folder;
+import com.hxqc.multi_image_selector.bean.Image;
+import com.hxqc.multi_image_selector.utils.ScreenUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.hxqc.multi_image_selector.R;
-
-import com.hxqc.multi_image_selector.bean.Folder;
-import com.hxqc.multi_image_selector.bean.Image;
-import com.hxqc.multi_image_selector.utils.ScreenUtils;
 
 /**
  * Multi image selector Fragment
@@ -134,6 +131,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 		});
 
 		mGridView = (GridView) view.findViewById(R.id.image_grid);
+		mGridView.setNumColumns(3);
 		mGridView.setAdapter(mImageAdapter);
 		mImageAdapter.setOnImageSelectorListener(this);
 
