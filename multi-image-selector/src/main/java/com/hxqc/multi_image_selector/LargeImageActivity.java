@@ -14,7 +14,6 @@ import android.widget.CheckBox;
 import com.hxqc.multi_image_selector.adapter.LargeViewPageAdapter;
 import com.hxqc.multi_image_selector.bean.Folder;
 import com.hxqc.multi_image_selector.bean.Image;
-import com.hxqc.multi_image_selector.view.SubmitButton;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -67,7 +66,7 @@ public class LargeImageActivity extends AppCompatActivity implements LoadControl
 			@Override
 			public void onClick(View v) {
 				finish();
-				MultiImageControl.getSingleton().commit(LargeImageActivity.this);
+				MultiImageSelector.multiImageControl.commit(LargeImageActivity.this);
 			}
 		});
 		mCheckBox = (CheckBox) findViewById(R.id.checkmark);
@@ -101,12 +100,12 @@ public class LargeImageActivity extends AppCompatActivity implements LoadControl
 				int position = mViewPage.getCurrentItem();
 				if (mCheckBox.isChecked()) {
 
-					boolean add = MultiImageControl.getSingleton().addResultImage(LargeImageActivity.this, datas.get(position).path);
+					boolean add = MultiImageSelector.multiImageControl.addResultImage(LargeImageActivity.this, datas.get(position).path);
 					if (!add) {
 						mCheckBox.setChecked(false);
 					}
 				} else {
-					MultiImageControl.getSingleton().removeResultImage(datas.get(position).path);
+					MultiImageSelector.multiImageControl.removeResultImage(datas.get(position).path);
 				}
 				mSubmitButton.updateDoneText();
 			}
@@ -121,7 +120,7 @@ public class LargeImageActivity extends AppCompatActivity implements LoadControl
 	private void checkState(int position) {
 		if (position == -1) return;
 		String path = datas.get(position).path;
-		if (MultiImageControl.getSingleton().getChooseValue().contains(path)) {
+		if (MultiImageSelector.multiImageControl.getChooseValue().contains(path)) {
 			mCheckBox.setChecked(true);
 		} else {
 			mCheckBox.setChecked(false);

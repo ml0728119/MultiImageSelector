@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
-import com.hxqc.multi_image_selector.MultiImageControl;
+import com.hxqc.multi_image_selector.MultiImageSelector;
 import com.hxqc.multi_image_selector.R;
 import com.hxqc.multi_image_selector.bean.Image;
 
@@ -179,7 +179,7 @@ public class ImageGridAdapter extends BaseAdapter {
 			if (data == null) return;
 			// 处理单选和多选状态
 			indicator.setVisibility(View.VISIBLE);
-			if (MultiImageControl.getSingleton().getChooseValue().contains(data.path)) {
+			if (MultiImageSelector.multiImageControl.getChooseValue().contains(data.path)) {
 				// 设置选中状态
 				indicator.setChecked(true);
 				mask.setVisibility(View.VISIBLE);
@@ -201,7 +201,6 @@ public class ImageGridAdapter extends BaseAdapter {
 						.load(data.path)
 						.apply(options)
 						.into(image);
-
 
 			} else {
 				image.setImageResource(R.drawable.mis_default_error);

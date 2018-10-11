@@ -14,7 +14,7 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:minHeight="?android:attr/actionBarSize">
 
-        <com.hxqc.multi_image_selector.view.SubmitButton
+        <com.hxqc.multi_image_selector.SubmitButton
             android:id="@+id/mis_commit"
             android:background="@drawable/mis_action_btn"
             android:minHeight="1dp"

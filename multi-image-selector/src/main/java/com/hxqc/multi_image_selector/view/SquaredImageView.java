@@ -2,10 +2,9 @@ package com.hxqc.multi_image_selector.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 /** An image view which always remains square with respect to its width. */
-class SquaredImageView extends ImageView {
+class SquaredImageView extends android.support.v7.widget.AppCompatImageView {
   public SquaredImageView(Context context) {
     super(context);
   }

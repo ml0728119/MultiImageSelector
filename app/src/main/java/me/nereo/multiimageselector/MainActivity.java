@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 		selector.showCamera(showCamera).cropPhoto(true);
 		selector.count(maxNum);
 //		selector.coverView(R.layout.cover_layout);
-		selector.coverView(LayoutInflater.from(this).inflate(R.layout.cover_layout,null,false));
+		selector.coverView(LayoutInflater.from(this).inflate(R.layout.cover_layout, null, false));
 		if (mChoiceMode.getCheckedRadioButtonId() == R.id.single) {
 			selector.count(1);
 		}
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
 //			startPhotoZoom(msg.getData().getString("data"));
 
-			LoadImage.loadImage(MainActivity.this,mImageView,msg.getData().getString("data"));
+			LoadImage.loadImage(MainActivity.this, mImageView, msg.getData().getString("data"));
 			return false;
 		}
 	});
@@ -222,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
 		MultiImageSelector selector = new MultiImageSelector(this);
 		selector.showCamera(true).onlyCamera().coverView(R.layout.crm_camera_id_layout);
 		selector.count(1).cropPhoto(true);
+
 		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 			@Override
 			public void multiSelectorImages(Collection<String> result) {
@@ -238,6 +239,9 @@ public class MainActivity extends AppCompatActivity {
 			public void onCancel() {
 			}
 		});
+
+
+
 	}
 
 

@@ -14,8 +14,6 @@ import com.yalantis.ucrop.UCropActivity;
 
 import java.io.File;
 
-import com.hxqc.multi_image_selector.R;
-
 public class CropResultActivity extends AppCompatActivity {
 	String toFilePath;
 	@Override
@@ -31,7 +29,7 @@ public class CropResultActivity extends AppCompatActivity {
 		Uri to = toFilePath(context);
 
 		UCrop uCrop = UCrop.of(from, to);
-		uCrop = uCrop.withAspectRatio(MultiImageControl.getSingleton().getRatioX(), MultiImageControl.getSingleton().getRatioY());
+		uCrop = uCrop.withAspectRatio(MultiImageSelector.multiImageControl.getRatioX(), MultiImageSelector.multiImageControl.getRatioY());
 		UCrop.Options options = new UCrop.Options();
 		options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
 		options.setCompressionQuality(90);
@@ -46,6 +44,7 @@ public class CropResultActivity extends AppCompatActivity {
 	private Uri toFilePath(Activity context) {
 		File toFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "crop_" + System.currentTimeMillis() + ".jpg");
 		toFilePath = toFile.getPath();
+
 		return Uri.fromFile(toFile);
 	}
 
@@ -55,8 +54,8 @@ public class CropResultActivity extends AppCompatActivity {
 		if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
 			final Uri resultUri = UCrop.getOutput(data);
 
-			MultiImageControl.getSingleton().addResultImage(CropResultActivity.this, toFilePath);
-			MultiImageControl.getSingleton().toFinish();
+			MultiImageSelector.multiImageControl.addResultImage(CropResultActivity.this, toFilePath);
+			MultiImageSelector.multiImageControl.toFinish();
 		} else if (resultCode == UCrop.RESULT_ERROR) {
 			final Throwable cropError = UCrop.getError(data);
 		}

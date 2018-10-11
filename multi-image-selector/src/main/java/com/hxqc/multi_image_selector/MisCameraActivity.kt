@@ -96,11 +96,11 @@ class MisCameraActivity : Activity(), OnClickListener {
         mPreviewView = findViewById<View>(R.id.mis_preview) as ImageView
         mCommitView = findViewById<View>(R.id.mis_commit) as TextView
         mRepetitionView = findViewById<View>(R.id.mis_repetition) as TextView
-        if (MultiImageControl.getSingleton().mCoverView != null) {
-            mis_cover_layout.addView(MultiImageControl.getSingleton().mCoverView)
+        if (MultiImageSelector.multiImageControl.mCoverView != null) {
+            mis_cover_layout.addView(MultiImageSelector.multiImageControl.mCoverView)
         }
-        if (MultiImageControl.getSingleton().mCoverLayoutID != 0) {
-            mis_cover_layout.addView(LayoutInflater.from(this).inflate(MultiImageControl.getSingleton().mCoverLayoutID, null, false))
+        if (MultiImageSelector.multiImageControl.mCoverLayoutID != 0) {
+            mis_cover_layout.addView(LayoutInflater.from(this).inflate(MultiImageSelector.multiImageControl.mCoverLayoutID, null, false))
         }
     }
 
@@ -111,7 +111,7 @@ class MisCameraActivity : Activity(), OnClickListener {
                 mCameraView!!.takePicture()
             }
         } else if (i == R.id.mis_cancel) {
-            MultiImageControl.getSingleton().cancel()
+         MultiImageSelector.multiImageControl.cancel()
             finish()
         } else if (i == R.id.mis_flash) {
             if (mCameraView != null) {
@@ -124,7 +124,7 @@ class MisCameraActivity : Activity(), OnClickListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        MultiImageControl.getSingleton().cancel()
+     MultiImageSelector.multiImageControl.cancel()
     }
 
     override fun onResume() {
@@ -173,8 +173,8 @@ class MisCameraActivity : Activity(), OnClickListener {
                 if (os != null) {
                     try {
                         os.close()
-                        MultiImageControl.getSingleton().addResultImage(this@MisCameraActivity, saveFilePath)
-                        MultiImageControl.getSingleton().commit(this@MisCameraActivity)
+                     MultiImageSelector.multiImageControl.addResultImage(this@MisCameraActivity, saveFilePath)
+                     MultiImageSelector.multiImageControl.commit(this@MisCameraActivity)
 
                     } catch (e: IOException) {
                         // Ignore

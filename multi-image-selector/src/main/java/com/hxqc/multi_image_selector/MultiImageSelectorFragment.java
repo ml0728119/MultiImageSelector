@@ -100,7 +100,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 //		final int mode = selectMode();
 //		if (mode == MODE_MULTI) {
-//			resultList = MultiImageControl.getSingleton().getChooseValue();
+//			resultList = MultiImageSelector.multiImageControl().getChooseValue();
 //		}
 		mLoaderControl = new LoadControl(getContext());
 		mLoaderControl.setOnLoadFinishListener(this);
@@ -268,7 +268,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 	public boolean onCheck(int position, Image image, boolean isCheck) {
 		if (isCheck) {
 			boolean show = mCallback.onImageSelected(image.path);//单选时，选择其他图片时需要刷新页面
-			if (MultiImageControl.getSingleton().getMode() == MultiImageControl.MODE_SINGLE) {
+			if (MultiImageSelector.multiImageControl.getMode() == MultiImageSelector.MultiImageControl.MODE_SINGLE) {
 				mImageAdapter.notifyDataSetChanged();
 			}
 			return show;
@@ -296,7 +296,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 
 	@Override
 	public void onCamera() {
-		MultiImageControl.toCameraActivity(getContext());
+		MultiImageSelector.MultiImageControl.toCameraActivity(getContext());
 	}
 
 

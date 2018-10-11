@@ -62,8 +62,8 @@ public class OnlyCameraPermissionActivity extends Activity {
 				if (mTmpFile != null) {
 					// notify system the image has change
 					sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(mTmpFile)));
-					MultiImageControl.getSingleton().addResultImage(this, mTmpFile.getAbsolutePath());
-					MultiImageControl.getSingleton().commit(this);
+					MultiImageSelector.multiImageControl.addResultImage(this, mTmpFile.getAbsolutePath());
+					MultiImageSelector.multiImageControl.commit(this);
 				}
 			} else {
 				// delete tmp file
