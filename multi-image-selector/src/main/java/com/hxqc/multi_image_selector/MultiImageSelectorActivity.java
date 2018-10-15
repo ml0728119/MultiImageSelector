@@ -9,9 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.io.File;
 import java.util.LinkedHashSet;
@@ -72,25 +70,13 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 			actionBar.setDisplayHomeAsUpEnabled(true);
 
 		}
+		mSubmitButton = findViewById(R.id.mis_commit);
+		mSubmitButton.updateDoneText();
 
 		final Intent intent = getIntent();
 		mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, DEFAULT_IMAGE_SIZE);
 		final int mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI);
 		final boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
-		resultList = MultiImageSelector.multiImageControl.getChooseValue();
-
-		mSubmitButton = (SubmitButton) findViewById(R.id.mis_commit);
-		mSubmitButton.updateDoneText();
-		mSubmitButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (resultList != null && resultList.size() > 0) {
-					MultiImageSelector.multiImageControl.commit(MultiImageSelectorActivity.this);
-				}
-				finish();
-			}
-		});
-
 
 		if (savedInstanceState == null) {
 			Bundle bundle = new Bundle();
@@ -108,7 +94,6 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		Log.i("Tag"," onBackPressed ");
 		MultiImageSelector.multiImageControl.cancel();
 	}
 
@@ -117,7 +102,6 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				Log.i("Tag"," onOptionsItemSelectedonOptionsItemSelected ");
 				MultiImageSelector.multiImageControl.cancel();
 				finish();
 				return true;

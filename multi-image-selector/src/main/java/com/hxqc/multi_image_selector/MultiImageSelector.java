@@ -16,19 +16,15 @@ import java.util.LinkedHashSet;
  */
 public class MultiImageSelector {
 
-	private Collection<String> mChooseValue;
 	private Context context;
 
-	{
-		mChooseValue = new LinkedHashSet<>();
-	}
-
 	public static MultiImageControl multiImageControl;
+
+	private MultiCancelListener multiCancelListener;
 
 	private MultiImageControl.MultiImageResult multiImageResult = new MultiImageControl.MultiImageResult() {
 		@Override
 		public void multiImageResult(Collection<String> result) {
-			mChooseValue.addAll(result);
 			commit(context);
 
 		}
@@ -87,7 +83,7 @@ public class MultiImageSelector {
 	 */
 	public MultiImageSelector cropPhoto(boolean acrop) {
 		multiImageControl.cropPhoto(acrop);
-		multiImageControl.crop=true;
+		multiImageControl.crop = true;
 		return this;
 	}
 
@@ -118,15 +114,12 @@ public class MultiImageSelector {
 	}
 
 
-
 	/**
 	 * 点击返回键 回调
 	 */
 	public interface MultiCancelListener {
 		void onCancel();
 	}
-
-	private MultiCancelListener multiCancelListener;
 
 	/**
 	 * 点击返回键 回调
@@ -144,7 +137,7 @@ public class MultiImageSelector {
 
 	private void commit(Context context) {
 		if (multiImageCallBack != null) {
-			multiImageCallBack.multiSelectorImages(mChooseValue);
+			multiImageCallBack.multiSelectorImages(multiImageControl.mChooseValue);
 		}
 		Intent intent = new Intent();
 		intent.setClassName(context, this.context.getClass().getName());
@@ -172,20 +165,17 @@ public class MultiImageSelector {
 		}
 
 		// Single choice
-		public static final int MODE_SINGLE = 0;
+		static final int MODE_SINGLE = 0;
 		// Multi choice
-		public static final int MODE_MULTI = 1;
-		protected int mMode = MODE_SINGLE;
-		protected int mMaxCount = 1;
+		static final int MODE_MULTI = 1;
 
-		protected static final String EXTRA_RESULT = MultiImageSelectorActivity.EXTRA_RESULT;
-		protected boolean mShowCamera = true;
-
-		protected boolean crop = false;
-		protected MultiImageResult multiImageResult;
-		protected boolean onlyCamera = false;//只有相机
-		protected float ratioX = 16, ratioY = 9;
-
+		int mMode = MODE_SINGLE;
+		int mMaxCount = 1;
+		boolean mShowCamera = true;
+		boolean crop = false;
+		MultiImageResult multiImageResult;
+		boolean onlyCamera = false;//只有相机
+		float ratioX = 16, ratioY = 9;
 		protected View mCoverView = null;
 		protected int mCoverLayoutID = 0;
 
@@ -206,17 +196,17 @@ public class MultiImageSelector {
 		}
 
 
-		protected MultiImageControl onlyCamera(boolean onlyCamera) {
+		MultiImageControl onlyCamera(boolean onlyCamera) {
 			this.onlyCamera = onlyCamera;
 			return this;
 		}
 
-		protected MultiImageControl showCamera(boolean show) {
+		MultiImageControl showCamera(boolean show) {
 			mShowCamera = show;
 			return this;
 		}
 
-		protected MultiImageControl count(int count) {
+		MultiImageControl count(int count) {
 			mMaxCount = count;
 			if (mMaxCount <= 1) {
 				mMode = MODE_SINGLE;
@@ -227,7 +217,7 @@ public class MultiImageSelector {
 			return this;
 		}
 
-		protected MultiImageControl origin(ArrayList<String> images) {
+		MultiImageControl origin(ArrayList<String> images) {
 			if (images != null) {
 				mChooseValue.addAll(images);
 			}
@@ -238,7 +228,7 @@ public class MultiImageSelector {
 		/**
 		 * 是否对图片进行裁切  仅对单选图片有效
 		 */
-		protected MultiImageControl cropPhoto(boolean crop) {
+		MultiImageControl cropPhoto(boolean crop) {
 			if (mMode == MODE_SINGLE) {
 				this.crop = crop;
 			}
@@ -246,32 +236,32 @@ public class MultiImageSelector {
 		}
 
 
-		protected MultiImageControl cropWithAspectRatio(float x, float y) {
+		MultiImageControl cropWithAspectRatio(float x, float y) {
 			ratioX = x;
 			ratioY = y;
 			return this;
 		}
 
 
-		protected MultiImageControl coverView(int layoutID) {
+		MultiImageControl coverView(int layoutID) {
 			this.mCoverLayoutID = layoutID;
 			return this;
 		}
 
-		protected MultiImageControl coverView(View coverView) {
+		MultiImageControl coverView(View coverView) {
 			this.mCoverView = coverView;
 			return this;
 		}
 
-		protected float getRatioX() {
+		float getRatioX() {
 			return ratioX;
 		}
 
-		protected float getRatioY() {
+		float getRatioY() {
 			return ratioY;
 		}
 
-		protected MultiImageControl start(Context context, MultiImageResult multiImageCallBack) {
+		MultiImageControl start(Context context, MultiImageResult multiImageCallBack) {
 			this.multiImageResult = multiImageCallBack;
 			if (onlyCamera && mShowCamera) {
 				toCameraActivity(context);
@@ -285,7 +275,7 @@ public class MultiImageSelector {
 		/**
 		 * @return 增加返回true  未增加返回false
 		 */
-		protected boolean addResultImage(Context context, String value) {
+		boolean addResultImage(Context context, String value) {
 
 			if (mMode == MODE_SINGLE) {
 				mChooseValue.clear();
@@ -300,7 +290,7 @@ public class MultiImageSelector {
 			}
 		}
 
-		protected void removeResultImage(String value) {
+		void removeResultImage(String value) {
 			mChooseValue.remove(value);
 		}
 
@@ -318,7 +308,7 @@ public class MultiImageSelector {
 		/**
 		 * 点击返回键  直接取消选图
 		 */
-		protected void cancel() {
+		void cancel() {
 			if (multiImageResult != null) {
 				multiImageResult.onCancelResult();
 			}
@@ -328,25 +318,25 @@ public class MultiImageSelector {
 		/**
 		 * 结束
 		 */
-		protected synchronized void toFinish() {
+		synchronized void toFinish() {
 			if (multiImageResult != null) {
 				multiImageResult.multiImageResult(mChooseValue);
 			}
 			dis();
 		}
 
-		protected int getMode() {
+		int getMode() {
 			return mMode;
 		}
 
-		protected int getMaxCount() {
+		int getMaxCount() {
 			return mMaxCount;
 		}
 
 
-		protected void dis() {
-			mCoverView=null;
-			mCoverLayoutID=0;
+		void dis() {
+			mCoverView = null;
+			mCoverLayoutID = 0;
 			mChooseValue.clear();
 		}
 

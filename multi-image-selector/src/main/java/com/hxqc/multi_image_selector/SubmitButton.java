@@ -1,7 +1,9 @@
 package com.hxqc.multi_image_selector;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 
 import java.util.LinkedHashSet;
 
@@ -13,18 +15,26 @@ import java.util.LinkedHashSet;
 
 public class SubmitButton extends android.support.v7.widget.AppCompatButton {
 	MultiImageSelector.MultiImageControl multiImageControl= MultiImageSelector.multiImageControl;
-
+	LinkedHashSet<String> resultList;
 	public SubmitButton(Context context) {
 		super(context);
 	}
 
 	public SubmitButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-
+		 resultList =multiImageControl .getChooseValue();
+		setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (resultList != null && resultList.size() > 0) {
+					MultiImageSelector.multiImageControl.commit((Activity) getContext());
+				}
+				((Activity) getContext()).finish();
+			}
+		});
 	}
 
 	public void updateDoneText() {
-		LinkedHashSet<String> resultList =multiImageControl .getChooseValue();
 
 		int size = 0;
 		switch (multiImageControl.getMode()) {
@@ -48,7 +58,5 @@ public class SubmitButton extends android.support.v7.widget.AppCompatButton {
 				}
 				break;
 		}
-
-
 	}
 }

@@ -60,15 +60,9 @@ public class LargeImageActivity extends AppCompatActivity implements LoadControl
 		getSupportLoaderManager().initLoader(folderIndex == 0 ? LoadControl.LOADER_ALL : LoadControl.LOADER_CATEGORY, bundle, mLoaderControl.getLoaderCallback());
 
 
-		mSubmitButton = (SubmitButton) findViewById(R.id.mis_commit);
+		mSubmitButton =  findViewById(R.id.mis_commit);
 		mSubmitButton.updateDoneText();
-		mSubmitButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-				MultiImageSelector.multiImageControl.commit(LargeImageActivity.this);
-			}
-		});
+
 		mCheckBox = (CheckBox) findViewById(R.id.checkmark);
 //
 
