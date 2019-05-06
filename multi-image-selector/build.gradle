@@ -30,7 +30,7 @@ dependencies {
 //    api 'com.github.ml0728119:cameraview:0.0.2'
     api 'com.hxqc:cameraview:1.0.2'
     api deps.permission
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()

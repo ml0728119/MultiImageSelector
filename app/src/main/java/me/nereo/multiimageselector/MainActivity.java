@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
 //		startPhotoZoom("a", 1, 1);
 //		.cropPhoto(true);
 		MultiImageSelector selector = new MultiImageSelector(this);
-		selector.showCamera(true).onlyCamera().coverView(R.layout.crm_camera_id_layout);
+		selector.showCamera(true).onlyCamera();
 		selector.count(1).cropPhoto(true);
 
 		selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {

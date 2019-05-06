@@ -285,7 +285,7 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
 			position -= 1;
 		}
 		Intent intent = new Intent(getContext(), LargeImageActivity.class);
-		intent.putParcelableArrayListExtra("Data", datas);
+//		intent.putParcelableArrayListExtra("Data", datas);
 		intent.putExtra("image", image);
 		intent.putExtra("position", position);
 		int folderIndex = mFolderAdapter.getSelectIndex();
