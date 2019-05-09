@@ -71,6 +71,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 
 		}
 		mSubmitButton = findViewById(R.id.mis_commit);
+		mSubmitButton.setContext(this);
 		mSubmitButton.updateDoneText();
 
 		final Intent intent = getIntent();

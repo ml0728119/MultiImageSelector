@@ -62,6 +62,7 @@ public class LargeImageActivity extends AppCompatActivity implements LoadControl
 
 		mSubmitButton =  findViewById(R.id.mis_commit);
 		mSubmitButton.updateDoneText();
+		mSubmitButton.setContext(this);
 
 		mCheckBox = (CheckBox) findViewById(R.id.checkmark);
 //
