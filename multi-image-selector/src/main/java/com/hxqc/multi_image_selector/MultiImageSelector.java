@@ -83,7 +83,7 @@ public class MultiImageSelector {
 	 */
 	public MultiImageSelector cropPhoto(boolean acrop) {
 		multiImageControl.cropPhoto(acrop);
-		multiImageControl.crop = true;
+
 		return this;
 	}
 
