@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -71,7 +72,40 @@ public class MainActivity extends AppCompatActivity {
 			button.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					pickImage();
+//					pickImage();
+					MultiImageSelector selector = new MultiImageSelector(MainActivity.this)
+							.showCamera(true).count(1).cropPhoto(false);
+					Log.i("Tag","222222222   ");
+					selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
+						@Override
+						public void multiSelectorImages(final Collection<String> result) {
+
+							Log.i("Tag","1111   "+result.size());
+							Log.i("Tag","1111   "+result.hashCode());
+							Log.i("Tag","1111   "+Thread.currentThread().getName());
+							Log.i("Tag","1111   "+Thread.currentThread().hashCode());
+							if (result != null && result.size() > 0) {
+
+								 String mPhotoPath = result.iterator().next();
+							}
+							Runnable runnable=new Runnable() {
+								@Override
+								public void run() {
+									Log.i("Tag","3333333333333   ");
+									Log.i("Tag","33333   "+result.hashCode());
+									Log.i("Tag","33333   "+Thread.currentThread().getName());
+									Log.i("Tag","33333   "+Thread.currentThread().hashCode());
+									Log.i("Tag","aaaaaaa   ");
+									if (result.size() > 0) {
+
+										String mPhotoPath = result.iterator().next();
+									}
+
+								}
+							};
+							new Handler(Looper.getMainLooper()).post(runnable);
+						}
+					});
 				}
 			});
 		}
@@ -239,7 +273,6 @@ public class MainActivity extends AppCompatActivity {
 			public void onCancel() {
 			}
 		});
-
 
 
 	}

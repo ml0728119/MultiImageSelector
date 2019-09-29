@@ -23,7 +23,7 @@ public class SubmitButton extends android.support.v7.widget.AppCompatButton {
 
 	public SubmitButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		Log.i("Tag","cccc  "+context.getClass());
+
 		 resultList =multiImageControl .getChooseValue();
 		setOnClickListener(new OnClickListener() {
 			@Override

@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.android.cameraview.CameraView
 import kotlinx.android.synthetic.main.activity_mis_camera.*
@@ -107,11 +108,18 @@ class MisCameraActivity : Activity(), OnClickListener {
     override fun onClick(view: View) {
         val i = view.id
         if (i == R.id.mis_take_photo) {
-            if (mCameraView != null) {
-                mCameraView!!.takePicture()
+            try {
+                if (mCameraView != null) {
+                    mCameraView!!.takePicture()
+                }
+            } catch (e: Exception) {
+                if (mCameraView != null) {
+                    mCameraView!!.start()
+                }
+                Toast.makeText(this, "相机初始化失败，重试", Toast.LENGTH_SHORT).show()
             }
         } else if (i == R.id.mis_cancel) {
-         MultiImageSelector.multiImageControl.cancel()
+            MultiImageSelector.multiImageControl.cancel()
             finish()
         } else if (i == R.id.mis_flash) {
             if (mCameraView != null) {
@@ -124,7 +132,7 @@ class MisCameraActivity : Activity(), OnClickListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
-     MultiImageSelector.multiImageControl.cancel()
+        MultiImageSelector.multiImageControl.cancel()
     }
 
     override fun onResume() {
@@ -173,8 +181,8 @@ class MisCameraActivity : Activity(), OnClickListener {
                 if (os != null) {
                     try {
                         os.close()
-                     MultiImageSelector.multiImageControl.addResultImage(this@MisCameraActivity, saveFilePath)
-                     MultiImageSelector.multiImageControl.commit(this@MisCameraActivity)
+                        MultiImageSelector.multiImageControl.addResultImage(this@MisCameraActivity, saveFilePath)
+                        MultiImageSelector.multiImageControl.commit(this@MisCameraActivity)
 
                     } catch (e: IOException) {
                         // Ignore
