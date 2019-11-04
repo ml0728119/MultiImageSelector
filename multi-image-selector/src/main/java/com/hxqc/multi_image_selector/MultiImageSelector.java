@@ -158,11 +158,8 @@ public class MultiImageSelector {
 
 	static public class MultiImageControl {
 
-		private LinkedHashSet<String> mChooseValue;
+		private LinkedHashSet<String> mChooseValue= new LinkedHashSet<>(9);
 
-		{
-			mChooseValue = new LinkedHashSet<>(9);
-		}
 
 		// Single choice
 		static final int MODE_SINGLE = 0;

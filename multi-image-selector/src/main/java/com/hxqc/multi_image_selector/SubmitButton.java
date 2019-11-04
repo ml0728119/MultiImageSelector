@@ -15,61 +15,65 @@ import java.util.LinkedHashSet;
  */
 
 public class SubmitButton extends android.support.v7.widget.AppCompatButton {
-	MultiImageSelector.MultiImageControl multiImageControl= MultiImageSelector.multiImageControl;
-	LinkedHashSet<String> resultList;
-	public SubmitButton(Context context) {
-		super(context);
-	}
+    MultiImageSelector.MultiImageControl multiImageControl;
+    LinkedHashSet<String> resultList;
 
-	public SubmitButton(Context context, AttributeSet attrs) {
-		super(context, attrs);
+    public SubmitButton(Context context) {
+        super(context);
+    }
 
-		 resultList =multiImageControl .getChooseValue();
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Activity activity = null;
-				if (getContext() instanceof Activity){
-					activity= (Activity) getContext();
-				}else {
-					activity=((Activity) ((SubmitButton)v).context);
-				}
-				if (resultList != null && resultList.size() > 0) {
-					if(activity!=null)
-						MultiImageSelector.multiImageControl.commit(activity);
-				}
-				if(activity!=null)
-					activity.finish();
-			}
-		});
-	}
-	 Context context;
-	public void setContext(Context context){
-		this.context=context;
-	}
-	public void updateDoneText() {
+    public SubmitButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        multiImageControl = MultiImageSelector.multiImageControl;
+        resultList = multiImageControl.getChooseValue();
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = null;
+                if (getContext() instanceof Activity) {
+                    activity = (Activity) getContext();
+                } else {
+                    activity = ((Activity) ((SubmitButton) v).context);
+                }
+                if (resultList != null && resultList.size() > 0) {
+                    if (activity != null)
+                        MultiImageSelector.multiImageControl.commit(activity);
+                }
+                if (activity != null)
+                    activity.finish();
+            }
+        });
+    }
 
-		int size = 0;
-		switch (multiImageControl.getMode()) {
-			case MultiImageSelector.MultiImageControl.MODE_MULTI:
-				if (resultList == null || resultList.size() <= 0) {
-					setText(R.string.mis_action_done);
-					setEnabled(false);
-				} else {
-					size = resultList.size();
-					setEnabled(true);
-				}
-				setText(getContext().getString(R.string.mis_action_button_string,
-						getContext().getString(R.string.mis_action_done), size, multiImageControl.getMaxCount()));
-				break;
-			case MultiImageSelector.MultiImageControl.MODE_SINGLE:
-				setText(R.string.mis_action_done);
-				if (resultList == null || resultList.size() <= 0) {
-					setEnabled(false);
-				} else {
-					setEnabled(true);
-				}
-				break;
-		}
-	}
+    Context context;
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public void updateDoneText() {
+
+        int size = 0;
+        switch (multiImageControl.getMode()) {
+            case MultiImageSelector.MultiImageControl.MODE_MULTI:
+                if (resultList == null || resultList.size() <= 0) {
+                    setText(R.string.mis_action_done);
+                    setEnabled(false);
+                } else {
+                    size = resultList.size();
+                    setEnabled(true);
+                }
+                setText(getContext().getString(R.string.mis_action_button_string,
+                        getContext().getString(R.string.mis_action_done), size, multiImageControl.getMaxCount()));
+                break;
+            case MultiImageSelector.MultiImageControl.MODE_SINGLE:
+                setText(R.string.mis_action_done);
+                if (resultList == null || resultList.size() <= 0) {
+                    setEnabled(false);
+                } else {
+                    setEnabled(true);
+                }
+                break;
+        }
+    }
 }
