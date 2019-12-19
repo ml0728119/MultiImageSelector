@@ -99,7 +99,7 @@ public class LoadControl {
 							continue;
 						}
 						Image image = null;
-						if (!TextUtils.isEmpty(name)) {
+						if (!TextUtils.isEmpty(path)) {
 							image = new Image(path, name, dateTime);
 							images.add(image);
 						}

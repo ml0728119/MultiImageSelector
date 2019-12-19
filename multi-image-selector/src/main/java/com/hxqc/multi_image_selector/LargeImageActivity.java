@@ -21,130 +21,130 @@ import java.util.List;
 
 public class LargeImageActivity extends AppCompatActivity implements LoadControl.OnLoadFinishListener {
 
-	ViewPager mViewPage;
-	LargeViewPageAdapter mViewPageAdapter;
-	private SubmitButton mSubmitButton;
-	ArrayList<Image> datas;
-	CheckBox mCheckBox;
-	LoadControl mLoaderControl;
-	Image image;
+    ViewPager mViewPage;
+    LargeViewPageAdapter mViewPageAdapter;
+    private SubmitButton mSubmitButton;
+    ArrayList<Image> datas;
+    CheckBox mCheckBox;
+    LoadControl mLoaderControl;
+    Image image;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setTheme(R.style.MIS_NO_ACTIONBAR);
-		setContentView(R.layout.activity_large_image);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTheme(R.style.MIS_NO_ACTIONBAR);
+        setContentView(R.layout.activity_large_image);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			getWindow().setStatusBarColor(Color.BLACK);
-		}
-		final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		if (toolbar != null) {
-			setSupportActionBar(toolbar);
-		}
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
 
-		final ActionBar actionBar = getSupportActionBar();
-		if (actionBar != null) {
-			actionBar.setDisplayHomeAsUpEnabled(true);
-		}
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
 //		datas = getIntent().getParcelableArrayListExtra("Data");
 
-		image = getIntent().getParcelableExtra("image");
-		int folderIndex = getIntent().getIntExtra("folderIndex", 0);
+        image = getIntent().getParcelableExtra("image");
+        int folderIndex = getIntent().getIntExtra("folderIndex", 0);
 //		Log.i("Tag", "folderIndex --------- " + folderIndex);
-		mLoaderControl = new LoadControl(this);
-		mLoaderControl.setOnLoadFinishListener(this);
-		Bundle bundle = new Bundle();
-		bundle.putString("path", new File(image.path).getParentFile().getPath());
-		getSupportLoaderManager().initLoader(folderIndex == 0 ? LoadControl.LOADER_ALL : LoadControl.LOADER_CATEGORY, bundle, mLoaderControl.getLoaderCallback());
+        mLoaderControl = new LoadControl(this);
+        mLoaderControl.setOnLoadFinishListener(this);
+        Bundle bundle = new Bundle();
+        bundle.putString("path", new File(image.path).getParentFile().getPath());
+        getSupportLoaderManager().initLoader(folderIndex == 0 ? LoadControl.LOADER_ALL : LoadControl.LOADER_CATEGORY, bundle, mLoaderControl.getLoaderCallback());
 
 
-		mSubmitButton =  findViewById(R.id.mis_commit);
-		mSubmitButton.updateDoneText();
-		mSubmitButton.setContext(this);
+        mSubmitButton = findViewById(R.id.mis_commit);
+        mSubmitButton.updateDoneText();
+        mSubmitButton.setContext(this);
 
-		mCheckBox = (CheckBox) findViewById(R.id.checkmark);
+        mCheckBox = (CheckBox) findViewById(R.id.checkmark);
 //
 
-		mViewPage = (ViewPager) findViewById(R.id.large_viewpage);
-		mViewPageAdapter = new LargeViewPageAdapter(this);
-		mViewPage.setAdapter(mViewPageAdapter);
+        mViewPage = (ViewPager) findViewById(R.id.large_viewpage);
+        mViewPageAdapter = new LargeViewPageAdapter(this);
+        mViewPage.setAdapter(mViewPageAdapter);
 
-		mViewPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-			@Override
-			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        mViewPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-			}
+            }
 
-			@Override
-			public void onPageSelected(int position) {
-				checkState(position);
-			}
+            @Override
+            public void onPageSelected(int position) {
+                checkState(position);
+            }
 
-			@Override
-			public void onPageScrollStateChanged(int state) {
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
-			}
-		});
+            }
+        });
 
 
-		mCheckBox.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				int position = mViewPage.getCurrentItem();
-				if (mCheckBox.isChecked()) {
+        mCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = mViewPage.getCurrentItem();
+                if (mCheckBox.isChecked()) {
 
-					boolean add = MultiImageSelector.multiImageControl.addResultImage(LargeImageActivity.this, datas.get(position).path);
-					if (!add) {
-						mCheckBox.setChecked(false);
-					}
-				} else {
-					MultiImageSelector.multiImageControl.removeResultImage(datas.get(position).path);
-				}
-				mSubmitButton.updateDoneText();
-			}
-		});
-	}
+                    boolean add = MultiImageSelector.multiImageControl.addResultImage(LargeImageActivity.this, datas.get(position).path);
+                    if (!add) {
+                        mCheckBox.setChecked(false);
+                    }
+                } else {
+                    MultiImageSelector.multiImageControl.removeResultImage(datas.get(position).path);
+                }
+                mSubmitButton.updateDoneText();
+            }
+        });
+    }
 
-	/**
-	 * 修改选择框的状态
-	 *
-	 * @param position
-	 */
-	private void checkState(int position) {
-		if (position == -1) return;
-		String path = datas.get(position).path;
-		if (MultiImageSelector.multiImageControl.getChooseValue().contains(path)) {
-			mCheckBox.setChecked(true);
-		} else {
-			mCheckBox.setChecked(false);
-		}
-	}
+    /**
+     * 修改选择框的状态
+     *
+     * @param position
+     */
+    private void checkState(int position) {
+        if (position == -1) return;
+        String path = datas.get(position).path;
+        if (MultiImageSelector.multiImageControl.getChooseValue().contains(path)) {
+            mCheckBox.setChecked(true);
+        } else {
+            mCheckBox.setChecked(false);
+        }
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		getSupportLoaderManager().destroyLoader(mLoaderControl.getLoaderID());
-	}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getSupportLoaderManager().destroyLoader(mLoaderControl.getLoaderID());
+    }
 
-	@Override
-	public void loadFinish(List<Image> images, ArrayList<Folder> mResultFolder) {
-		this.datas = (ArrayList<Image>) images;
-		int position = getIntent().getIntExtra("position", -1);
-		mViewPageAdapter.setDatas((ArrayList<Image>) images);
-		mViewPage.setCurrentItem(position);
-		checkState(position);
+    @Override
+    public void loadFinish(List<Image> images, ArrayList<Folder> mResultFolder) {
+        this.datas = (ArrayList<Image>) images;
+        int position = getIntent().getIntExtra("position", -1);
+        mViewPageAdapter.setDatas((ArrayList<Image>) images);
+        mViewPage.setCurrentItem(position);
+        checkState(position);
 
-	}
+    }
 }
