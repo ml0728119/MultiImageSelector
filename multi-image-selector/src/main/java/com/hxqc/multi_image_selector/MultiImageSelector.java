@@ -18,7 +18,7 @@ public class MultiImageSelector {
 
 	private Context context;
 
-	public static MultiImageControl multiImageControl;
+	public static MultiImageControl multiImageControl = new MultiImageControl();
 
 	private MultiCancelListener multiCancelListener;
 
@@ -36,7 +36,6 @@ public class MultiImageSelector {
 	};
 
 	public MultiImageSelector(Context context) {
-		multiImageControl = new MultiImageControl();
 
 		this.context = context;
 	}

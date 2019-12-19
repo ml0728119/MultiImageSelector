@@ -15,8 +15,8 @@ import java.util.LinkedHashSet;
  */
 
 public class SubmitButton extends android.support.v7.widget.AppCompatButton {
-    MultiImageSelector.MultiImageControl multiImageControl;
-    LinkedHashSet<String> resultList;
+//    MultiImageSelector.MultiImageControl multiImageControl;
+
 
     public SubmitButton(Context context) {
         super(context);
@@ -24,8 +24,8 @@ public class SubmitButton extends android.support.v7.widget.AppCompatButton {
 
     public SubmitButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        multiImageControl = MultiImageSelector.multiImageControl;
-        resultList = multiImageControl.getChooseValue();
+
+
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,6 +35,7 @@ public class SubmitButton extends android.support.v7.widget.AppCompatButton {
                 } else {
                     activity = ((Activity) ((SubmitButton) v).context);
                 }
+                LinkedHashSet<String> resultList = MultiImageSelector.multiImageControl.getChooseValue();
                 if (resultList != null && resultList.size() > 0) {
                     if (activity != null)
                         MultiImageSelector.multiImageControl.commit(activity);
@@ -54,6 +55,8 @@ public class SubmitButton extends android.support.v7.widget.AppCompatButton {
     public void updateDoneText() {
 
         int size = 0;
+        MultiImageSelector.MultiImageControl multiImageControl = MultiImageSelector.multiImageControl;
+        LinkedHashSet<String> resultList = MultiImageSelector.multiImageControl.getChooseValue();
         switch (multiImageControl.getMode()) {
             case MultiImageSelector.MultiImageControl.MODE_MULTI:
                 if (resultList == null || resultList.size() <= 0) {
