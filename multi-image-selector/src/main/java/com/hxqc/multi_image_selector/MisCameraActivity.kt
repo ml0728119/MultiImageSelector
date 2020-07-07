@@ -2,7 +2,9 @@ package com.hxqc.multi_image_selector
 
 import android.app.Activity
 import android.os.*
+import android.os.Environment.getExternalStorageDirectory
 import android.support.v7.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -14,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.android.cameraview.CameraView
+import com.hxqc.multi_image_selector.utils.FileUtils
 import kotlinx.android.synthetic.main.activity_mis_camera.*
 import java.io.File
 import java.io.FileOutputStream
@@ -166,9 +169,14 @@ class MisCameraActivity : Activity(), OnClickListener {
 
     private fun saveFile(data: ByteArray?) {
         backgroundHandler.post {
-            val file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                    System.currentTimeMillis().toString() + ".jpg")
+//            val file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+//                    System.currentTimeMillis().toString() + ".jpg")
+
+//            val file = File(getExternalStorageDirectory(),
+//                    System.currentTimeMillis().toString() + ".jpg")
+            val file=FileUtils.getExternalCacheDir(this);
             saveFilePath = file.path
+            Log.i("Tag", "saveFilePath  " + saveFilePath)
             //				Log.d(TAG, "onPictureTaken " + file.getPath());
             var os: OutputStream? = null
             try {
@@ -176,7 +184,7 @@ class MisCameraActivity : Activity(), OnClickListener {
                 os.write(data!!)
                 os.close()
             } catch (e: IOException) {
-                //					Log.w(TAG, "Cannot write to " + file, e);
+                Toast.makeText(this, "照片写入失败$e", Toast.LENGTH_SHORT).show()
             } finally {
                 if (os != null) {
                     try {
@@ -185,7 +193,9 @@ class MisCameraActivity : Activity(), OnClickListener {
                         MultiImageSelector.multiImageControl.commit(this@MisCameraActivity)
 
                     } catch (e: IOException) {
+                        Toast.makeText(this, "照片写入失败..$e", Toast.LENGTH_SHORT).show()
                         // Ignore
+                        Log.e("Tag", "finally $file", e);
                     } finally {
                         finish()
                     }

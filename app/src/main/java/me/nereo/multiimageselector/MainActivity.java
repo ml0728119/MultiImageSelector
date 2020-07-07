@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 							if (result != null && result.size() > 0) {
 
 								 String mPhotoPath = result.iterator().next();
+								Log.i("Tag","mPhotoPath   "+mPhotoPath);
 							}
 							Runnable runnable=new Runnable() {
 								@Override
