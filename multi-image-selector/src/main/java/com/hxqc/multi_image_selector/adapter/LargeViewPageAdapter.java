@@ -3,7 +3,7 @@ package com.hxqc.multi_image_selector.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 

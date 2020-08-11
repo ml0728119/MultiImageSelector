@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 /** An image view which always remains square with respect to its width. */
-class SquaredImageView extends android.support.v7.widget.AppCompatImageView {
+class SquaredImageView extends androidx.appcompat.widget.AppCompatImageView {
   public SquaredImageView(Context context) {
     super(context);
   }

@@ -2,7 +2,6 @@ package com.hxqc.multi_image_selector
 
 import android.app.Activity
 import android.os.*
-import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -12,6 +11,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.google.android.cameraview.CameraView
 import kotlinx.android.synthetic.main.activity_mis_camera.*

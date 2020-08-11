@@ -3,7 +3,6 @@ package com.hxqc.multi_image_selector;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.LinkedHashSet;
@@ -14,7 +13,7 @@ import java.util.LinkedHashSet;
  * Todo:
  */
 
-public class SubmitButton extends android.support.v7.widget.AppCompatButton {
+public class SubmitButton extends androidx.appcompat.widget.AppCompatButton {
 //    MultiImageSelector.MultiImageControl multiImageControl;
 
 
