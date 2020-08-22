@@ -9,7 +9,7 @@
     android:orientation="vertical"
 >
 
-    <androidx.core.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/large_viewpage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
