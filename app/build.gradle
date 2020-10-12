@@ -16,7 +16,7 @@ android {
             keyPassword 'wuhanhxqc1126'
             storeFile file("mall.keystore")
             storePassword 'hxqc1126'
-            v2SigningEnabled false
+            v2SigningEnabled true
         }
     }
     defaultConfig {
@@ -28,8 +28,10 @@ android {
 //        multiDexEnabled true
     }
     buildTypes {
-        release {
+        debug{
             signingConfig signingConfigs.release
+        }
+        release {
             minifyEnabled true
             shrinkResources true
             pseudoLocalesEnabled true
