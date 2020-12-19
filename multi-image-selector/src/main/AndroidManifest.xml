@@ -22,7 +22,7 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name="com.hxqc.multi_image_selector.CropResultActivity"
             android:screenOrientation="portrait">

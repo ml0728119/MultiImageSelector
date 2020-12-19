@@ -14,7 +14,7 @@ import com.yalantis.ucrop.UCropActivity;
 
 import java.io.File;
 
-public class CropResultActivity extends AppCompatActivity {
+public class CropResultActivity extends Activity {
 	String toFilePath;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
