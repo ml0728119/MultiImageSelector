@@ -1,7 +1,12 @@
 package com.hxqc.multi_image_selector
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.*
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -15,10 +20,8 @@ import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.google.android.cameraview.CameraView
 import kotlinx.android.synthetic.main.activity_mis_camera.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import java.io.*
+
 
 /**
  * 说明:相机
@@ -156,7 +159,8 @@ class MisCameraActivity : Activity(), OnClickListener {
         } catch (e: Exception) {
             e.printStackTrace()
             val builder = AlertDialog.Builder(this).setTitle("提示")
-                    .setMessage("请前往系统设置，开启相机权限").setPositiveButton("确定") { dialog, which -> finish() }
+                    .setMessage("请前往系统设置，开启相机权限").setPositiveButton("确定")
+                    { _, _ -> finish() }
             builder.create().show()
         }
 
@@ -189,10 +193,38 @@ class MisCameraActivity : Activity(), OnClickListener {
                     } finally {
                         finish()
                     }
+                    file2Gallery(this, file)
                 }
             }
         }
 
+    }
+
+    fun file2Gallery(context: Context, file: File) {
+
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.contentResolver,
+                    file.absolutePath, file.name, null)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        // 最后通知图库更新
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { // 判断SDK版本是不是4.4或者高于4.4
+            val paths = arrayOf<String>(file.absolutePath)
+            MediaScannerConnection.scanFile(context, paths, null, null)
+        } else {
+            val intent: Intent
+            if (file.isDirectory) {
+                intent = Intent(Intent.ACTION_MEDIA_MOUNTED)
+                intent.setClassName("com.android.providers.media", "com.android.providers.media.MediaScannerReceiver")
+                intent.data = Uri.fromFile(Environment.getExternalStorageDirectory())
+            } else {
+                intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+                intent.data = Uri.fromFile(file)
+            }
+            context.sendBroadcast(intent)
+        }
     }
 
     private fun showPreview(data: ByteArray?) {

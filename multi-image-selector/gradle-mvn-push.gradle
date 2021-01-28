@@ -26,7 +26,7 @@ uploadArchives {
                 authentication(userName: 'admin', password: 'admin123')
             }
             pom.project {
-                version '2.0.3' //androidX
+                version '2.0.4' //androidX
 //                version '1.0.29'
                 artifactId 'multi-image-selector'
                 groupId "com.hxqc"
