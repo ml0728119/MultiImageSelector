@@ -10,10 +10,10 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/mis_actionbar_color"
+
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:minHeight="?android:attr/actionBarSize">
-
+<!--       -->
         <com.hxqc.multi_image_selector.SubmitButton
             android:id="@+id/mis_commit"
             android:background="@drawable/mis_action_btn"
