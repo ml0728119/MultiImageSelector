@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 				public void onClick(View view) {
 //					pickImage();
 					MultiImageSelector selector = new MultiImageSelector(MainActivity.this)
-							.showCamera(true).count(1).cropPhoto(false);
+							.showCamera(true).count(1).cropPhoto(false).save2Gallery(true);
 					Log.i("Tag","222222222   ");
 					selector.start(MainActivity.this, new MultiImageSelector.MultiImageCallBack() {
 						@Override
@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
 							Log.i("Tag","1111   "+Thread.currentThread().getName());
 							Log.i("Tag","1111   "+Thread.currentThread().hashCode());
 							if (result != null && result.size() > 0) {
-
 								 String mPhotoPath = result.iterator().next();
 							}
 							Runnable runnable=new Runnable() {

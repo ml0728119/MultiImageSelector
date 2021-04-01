@@ -193,7 +193,10 @@ class MisCameraActivity : Activity(), OnClickListener {
                     } finally {
                         finish()
                     }
-                    file2Gallery(this, file)
+                    if (MultiImageSelector.multiImageControl.save2Gallery) {
+                        file2Gallery(this, file)
+                    }
+
                 }
             }
         }
